@@ -2,12 +2,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:land_app/logic/blocs/login_bloc/model/models.dart';
+import 'package:land_app/model/repository/authentication_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent,LoginState>{
-  LoginBloc() :
+  final AuthenticationRepository _authenticationRepository; 
+  LoginBloc({required AuthenticationRepository authenticationRepository}) :
+  _authenticationRepository = authenticationRepository,
   super(const LoginState()){
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
@@ -39,11 +42,13 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
-        // await _authenticationRepository.logIn(
-        //   email: state.email.value,
-        //   password: state.password.value,
-        // );
-        // emit(state.copyWith(status: FormzStatus.submissionSuccess));
+        await _authenticationRepository.signIn(
+          email: state.email.value,
+          password: state.password.value,
+        );
+        print(_authenticationRepository.user);
+        print("loginend");
+        emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } catch (_) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }

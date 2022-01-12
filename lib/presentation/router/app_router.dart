@@ -6,6 +6,8 @@ class AppRouter{
   Route? onGenerateRoute(RouteSettings routeSettings){
     switch(routeSettings.name){
       case '/':
+        return MaterialPageRoute(builder: (_)=> const HomeScreen( ));
+      case '/login':
         return MaterialPageRoute(builder: (_)=> const LoginScreen( ));
       case '/register': 
       return MaterialPageRoute(builder: (_)=> const RegisterScreen( ));

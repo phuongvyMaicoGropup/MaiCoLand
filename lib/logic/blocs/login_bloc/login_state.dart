@@ -18,7 +18,6 @@ class LoginState extends Equatable {
     Email? email,
     Password? password,
     FormzStatus? status,
-    String? error,
   }) {
     return LoginState(
       email: email ?? this.email,

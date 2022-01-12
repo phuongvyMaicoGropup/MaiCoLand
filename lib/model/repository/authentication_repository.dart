@@ -1,19 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 class AuthenticationRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   get user => _auth.currentUser;
 
  //SIGN UP METHOD
-  Future signUp({required String email, required String password, required String displayName}) async {
-    try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      User user = result.user!; 
-      await FirebaseFirestore.instance.collection('users')
-      .doc(user.uid).set({ 'displayName': displayName});
-      return null;
-    } on FirebaseAuthException catch (e) {
-      return  e.message;
+  Future signUp(
+      {required String email,required String password,required String displayName}) async {
+    try{
+
+    print("signup begin");
+    UserCredential userInfo = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    print("signup end");
+
+    await user.updateProfile({
+     displayName: displayName
+    });
+    return null; 
+    } on FirebaseAuthException catch(e){
+      return e.message; 
     }
   }
 

@@ -244,18 +244,13 @@ class _RegisterButton extends StatelessWidget {
                 onPressed: state.status.isValidated
                     ? () async {
                         context.read<RegisterBloc>().add(RegisterSubmitted());
-                        await AuthenticationRepository()
-                            .signUp(
-                                email: state.email.value,
-                                password: state.password.value,
-                                displayName: state.username.value)
-                            .then((result) {
-                          if (result == null) {
-                            Navigator.of(context).pushNamed("/");
-                          } else {
-                            print("LOix : $result ");
-                          }
-                        });
+                        // await AuthenticationRepository()
+                        //     .signUp(
+                        //         email: state.email.value,
+                        //         password: state.password.value,
+                        //         displayName: state.username.value);
+                          
+                        
                       }
                     : null,
               );

@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:land_app/logic/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:land_app/logic/blocs/login_bloc/login_bloc.dart';
+import 'package:land_app/model/repository/authentication_repository.dart';
 import 'package:land_app/presentation/resources/app_colors.dart';
 import 'package:land_app/presentation/resources/app_themes.dart';
 
@@ -14,18 +16,58 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
- 
+  late AuthenticationBloc _authenticationBloc ; 
+  AuthenticationRepository? _authenticationRepository ; 
 
   @override
   void initState() {
     super.initState();
+    _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+    _authenticationRepository = RepositoryProvider.of<AuthenticationRepository>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context,state){
+        print(state.status);
+         if (state.status ==  FormzStatus.submissionInProgress){
+           ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const[
+                     Text('Processing ...'),
+                     CircularProgressIndicator(),
+                  ],
+                ),
+              )
+           );
+             
+          if (state.status == FormzStatus.submissionSuccess) {
+          _authenticationBloc.add(UserLoggedIn(user : _authenticationRepository!.user));
+          print(_authenticationBloc.toString());
+        }
+          if (state.status==FormzStatus.submissionFailure){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const[
+                    Text('Login Failure'),
+                    Icon(Icons.error),
+                  ],
+                ),
+                backgroundColor: Colors.red,
+              )
+           );
+            
+          }
+         }
+      },
+     child : Scaffold(
       body: bodyContent(),
-    );
+    ));
   }
 
   Widget bodyContent() {
@@ -205,14 +247,13 @@ class _LoginButton extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
+        return ElevatedButton(
           key: const Key('loginForm_continue_raisedButton'),
-          child: const Text('Đăng nhập'),
+          child: const Text('Đăng nhập', style : TextStyle(color : Colors.white)),
           onPressed: state.status.isValidated
               ? () {
-            context.read<LoginBloc>().add( LoginSubmitted());
+            context.read<LoginBloc>().add(LoginSubmitted());
+      
           }
               : null,
         );

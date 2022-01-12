@@ -12,9 +12,18 @@
                 }
             },
             "oauth_client": [{
-                "client_id": "389334070006-r9ofirp6adik5fgfcsu3ne2kihhc33sc.apps.googleusercontent.com",
-                "client_type": 3
-            }],
+                    "client_id": "389334070006-o5hn0jhh96dseqp041jv5l9ajct1jeim.apps.googleusercontent.com",
+                    "client_type": 1,
+                    "android_info": {
+                        "package_name": "com.example.land_app",
+                        "certificate_hash": "b5694952bec2336d636d9ac2efe4b9136b883028"
+                    }
+                },
+                {
+                    "client_id": "389334070006-r9ofirp6adik5fgfcsu3ne2kihhc33sc.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
             "api_key": [{
                 "current_key": "AIzaSyANpOsRdsXFBfk3D2ITl1DCssNDTBr6-FM"
             }],
