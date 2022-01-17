@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -16,7 +17,8 @@ class NewsAddScreen extends StatefulWidget {
 
 class _NewsAddScreenState extends State<NewsAddScreen> {
   File? imagePath;
-  File? pdfContentPath; 
+  File? pdfContentPath;
+  PDFDocument? doc;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +45,6 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
             _TitleInput(),
             _ContentInput(),
             _ImageInput(),
-            _PdfContentInput(),
-              
             SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: _NewsAddButton()),
@@ -53,60 +53,70 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
-    
     super.dispose();
   }
-  Widget _PdfContentInput(){
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) =>
-          previous.pdfContent != current.pdfContent,
-      builder: (context, state) {
-        return Column(children: [
-          Container(
-              child: Row(
-            children: [
-              const LabelWidget(label: "Chọn tệp văn bản (pdf)"),
-              IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                onPressed: () async {
-                  setState(() async{
 
-                  pdfContentPath = await PickFile().pickFilePdf(context);
-                  }); 
-                  String name = pdfContentPath.toString();
-                context
-                      .read<NewsAddBloc>()
-                      .add(NewsAddPdfContentChanged(pdfContentPath!));
-                  print("state " + state.pdfContent.toString());
-                },
-              )
-            ],
-          )),
-          pdfContentPath != null
-              ? Text(pdfContentPath.toString())
-              : Container()
-        ]);
-      },
-    );
-  }
-  
-   Future selectImage() async {
+  // Future selectPdfFile() async {
+  //   var file = await PickFile().pickFilePdf(context);
+  //   setState(() {
+  //     pdfContentPath = file;
+  //   });
+  //   setState(() async{
+  //     doc = await PDFDocument.fromFile(file);
+  //   });
+    
+  // }
+
+  // Widget _PdfContentInput() {
+  //   return BlocBuilder<NewsAddBloc, NewsAddState>(
+  //     buildWhen: (previous, current) =>
+  //         previous.pdfContent != current.pdfContent,
+  //     builder: (context, state) {
+  //       return Column(children: [
+  //         Container(
+  //             child: Row(
+  //           children: [
+  //             const LabelWidget(label: "Chọn tệp văn bản (pdf)"),
+  //             IconButton(
+  //               icon: Icon(
+  //                 Icons.add,
+  //                 color: Theme.of(context).colorScheme.primary,
+  //               ),
+  //               onPressed: () async {
+  //                 setState(() async {
+  //                   await selectPdfFile();
+
+  //                 });
+
+                   
+  //                 context
+  //                     .read<NewsAddBloc>()
+  //                     .add(NewsAddPdfContentChanged(pdfContentPath!));
+  //                 print("state " + state.pdfContent.toString());
+  //               },
+  //             )
+  //           ],
+  //         )),
+  //         pdfContentPath != null
+  //             ? Center(child: PDFViewer(document: doc!),)
+  //             : Text("Trống")
+  //       ]);
+  //     },
+  //   );
+  // }
+
+  Future selectImage() async {
     var file = await PickFile().pickImage(context);
-      setState(() async{
-                 imagePath = file ;    
-                  }); 
-
-   
+    setState(() {
+      imagePath = file;
+    });
   }
 
-  
-  Widget _ImageInput(){
- return BlocBuilder<NewsAddBloc, NewsAddState>(
+  Widget _ImageInput() {
+    return BlocBuilder<NewsAddBloc, NewsAddState>(
       builder: (context, state) {
         return Column(children: [
           Container(
@@ -119,8 +129,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 onPressed: () async {
-                  
-                  selectImage();
+                  await selectImage();
                   context
                       .read<NewsAddBloc>()
                       .add(NewsAddImageChanged(imagePath!));
@@ -128,22 +137,24 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
               )
             ],
           )),
-           Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                height: 200,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: imagePath != null
-                    ? Image.file(imagePath!, fit: BoxFit.cover)
-                    : const Center(
-                        child: Text('Chọn ảnh'),
-                      ),
-                // child: ,
-              ),
+          imagePath != null
+              ? Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  height: 200,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Image.file(imagePath!, fit: BoxFit.cover)
+
+                  // child: ,
+                  )
+              : Center(
+                  child: Text('Chưa có ảnh minh họa ',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.error)),
+                ),
         ]);
       },
     );
   }
-
 }
 
 class _TitleInput extends StatelessWidget {
@@ -153,7 +164,7 @@ class _TitleInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.title != current.title,
       builder: (context, state) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          LabelWidget(label: "Tiêu đề "),
+          const LabelWidget(label: "Tiêu đề "),
           TextField(
             key: const Key('NewsAddForm_titleInput_textField'),
             onChanged: (title) =>
@@ -168,7 +179,7 @@ class _TitleInput extends StatelessWidget {
       },
     );
   }
-  }
+}
 
 class _ContentInput extends StatelessWidget {
   @override
@@ -194,79 +205,6 @@ class _ContentInput extends StatelessWidget {
     );
   }
 }
-
-// class _ImageInput extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-    
-//     return BlocBuilder<NewsAddBloc, NewsAddState>(
-//        buildWhen: (previous, current) => previous.image != current.image,
-//       builder: (context, state) {
-//         return Column(children: [
-//           Container(
-//               child: Row(
-//             children: [
-//               const LabelWidget(label: "Ảnh minh họa"),
-//               IconButton(
-//                 icon: Icon(
-//                   Icons.add,
-//                   color: Theme.of(context).colorScheme.primary,
-//                 ),
-//                 onPressed: () async {
-//                   imagePath = await PickFile().pickImage(context);
-//                   print(imagePath.toString());
-//                   String name = imagePath.toString();
-//                   context
-//                       .read<NewsAddBloc>()
-//                       .add(NewsAddImageChanged(imagePath!));
-//                 },
-//               )
-//             ],
-//           )),
-//           imagePath != null ? Text(imagePath.toString()) : Container()
-//         ]);
-//       },
-//     );
-//   }
-// }
-
-// class _PdfContentInput extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     File? pdfContentPath;
-//     return BlocBuilder<NewsAddBloc, NewsAddState>(
-//       buildWhen: (previous, current) =>
-//           previous.pdfContent != current.pdfContent,
-//       builder: (context, state) {
-//         return Column(children: [
-//           Container(
-//               child: Row(
-//             children: [
-//               const LabelWidget(label: "Chọn tệp văn bản (pdf)"),
-//               IconButton(
-//                 icon: Icon(
-//                   Icons.add,
-//                   color: Theme.of(context).colorScheme.primary,
-//                 ),
-//                 onPressed: () async {
-//                   pdfContentPath = await PickFile().pickFilePdf(context);
-//                   String name = pdfContentPath.toString();
-//                 context
-//                       .read<NewsAddBloc>()
-//                       .add(NewsAddPdfContentChanged(pdfContentPath!));
-//                   print("state " + state.pdfContent.toString());
-//                 },
-//               )
-//             ],
-//           )),
-//           pdfContentPath != null
-//               ? Text(pdfContentPath.toString())
-//               : Container()
-//         ]);
-//       },
-//     );
-//   }
-// }
 
 class _NewsAddButton extends StatelessWidget {
   @override

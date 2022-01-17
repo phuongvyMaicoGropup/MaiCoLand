@@ -58,6 +58,7 @@ dependencies:
   uuid: ^3.0.5
   webview_flutter: ^3.0.0
   latlong2: ^0.8.1
+  advance_pdf_viewer: ^2.0.1
 
   # firebase_auth: ^3.3.5
 

@@ -10,14 +10,7 @@ class DetailLandPlanning extends StatelessWidget {
     return  Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "Thông tin quy hoạch",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: "Montserrat",
-          ),
-
-        ),
+        title: const Text("Thông tin quy hoạch" ),
         leading: IconButton(
         onPressed: () {
         Navigator.pop(context);
@@ -31,7 +24,7 @@ class DetailLandPlanning extends StatelessWidget {
           const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
           children: [
             Container(
-              height: 300,
+              height: MediaQuery.of(context).size.height*0.4,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -40,9 +33,9 @@ class DetailLandPlanning extends StatelessWidget {
                     blurRadius: 2,
                   ),
                 ],
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(5),
-                ),
+                // borderRadius: const BorderRadius.all(
+                //   Radius.circular(5),
+                // ),
                 image: DecorationImage(
                   image: NetworkImage(landPlanning.imageUrl),
                   fit: BoxFit.cover,

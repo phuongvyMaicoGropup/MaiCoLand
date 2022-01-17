@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:land_app/model/entity/land_planning.dart';
+import 'package:land_app/presentation/screens/land_plannings/land_planning_details/land_planning_details_information.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:io';
 
@@ -22,14 +23,14 @@ class _DetailMapLandPlanningState extends State<DetailMapLandPlanning> {
     return Scaffold(
         appBar: AppBar(
               centerTitle : true,
-              title: const Text("Bản đồ quy hoạch", style: TextStyle(color : Colors.white) ),
+              title: const Text("MaicoLand"),
               actions: [
                 IconButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => DetailLandPlanning(landPlanning: widget.landPlanning,)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailLandPlanning(landPlanning: widget.landPlanning,)));
 
                   },
                   icon: const Icon(Icons.article, color: Colors.white,),

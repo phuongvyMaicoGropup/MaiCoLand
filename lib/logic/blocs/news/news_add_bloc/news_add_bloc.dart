@@ -20,7 +20,6 @@ class NewsAddBloc extends Bloc<NewsAddEvent,NewsAddState>{
     on<NewsAddTitleChanged>(_onTitleChanged);
     on<NewsAddContentChanged>(_onContentChanged);
     on<NewsAddImageChanged>(_onImageChanged);
-    on<NewsAddPdfContentChanged>(_onPdfContentChanged);
     on<NewsAddHashTagChanged>(_onHashTagChanged);
     on<NewsAddSubmitted>(_onSubmitted);
     
@@ -53,15 +52,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent,NewsAddState>{
           status: Formz.validate([state.content, state.title]),
         ));
   }
-   void _onPdfContentChanged(NewsAddPdfContentChanged event,
-      Emitter<NewsAddState> emit,) async {
-        print("pdfContentChanged : "+ event.pdfContent.toString());
-        emit(state.copyWith(
-          pdfContent : event.pdfContent,
-          status: Formz.validate([state.content, state.title]),
-        ));
-        print("state Pdf : " + state.pdfContent.toString());
-  } 
+  
   void _onHashTagChanged(NewsAddHashTagChanged event,
       Emitter<NewsAddState> emit,){
         emit(state.copyWith(

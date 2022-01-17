@@ -6,7 +6,6 @@ class NewsAddState extends Equatable {
     this.title = const Title.pure(),
     this.content = const Content.pure(),
     this.image ,
-    this.pdfContent,
     this.hashTag  ,
     this.status = FormzStatus.pure,
   });
@@ -14,7 +13,7 @@ class NewsAddState extends Equatable {
   final Title title;
   final Content content; 
   final File? image; 
-  final File? pdfContent ;
+  // final File? pdfContent ;
   final List<String>? hashTag ; 
   final FormzStatus status;
 
@@ -25,7 +24,6 @@ class NewsAddState extends Equatable {
     Title? title , 
     Content? content,
     File? image,
-    File? pdfContent,
     List<String>? hashTag,
     FormzStatus? status,
   }) {
@@ -33,7 +31,6 @@ class NewsAddState extends Equatable {
       title : title?? this.title,
       content : content?? this.content,
       image : image?? this.image,
-      pdfContent: pdfContent?? this.pdfContent,
       hashTag : hashTag?? this.hashTag,
       status: status ?? this.status,
     );
