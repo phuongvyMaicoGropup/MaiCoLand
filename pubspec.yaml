@@ -48,6 +48,17 @@ dependencies:
   firebase_core: ^1.11.0
   cloud_firestore: ^3.1.6
   firebase_auth: ^3.3.5
+  flutter_svg: ^1.0.1
+  carousel_slider: ^4.0.0
+  image_picker: ^0.8.4+4
+  firebase_storage: ^10.2.5
+  file_picker: ^4.3.1
+  flutter_cache_manager: ^3.3.0
+  numberpicker: ^2.1.1
+  uuid: ^3.0.5
+  webview_flutter: ^3.0.0
+  latlong2: ^0.8.1
+
   # firebase_auth: ^3.3.5
 
 dev_dependencies:
@@ -73,7 +84,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-
+    - assets/images/
+    - assets/images/news.png
+    - assets/images/trade.png
+    - assets/icons/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

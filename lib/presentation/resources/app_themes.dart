@@ -74,3 +74,24 @@ const textMediumWhite = TextStyle(
   fontSize: 16,
   color: Colors.white
 );
+const textMediumGreen = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+  color : AppColors.appGreen1
+);
+const textMediumBlack = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+  color : AppColors.black
+);
+const textMinorBlack = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 11,
+  color : AppColors.black
+);
+
+const textMinorGreen = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 11,
+  color : AppColors.appGreen2
+);

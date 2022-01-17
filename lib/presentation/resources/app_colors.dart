@@ -160,4 +160,10 @@ static const Color appGreen4 = Color(0xFF7CD442);
 static const Color appErrorRed = Color(0xFFC5032B);
 static const Color appSurfaceWhite = Color(0xFFFFFBFA);
 static const Color appBackgroundWhite = Colors.white;
+static const appBackgroundColor = Color(0xFFf8f8f8);
+static const appActiveIconColor = Color(0xFF358F38);
+static const appTextColor = Color(0xFF292929);
+static const appGreenLightColor = Color(0xFFCEE5D0);
+static const appdurationOfImageInCache = 7;
+
 }

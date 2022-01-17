@@ -13,9 +13,7 @@ class AuthenticationRepository {
         email: email, password: password);
     print("signup end");
 
-    await user.updateProfile({
-     displayName: displayName
-    });
+   
     return null; 
     } on FirebaseAuthException catch(e){
       return e.message; 

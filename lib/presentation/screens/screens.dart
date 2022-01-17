@@ -1,4 +1,5 @@
-export 'login_screen.dart';
-export 'register_screen.dart';
-export 'home_screen.dart';
-export 'splash_screen.dart';
+export 'login/login_screen.dart';
+export 'register/register_screen.dart';
+export 'home/home_screen.dart';
+export 'splash/splash_screen.dart';
+export 'news/news_add/news_add_screen.dart';

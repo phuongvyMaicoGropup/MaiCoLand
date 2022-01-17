@@ -20,16 +20,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   void _mapAppLoadedToState(AppLoaded event, Emitter<AuthenticationState> emit,) async {
     
     try {
-      await Future.delayed(Duration(milliseconds: 500)); // a simulated delay
       final currentUser = await _authenticationRepository.user;
-      print("apploaded " + currentUser);
+     
       if (currentUser != null) {
         emit(AuthenticationAuthenticated(user: currentUser));
       } else {
         emit(AuthenticationNotAuthenticated());
       }
     } catch (e) {
-      // emit(AuthenticationFailure(message: e.toString() ?? 'An unknown error occurred'));
+       emit(AuthenticationFailure(message: e.toString()));
     }
   }
 

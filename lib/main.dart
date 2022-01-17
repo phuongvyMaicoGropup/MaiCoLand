@@ -3,9 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:land_app/logic/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:land_app/logic/blocs/home/home_bloc/home_bloc.dart';
+import 'package:land_app/logic/blocs/land_planning/land_planning_bloc.dart';
 import 'package:land_app/logic/blocs/login_bloc/login_bloc.dart';
+import 'package:land_app/logic/blocs/news/news_add_bloc/news_add_bloc.dart';
 import 'package:land_app/logic/blocs/register_bloc/register_bloc.dart';
 import 'package:land_app/model/repository/authentication_repository.dart';
+import 'package:land_app/model/repository/home_repository.dart';
 import 'package:land_app/presentation/router/app_router.dart';
 import 'package:land_app/presentation/screens/screens.dart';
 
@@ -39,7 +43,25 @@ class MyApp extends StatelessWidget {
           create: (context)=> RegisterBloc(authenticationRepository :authenticationRepository ),
         ),
          BlocProvider<AuthenticationBloc>(
-           create :(context)=> AuthenticationBloc(authenticationRepository :authenticationRepository)
+           create :(context)=> AuthenticationBloc(authenticationRepository :authenticationRepository)..add((AppLoaded()))
+         ),
+         BlocProvider<HomeBloc>(
+           
+           create :(context){
+             HomeRepository homeRepository = HomeRepository();
+             return HomeBloc(homeRepository: homeRepository); 
+           
+           }
+         ),
+         BlocProvider<LandPlanningBloc>(
+           
+           create :(context){
+             return LandPlanningBloc(); 
+           
+           }
+         ),
+         BlocProvider<NewsAddBloc>(
+           create :(context)=> NewsAddBloc(authenticationRepository: authenticationRepository)
          ),
       ],
       child: MaterialApp(
@@ -48,6 +70,7 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: appRouter.onGenerateRoute,
 home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
+          
           print(state.toString());
           if (state is AuthenticationInitial) {
             return SplashScreen();
@@ -74,8 +97,8 @@ ThemeData _buildAppTheme() {
   return base.copyWith(
     colorScheme: base.colorScheme.copyWith(
       primary: AppColors.appGreen1,
-      onPrimary: AppColors.appGreen2,
-      secondary:AppColors.appGreen3,
+      onPrimary: AppColors.white,
+      secondary:AppColors.appGreen4,
       error: AppColors.appErrorRed,
     ),
     textTheme: _buildAppTextTheme(base.textTheme),

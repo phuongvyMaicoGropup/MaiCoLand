@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:land_app/logic/blocs/Register_bloc/model/models.dart';
+import 'package:land_app/model/formz_model/models.dart';
 import 'package:land_app/model/repository/authentication_repository.dart';
 
 part 'register_event.dart';
