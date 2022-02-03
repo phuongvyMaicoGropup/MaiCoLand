@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:land_app/logic/blocs/home/home_bloc/home_bloc.dart';
-import 'package:land_app/logic/blocs/home/home_bloc/home_event.dart';
-import 'package:land_app/logic/blocs/home/home_bloc/home_state.dart';
 import 'package:land_app/logic/blocs/land_planning/land_planning_bloc.dart';
 import 'package:land_app/logic/blocs/land_planning/land_planning_state.dart';
 import 'package:land_app/model/entity/land_planning.dart';
-import 'package:land_app/presentation/resources/app_themes.dart';
 import 'package:land_app/presentation/screens/home/widgets/widget_home_card_land_plannings.dart';
 import 'package:land_app/presentation/screens/land_plannings/land_planning_details/land_planning_details_screen.dart';
 
 class WidgetHomeLandPlanning extends StatelessWidget {
   List<LandPlanning> items = [];
 
-//  @override
-//  Widget build(BuildContext context){
-//    return Builder(builder: (context){
-//                 final homeState = context.watch<HomeBloc>().state;
-//                 final LandPlanningState = context.watch<LandPlanningBloc>().state;
-//                 if (homeState is LoadHome){
-//                   items = homeState.
-//                 }
-//                 });
-//  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LandPlanningBloc, LandPlanningState>(
@@ -70,14 +56,20 @@ class WidgetHomeLandPlanning extends StatelessWidget {
           );
         } else if (state is LandPlanningNotLoaded) {
           return Container(child: Text("Không load được"));
-        } else
-          return Container(child: Text("Lỗi"));
+        } else {
+          return const Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+        }
       },
     );
   }
 
   _buildListLandPlanning() {
     return ListView.builder(
+      shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: items.length < 6 ? items.length : 5,
       itemBuilder: (BuildContext context, int index) {

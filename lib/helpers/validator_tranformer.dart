@@ -16,6 +16,15 @@ mixin ValidatorsTransformer {
   static bool isValidPassword(String password) {
     return password.length > 7;
   }
+  static bool isValidPhone(String phone){
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(pattern);
+   
+     if (!regExp.hasMatch(phone)) {
+      return false;
+    }
+    return true;
+  }
 
   final validateEmail =
       StreamTransformer<String, bool>.fromHandlers(handleData: (email, sink) {

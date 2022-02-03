@@ -27,14 +27,8 @@ class NewsAddHashTagChanged extends NewsAddEvent{
   @override
   List<Object> get props =>[hashTag];
 }
-// class NewsAddPdfContentChanged extends NewsAddEvent{
-//   final File pdfContent ;
-//   NewsAddPdfContentChanged(this.pdfContent);
-//   @override
-//   List<Object> get props =>[pdfContent];
-// }
 class NewsAddImageChanged extends NewsAddEvent{
-  final File image ;
+  final String image ;
   NewsAddImageChanged(this.image);
   @override
   List<Object> get props =>[image];

@@ -23,4 +23,13 @@ class LandPlanningLoaded extends LandPlanningState {
   }
 }
 
-class LandPlanningNotLoaded extends LandPlanningState {}
+class LandPlanningNotLoaded extends LandPlanningState {
+  final String e;
+
+  const LandPlanningNotLoaded(this.e);
+
+  @override
+  String toString() {
+    return 'LandPlanningNotLoaded{e: $e}';
+  }
+}

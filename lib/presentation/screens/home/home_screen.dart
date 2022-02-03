@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:land_app/logic/blocs/home/home_bloc/home_bloc.dart';
 import 'package:land_app/logic/blocs/home/home_bloc/home_event.dart';
 import 'package:land_app/logic/blocs/home/home_bloc/home_state.dart';
+import 'package:land_app/logic/blocs/home/home_news_bloc/news_bloc.dart';
 import 'package:land_app/logic/blocs/land_planning/land_planning_bloc.dart';
 import 'package:land_app/logic/blocs/land_planning/land_planning_event.dart';
-import 'package:land_app/logic/blocs/land_planning/land_planning_state.dart';
 import 'package:land_app/presentation/resources/resources.dart';
 import 'package:land_app/presentation/screens/home/widgets/widget_home_banner.dart';
 import 'package:land_app/presentation/screens/home/widgets/widget_home_toolbar.dart';
@@ -31,20 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
       providers: [
         BlocProvider(create: (context) {
           return LandPlanningBloc();
-          
         }),
-        // BlocProvider(
-        //     create: (context) => RecommendedSeatsBloc(
-        //         homeBloc: BlocProvider.of<HomeBloc>(context))),
+        BlocProvider(create: (context) => HomeNewsBloc()),
         // BlocProvider(
         //     create: (context) => HomeShowsCategoryBloc(
         //         homeBloc: BlocProvider.of<HomeBloc>(context))),
       ],
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          return SafeArea(
-            child: Scaffold(
-              body: Container(
+          return Container(
                 color: AppColors.white,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -55,60 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildContent(state),
                   ],
                 ),
-              ),
-              floatingActionButton: FloatingActionButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Chọn loại bài đăng!'),
-                          actions: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/trade.png',
-                                          width: 115,
-                                        ),
-                                        const Text('Buôn bán'),
-                                      ],
-                                    )),
-                                TextButton(
-                                  onPressed: () {
-                                    // Navigator.of(context, rootNavigator: true).pop();
-                                    Navigator.of(context)
-                                        .pushNamed("/news/add");
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/news.png',
-                                        width: 115,
-                                      ),
-                                      const Text('Tin tức'),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20)
-                          ],
-                        ),
-                      );
-                    },
-                    backgroundColor: Colors.green,
-                    child: const Icon(
-                      Icons.add,
-                    )),
-            ),
-          );
+              )
+              
+             
+            
+        ;
         },
       ),
     );
@@ -116,31 +62,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildContent(HomeState state) {
     if (state is HomeLoaded) {
-
       return Expanded(
         child: RefreshIndicator(
           onRefresh: () async {
             BlocProvider.of<HomeBloc>(context).add(RefreshHome());
+            BlocProvider.of<HomeBloc>(context).add(LoadHome());
           },
           child: ListView(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: <Widget>[
-              Builder(
-                builder :  (context){
-                  final homeState = context.watch<HomeBloc>().state;
+              Builder(builder: (context) {
+                final homeState = context.watch<HomeBloc>().state;
                 final homeLandState = context.watch<LandPlanningBloc>().state;
-                  if ( homeState is HomeLoaded ){
-                    BlocProvider.of<LandPlanningBloc>(context).add(DisplayLandPlanning(homeState.response.landPlannings));
-                  }
-                  return WidgetHomeLandPlanning();
-                  
-
+                if (homeState is HomeLoaded) {
+                  BlocProvider.of<LandPlanningBloc>(context).add(
+                      DisplayLandPlanning(homeState.response.landPlannings));
+                  BlocProvider.of<HomeNewsBloc>(context)
+                      .add(HomeDisplayNews(homeState.response.news));
                 }
-              )
-              
-                
-              
+                return Column(children: [
+                  WidgetHomeLandPlanning(),
+                  WidgetHomeNews(),
+                ]);
+              })
             ],
           ),
         ),

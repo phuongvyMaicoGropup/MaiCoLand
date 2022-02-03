@@ -11,8 +11,8 @@ class WidgetHomeCategories extends StatefulWidget {
 
 class _WidgetHomeCategoriesState extends State<WidgetHomeCategories> {
   List<Category> items = [
-   Category("Tin tức", Icons.library_books),
-   Category("Quy hoạch", Icons.map_rounded),
+   Category("Tin tức", Icons.library_books,"/news"),
+   Category("Quy hoạch", Icons.map_rounded,"/landplannings"),
   ];
 
   @override
@@ -27,7 +27,6 @@ class _WidgetHomeCategoriesState extends State<WidgetHomeCategories> {
                 style: Theme.of(context).textTheme.headline5?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontFamily: "Montserrat",
-                  color : AppColors.appGreen1
                 ),
               
             ),
@@ -78,7 +77,7 @@ class _WidgetItemCategory extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // openAllShows();
+        openCategory(item.link);
       },
       child: Column(
         children: <Widget>[
@@ -97,9 +96,9 @@ class _WidgetItemCategory extends StatelessWidget {
     );
   }
 
-  // void openAllShows() {
-  //   Navigator.pushNamed(_context, AppRouter.ALL_SHOWS);
-  // }
+  void openCategory(String link ) {
+    Navigator.pushNamed(_context, link);
+  }
 }
 
 // class _ItemCategoryVM {

@@ -12,7 +12,12 @@ class AuthenticationRepository {
     UserCredential userInfo = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
     print("signup end");
-
+    user.updateDisplayName(displayName).then((_){
+      print("Successfully changed username");
+    }).catchError((error){
+      print("username can't be changed" + error.toString());
+      //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
+    });
    
     return null; 
     } on FirebaseAuthException catch(e){

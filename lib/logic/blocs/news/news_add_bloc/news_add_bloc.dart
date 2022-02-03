@@ -2,11 +2,11 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:land_app/model/formz_model/models.dart';
-import 'package:land_app/model/formz_model/models.dart';
+import 'package:land_app/model/formz_model/models.dart' ;
 import 'package:land_app/model/repository/authentication_repository.dart';
 
 part 'news_add_event.dart';
@@ -46,6 +46,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent,NewsAddState>{
 
   void _onImageChanged(NewsAddImageChanged event,
       Emitter<NewsAddState> emit,){
+        print("tesst image");
         print(event.image);
         emit(state.copyWith(
           image : event.image,
@@ -65,12 +66,29 @@ class NewsAddBloc extends Bloc<NewsAddEvent,NewsAddState>{
       Emitter<NewsAddState> emit,
       ) async {
     if (state.status.isValidated) {
-      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      print(state);
       try {
-        
-      } catch (_) {
+        print("he");
+        print(state);
+        print(state.hashTag);
+        await FirebaseFirestore.instance
+                              .collection("news")
+                              .add({
+                            "authorId": _authenticationRepository.user.uid,
+                            "content": state.content.value,
+                            "title": state.title.value,
+                            "imageUrl": state.image,
+                            "dateCreated":  DateTime.now(),
+                            "dateUpdated":DateTime.now(),
+                            "hashTags": state.hashTag
+                          });
+          print("thành công "); 
+                         
+      } catch (e) {
+        print(e);
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
     }
   }
 }
