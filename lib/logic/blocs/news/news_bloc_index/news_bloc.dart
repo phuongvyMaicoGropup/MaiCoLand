@@ -6,13 +6,17 @@ import 'package:flutter/foundation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:land_app/model/entity/news.dart';
 import 'package:land_app/model/repository/news_repository.dart';
+import 'package:rxdart/rxdart.dart';
 part 'news_event.dart';
 part 'news_state.dart';
 class NewsBloc
 
     extends Bloc<NewsEvent, NewsState> {
   final NewsRepository _newsRepo = NewsRepository();
+  final _newsSubject = BehaviorSubject<List<News>>();
   
+  Stream<List<News>> get news => _newsSubject.stream;
+
   NewsBloc() : super(NewsLoading())  {
     
     

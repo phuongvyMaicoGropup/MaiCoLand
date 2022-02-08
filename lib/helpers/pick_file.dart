@@ -22,12 +22,6 @@ class PickFile{
       return Future<String>.value(null);
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Tải hình ảnh thành công !!"),
-        backgroundColor: Colors.green,
-      ),
-    );
     final path = result.files.single.path!;
     return Future<String>.value(path);
     }
@@ -46,12 +40,7 @@ class PickFile{
       return Future<File>.value(null);
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Tải file thành công !!"),
-        backgroundColor: Colors.green,
-      ),
-    );
+   
     final path = result.files.single.path!;
     return Future<File>.value(File(path));
     }

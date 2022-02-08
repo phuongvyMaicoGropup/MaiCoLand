@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:land_app/logic/blocs/home/home_news_bloc/news_bloc.dart';
 import 'package:land_app/model/entity/news.dart';
+import 'package:land_app/presentation/common_widgets/widgets.dart';
 import 'package:land_app/presentation/screens/home/widgets/widget_home_card_news.dart';
 
 class WidgetHomeNews extends StatelessWidget {
@@ -24,13 +25,7 @@ class WidgetHomeNews extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Tin tức",
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Montserrat",
-                          ),
-                    ),
+                    child:  const HeadingTextWidget(text: "Tin tức"),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 25),

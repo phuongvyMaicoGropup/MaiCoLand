@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:land_app/logic/blocs/account/account_bloc/account_bloc.dart';
+import 'package:land_app/model/repository/authentication_repository.dart';
 import 'package:land_app/model/repository/user_repository.dart';
+import 'package:land_app/presentation/resources/resources.dart';
+import 'package:land_app/presentation/screens/account/account_auth_phone.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -11,6 +17,8 @@ class AccountSettings extends StatefulWidget {
 
 class _AccountSettingsState extends State<AccountSettings> {
   bool _passwordVisible = false;
+  final AuthenticationRepository _auth =  AuthenticationRepository();
+  get user => _auth.user ; 
   // var _userService = UserService();
   final _oldPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
@@ -25,6 +33,7 @@ class _AccountSettingsState extends State<AccountSettings> {
   void initState() {
     _passwordVisible = false;
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,31 +77,31 @@ class _AccountSettingsState extends State<AccountSettings> {
             const SizedBox(
               height: 40,
             ),
-             Row(
-              children: const [
-                Icon(
-                  Icons.volume_up_outlined,
-                  color: Colors.green,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Notifications",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const Divider(
-              height: 15,
-              thickness: 2,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            buildNotificationOptionRow("New for you", true),
-            buildNotificationOptionRow("Account activity", true),
-            buildNotificationOptionRow("Opportunity", false),
+            //  Row(
+            //   children: const [
+            //     Icon(
+            //       Icons.volume_up_outlined,
+            //       color: Colors.green,
+            //     ),
+            //     SizedBox(
+            //       width: 8,
+            //     ),
+            //     Text(
+            //       "Notifications",
+            //       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            //     ),
+            //   ],
+            // ),
+            // const Divider(
+            //   height: 15,
+            //   thickness: 2,
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // buildNotificationOptionRow("New for you", true),
+            // buildNotificationOptionRow("Account activity", true),
+            // buildNotificationOptionRow("Opportunity", false),
             const SizedBox(
               height: 50,
             ),
@@ -249,9 +258,9 @@ class _AccountSettingsState extends State<AccountSettings> {
             TextFormField(
               keyboardType: TextInputType.text,
               controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Nhập tên đăng nhập',
-                hintText: 'Không được để trống!',
+              decoration:  InputDecoration(
+                labelText:"Nhập tên đăng nhập mới",
+                hintText: user.displayName.toString(),
               ),
             ),
             
@@ -264,13 +273,15 @@ class _AccountSettingsState extends State<AccountSettings> {
                 onPressed: () async {
                   try{
                   await _userRepository.changeUsername(_usernameController.text);
-                  Navigator.of(context).pushNamed("/account");
+                   BlocProvider.of<AccountBloc>(context).add(AccountLoad());
+                  Navigator.of(context).pushNamedAndRemoveUntil("/", (Route<dynamic> route) => false);
                      ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("Thay đổi tên đăng nhập thành công!"),
-                              backgroundColor: Colors.greenAccent,
+                              content: Text("Thay đổi tên đăng nhập thành công!", style : TextStyle(color : AppColors.white)),
+                              backgroundColor: AppColors.appGreen1,
                             ),
                           );
+                  
                   }catch(e){
  ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -291,46 +302,9 @@ class _AccountSettingsState extends State<AccountSettings> {
 
     );
   }
- Form changePhoneNumberForm(BuildContext context){
-    return Form(
-      key: _changePhoneNumberKey,
-      child: Column(
-          children:[
-            TextFormField(
-              keyboardType: TextInputType.text,
-              controller: _phoneNumberController,
-              decoration: const InputDecoration(
-                labelText: 'Nhập số điện thoại',
-                hintText: 'Không được để trống!',
-              ),
-              validator: (value) {
-    if ( !isPhone(value.toString()) ) {
-      return 'Sai định dạng';
-    }
-    return null;
-  },
-            ),
-            
-            Container(
-              width: MediaQuery.of(context).size.width*0.9,
-              margin: EdgeInsets.all(10),
-              height: 50.0,
-              child: TextButton(
-
-                onPressed: () async {
-                  print("1");
-                  // await _userRepository.changeUsername(_usernameController.text);
-                  
-                },
-
-                child: const Text("Lưu",
-                    style: TextStyle(fontSize: 15)),
-              ),
-            ),
-          ]
-      ),
-
-    );
+ Widget changePhoneNumberForm(BuildContext context){
+    return AccountAuthPhone(user: user);
+  
   }
   bool isPhone(String input) => RegExp(
   r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$'

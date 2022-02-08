@@ -22,7 +22,7 @@ class Storage {
       var dowurl = await uploadTask.ref.getDownloadURL();
       url = dowurl.toString();
 
-      return url;
+      return Future<String>.value(url);
     } on firebase_core.FirebaseException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -31,7 +31,7 @@ class Storage {
         ),
       );
       print(e);
-      return '';
+      return Future<String>.value('');
     }
   }
 }

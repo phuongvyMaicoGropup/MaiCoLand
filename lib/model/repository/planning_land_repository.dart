@@ -17,7 +17,6 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
        .limitToLast(20).get()
     .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) {
-           print(doc["title"]);
             var newLand = LandPlanning(
               id : doc.id,
               accessToken: doc["accessToken"],
@@ -35,7 +34,6 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
             _landPlannings.add(newLand);
         });
     }); 
-    print(_landPlannings[0].content); 
     return Future<List<LandPlanning>>.value(_landPlannings);
     }
     Future<List<LandPlanning>> getHomeLand()async{
@@ -44,7 +42,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
        .limitToLast(5).get()
     .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) {
-           print(doc["title"]);
+        
             var newLand = LandPlanning(
               id : doc.id,
               accessToken: doc["accessToken"],
@@ -62,7 +60,6 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
             _landPlannings.add(newLand);
         });
     }); 
-    print(_landPlannings[0].content); 
     return Future<List<LandPlanning>>.value(_landPlannings);
     }
 }

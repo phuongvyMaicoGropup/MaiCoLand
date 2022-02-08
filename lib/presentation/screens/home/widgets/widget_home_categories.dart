@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:land_app/model/entity/category.dart';
+import 'package:land_app/presentation/common_widgets/widgets.dart';
 import 'package:land_app/presentation/resources/resources.dart';
 
 class WidgetHomeCategories extends StatefulWidget {
@@ -11,8 +12,8 @@ class WidgetHomeCategories extends StatefulWidget {
 
 class _WidgetHomeCategoriesState extends State<WidgetHomeCategories> {
   List<Category> items = [
-   Category("Tin tức", Icons.library_books,"/news"),
-   Category("Quy hoạch", Icons.map_rounded,"/landplannings"),
+   Category("Tin tức", Icons.library_books,"/news", AppColors.antiqueWhite),
+   Category("Quy hoạch", Icons.map_rounded,"/landplannings", AppColors.antiqueWhite),
   ];
 
   @override
@@ -22,14 +23,7 @@ class _WidgetHomeCategoriesState extends State<WidgetHomeCategories> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-              Text(
-                "Tiện ích",
-                style: Theme.of(context).textTheme.headline5?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Montserrat",
-                ),
-              
-            ),
+                const HeadingTextWidget(text: "Khám phá"),
                 const SizedBox(height: 14),
                 _buildListCategory(),
               ],
@@ -82,15 +76,20 @@ class _WidgetItemCategory extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            width: 34,
-            height: 34,
+            
+            width: 41,
+            height: 41,
+            decoration: BoxDecoration(
+color : AppColors.aliceBlue,
+              borderRadius: BorderRadius.circular(7),
+            ),
             child: Center(
               
-              child: Icon( item.icon, color : AppColors.appGreen2 ),
+              child: Icon( item.icon, color :AppColors.blueViolet),
             ),
           ),
           const SizedBox(height: 4),
-          Text(item.name, style : textMinorGreen),
+          Text(item.name, style : textMinorBlack),
         ],
       ),
     );

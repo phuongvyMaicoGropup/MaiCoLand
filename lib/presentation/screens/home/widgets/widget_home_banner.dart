@@ -29,8 +29,8 @@ class _WidgetHomeBannerState extends State<WidgetHomeBanner> {
           width: 400,
           // color: Colors.black,
           margin: const EdgeInsets.only(
-            right: 5.0,
-            left: 5.0,
+            right: 20.0,
+            left: 20.0,
             bottom: 10,
           ),
           // child: Image.asset(item),
@@ -43,7 +43,7 @@ class _WidgetHomeBannerState extends State<WidgetHomeBanner> {
                 blurRadius: 2,
               ),
             ],
-            // borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(7),
             image: DecorationImage(
               image: AssetImage(url),
               fit: BoxFit.cover,

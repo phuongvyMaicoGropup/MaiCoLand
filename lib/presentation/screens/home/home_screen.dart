@@ -27,35 +27,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) {
-          return LandPlanningBloc();
-        }),
-        BlocProvider(create: (context) => HomeNewsBloc()),
-        // BlocProvider(
-        //     create: (context) => HomeShowsCategoryBloc(
-        //         homeBloc: BlocProvider.of<HomeBloc>(context))),
-      ],
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          return Container(
-                color: AppColors.white,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    WidgetHomeToolbar(),
-                    const WidgetHomeBanner(),
-                    WidgetHomeCategories(),
-                    _buildContent(state),
-                  ],
-                ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.white,
+        body: MultiBlocProvider(
+          
+          providers: [
+            BlocProvider(create: (context) {
+              return LandPlanningBloc();
+            }),
+            BlocProvider(create: (context) => HomeNewsBloc()),
+            // BlocProvider(
+            //     create: (context) => HomeShowsCategoryBloc(
+            //         homeBloc: BlocProvider.of<HomeBloc>(context))),
+          ],
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              return Center(
+                child: Container(
+                      width: MediaQuery.of(context).size.width*0.97,
+                       color: AppColors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          WidgetHomeToolbar(),
+                          const WidgetHomeBanner(),
+                          SizedBox(height: 10,),
+                          WidgetHomeCategories(),
+                          _buildContent(state),
+                        ],
+                      ),
+                    ),
               )
-              
-             
-            
-        ;
-        },
+                  
+                 
+                
+            ;
+            },
+          ),
+        ),
       ),
     );
   }
@@ -74,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               Builder(builder: (context) {
                 final homeState = context.watch<HomeBloc>().state;
-                final homeLandState = context.watch<LandPlanningBloc>().state;
                 if (homeState is HomeLoaded) {
                   BlocProvider.of<LandPlanningBloc>(context).add(
                       DisplayLandPlanning(homeState.response.landPlannings));
@@ -83,6 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
                 return Column(children: [
                   WidgetHomeLandPlanning(),
+                  const SizedBox(height : 10),
+
                   WidgetHomeNews(),
                 ]);
               })

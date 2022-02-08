@@ -47,7 +47,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
             _TitleInput(),
             _ContentInput(),
             _ImageInput(context),
-            _HashTagInput(),
+            _HashTagInput(context),
             SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: _NewsAddButton()),
@@ -113,7 +113,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
     );
   }
 
-  Widget _HashTagInput(){
+  Widget _HashTagInput(context){
     
     return BlocBuilder<NewsAddBloc, NewsAddState>(
       builder: (context, state) {
@@ -231,13 +231,20 @@ class _NewsAddButton extends StatelessWidget {
           onPressed: state.status.isValidated 
               ? () async{
                 print("lưn");
-                  try {
-                    print(state.image);
-                    print(state.content);
-                    if (state.image!="https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320"){
+                try{
+                  if (state.image!="https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320"){
                       var imageUrl = await Storage.storageImage(context,File(state.image));
                     context.read<NewsAddBloc>().add(NewsAddImageChanged(imageUrl));
                     }
+                } catch (e){
+
+                }
+                
+                
+                  try {
+                    print(state.image);
+                    print(state.content);
+                    
                     
                     context.read<NewsAddBloc>().add(NewsAddSubmitted());
                     Navigator.of(context).pushNamedAndRemoveUntil( "/", (route) => false);

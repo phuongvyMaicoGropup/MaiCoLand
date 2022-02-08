@@ -18,11 +18,10 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
   Widget build(BuildContext context) {
        User user = RepositoryProvider.of<AuthenticationRepository>(context).user;
     return Container(
-      color: AppColors.appGreenLightColor,
       height: 70,
       child: Row(
         children: <Widget>[
-          _buildAvatar(),
+          _buildAvatar(user.photoURL.toString()),
           _buildNames(user),
           _buildActions(),
         ],
@@ -52,42 +51,40 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-           Text(user.displayName != "" ? user.displayName.toString():user.email.toString() , maxLines : 1, style: const TextStyle(color :  AppColors.appGreen1)),
-          GestureDetector(
-            onTap: () {
-              _clickAccount();
-            },
-            child: Opacity(
-              child: Row(
-                children: <Widget>[
-                  Text('Chưa xác thực', style:  TextStyle(color :  AppColors.appGreen1),)
-                ],
-              ),
-              opacity: 0.5,
-            ),
-          )
+           Opacity(
+             child: Row(
+               children: <Widget>[
+                 Text('Chưa xác thực', style:  TextStyle(color :  AppColors.black),)
+               ],
+             ),
+             opacity: 0.5,
+           ),
+           Text(user.displayName != "" ? user.displayName.toString():user.email.toString() ,
+            maxLines : 1, style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color :  AppColors.black)),
+         
         ],
       ),
     );
   }
 
-  _buildAvatar() {
-    return GestureDetector(
-      onTap: ()=> _clickAccount(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Container(
-          width: 42,
-          height: 42,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(22)),
-            border: Border.all(
-              color:  AppColors.appGreen1,
-              width: 2.0,
-            ),
-            image: DecorationImage(image: AssetImage("assets/default_avatar.png")),
-          ),
+  _buildAvatar(String photoURL) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Container(
+        width: 35,
+        height: 35,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(22)),
+         
+          image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image:
+                                    photoURL =="null"
+                            ? const NetworkImage("https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/avatar%2Fdefault_avatar.png?alt=media&token=9f1c337b-1135-4aa9-9ff8-2529f3590af5") :
+                        NetworkImage(photoURL)),
         ),
       ),
     );

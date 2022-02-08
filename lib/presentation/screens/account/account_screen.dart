@@ -3,179 +3,176 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:land_app/helpers/pick_file.dart';
+import 'package:land_app/helpers/storage.dart';
+import 'package:land_app/logic/blocs/account/account_bloc/account_bloc.dart';
 import 'package:land_app/model/repository/authentication_repository.dart';
+import 'package:land_app/model/repository/user_repository.dart';
 import 'package:land_app/presentation/resources/resources.dart';
+import 'package:land_app/presentation/screens/account/widgets/widgets.dart';
 
 class AccountScreen extends StatefulWidget {
+  const AccountScreen({Key? key}) : super(key: key);
+
   @override
   _AccountScreenState createState() => _AccountScreenState();
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  var _userRepo =  UserRepository();
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AccountBloc>(context).add(AccountLoad());
+  }
+
   Future updateAvatar(BuildContext context) async {
+    try{
+ PickFile fileService = PickFile();
+    String file = await fileService.pickImage(context);
+    print(file);
+    String url = await Storage.storageImage(context,File(file));
+    print(url);
+    await _userRepo.changeAvatar(url);
+                   BlocProvider.of<AccountBloc>(context).add(AccountLoad());
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         content: const Text("Cập nhập ảnh đại diện thành công!")));
+        BlocProvider.of<AccountBloc>(context).add(AccountRefresh());
+            BlocProvider.of<AccountBloc>(context).add(AccountLoad());
+    }catch(e){
+ ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.error,
+        content: const Text("Cập nhập ảnh đại diện thất bại!")));
+    }
+   
   }
 
-  @override
   Widget build(BuildContext context) {
-    User user = RepositoryProvider.of<AuthenticationRepository>(context).user;
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
-        child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: ListView(
-              children: [
-                const Center(
-                  child: Text("Thông tin tài khoản",
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.w600)),
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 130,
-                        height: 130,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 4,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
-                            boxShadow: [
-                              BoxShadow(
-                                  spreadRadius: 2,
-                                  blurRadius: 10,
-                                  color: Colors.black.withOpacity(0.1),
-                                  offset: const Offset(0, 10))
-                            ],
-                            shape: BoxShape.circle,
-                            image: const DecorationImage(
-                                fit: BoxFit.cover,
-                                image:
-                                    AssetImage("assets/default_avatar.png"))),
-                      ),
-                      Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                width: 4,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                              ),
-                              color: Colors.green,
-                            ),
-                            child: GestureDetector(
-                              onTap: () => updateAvatar(context),
-                              child: const Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )),
-                    ],
+    return SafeArea(
+        child: Scaffold(
+      backgroundColor: AppColors.white,
+      body: BlocBuilder<AccountBloc, AccountState>(
+        builder: (context, state) {
+          return Center(
+            child: Container(
+              padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
+              color: AppColors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  const Center(
+                    child: Text("Thông tin tài khoản",
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w600)),
                   ),
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                buildTextField("Email ", user.email!, false),
+                  const SizedBox(
+                    height: 35,
+                  ),
+                  _buildContent(state),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    ));
+  }
+
+  Widget _buildContent(AccountState state) {
+    if (state is AccountLoaded) {
+      return Expanded(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            BlocProvider.of<AccountBloc>(context).add(AccountRefresh());
+            BlocProvider.of<AccountBloc>(context).add(AccountLoad());
+          },
+          child: ListView(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            children: <Widget>[
+              Column(children: [
+                GestureDetector(
+                    onTap: () => updateAvatar(context),
+                    child: AccountAvatarWidget(
+                      photoURL: state.user.photoURL.toString(),
+                    )),
+                const SizedBox(height: 10),
+                buildTextField(
+                    "Email ", state.user.email.toString(),  false),
                 buildTextField(
                     "Tên đăng nhập ",
-                    user.displayName! != ""
-                        ? user.displayName!
+                    state.user.displayName.toString() != ""
+                        ? state.user.displayName.toString()
                         : "Chưa cập nhập",
-                    false),
+                    
+                    true),
                 buildTextField(
                     "Số điện thoại",
-                    user.phoneNumber! != ""
-                        ? user.phoneNumber!
+                    state.user.phoneNumber.toString() != "null"
+                        ? state.user.phoneNumber.toString()
                         : "Chưa cập nhập",
-                    false),
+                    
+                    true),
                 const SizedBox(
                   height: 35,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      margin: EdgeInsets.all(10),
-                      height: 50.0,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary)),
-                        onPressed: () {
-                          Navigator.of(context).pushNamed("/account_settings");
-                        },
-                        padding: const EdgeInsets.all(10.0),
-                        color: Theme.of(context).colorScheme.primary,
-                        textColor: Colors.white,
-                        child:
-                            const Text("Sửa", style: TextStyle(fontSize: 15)),
-                      ),
-                    ),
-                    
-                    Container(
-                      margin: const EdgeInsets.all(10),
-                      height: 50.0,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary)),
-                        onPressed: () {
-                          setState(() async {
-                            Navigator.pop(context, (route) => false);
-                          });
-                        },
-                        padding: const EdgeInsets.all(10.0),
-                        color: Colors.white,
-                        textColor: Theme.of(context).colorScheme.primary,
-                        child: const Text("Quay lại",
-                            style: TextStyle(fontSize: 15)),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            )),
-      ),
-    );
+               
+              ]),
+            ],
+          ),
+        ),
+      );
+    } else if (state is AccountLoading) {
+      return const Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (state is AccountNotLoaded) {
+      return const Expanded(
+        child: Center(
+          child: Text('Cannot load data'),
+        ),
+      );
+    } else {
+      return const Expanded(
+        child: Center(
+          child: Text('Unknown state'),
+        ),
+      );
+    }
   }
 
   Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
+      String labelText, String placeholder,  bool canEdit) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(labelText, style: const TextStyle(fontSize: 18)),
-          const SizedBox(height: 5),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(labelText, style: const TextStyle(fontSize: 18)),
+            canEdit
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/account_settings");
+                    },
+                    child: const Icon(
+                      Icons.edit,
+                      color: Colors.green,
+                    ),
+                  )
+                : Container(),
+          ]),
+           const SizedBox(height: 10),
           Text(placeholder,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.primary)),
+              style: TextStyle(
+                  fontSize: 16, color: Theme.of(context).colorScheme.primary)),
           const Divider(
             thickness: 1,
-          )
+          ),
         ],
       ),
     );

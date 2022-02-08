@@ -61,6 +61,8 @@ dependencies:
   advance_pdf_viewer: ^2.0.1
   linkfy_text: ^1.1.5
   liquid_pull_to_refresh: ^3.0.1
+  material_floating_search_bar: ^0.3.6
+  otp_text_field: ^1.1.2
   
   # firebase_auth: ^3.3.5
 

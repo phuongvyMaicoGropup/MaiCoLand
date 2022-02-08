@@ -3,36 +3,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:land_app/logic/blocs/land_planning/land_planning_bloc.dart';
 import 'package:land_app/logic/blocs/land_planning/land_planning_state.dart';
 import 'package:land_app/model/entity/land_planning.dart';
+import 'package:land_app/presentation/common_widgets/widgets.dart';
 import 'package:land_app/presentation/screens/home/widgets/widget_home_card_land_plannings.dart';
 import 'package:land_app/presentation/screens/land_plannings/land_planning_details/land_planning_details_screen.dart';
 
 class WidgetHomeLandPlanning extends StatelessWidget {
   List<LandPlanning> items = [];
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<LandPlanningBloc, LandPlanningState>(
-      builder: (context, state) {
-        if (state is LandPlanningLoaded) {
-          items = state.landPlannings;
-
-          return Column(
+  @override 
+  Widget build(BuildContext context){
+     return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+                  const SizedBox(height : 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Quy hoạch",
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Montserrat",
-                          ),
-                    ),
+                    child: const HeadingTextWidget(text: "Quy hoạch"),
                   ),
+                  const SizedBox(height : 10),
+
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: TextButton(
@@ -51,17 +46,29 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 5),
-              Container(height: 210.0, child: _buildListLandPlanning()),
+              Container(height: 210.0, child: _buildContent()),
             ],
           );
+      
+  }
+
+  @override
+  Widget _buildContent() {
+    return BlocBuilder<LandPlanningBloc, LandPlanningState>(
+      builder: (context, state) {
+        if (state is LandPlanningLoaded) {
+          items = state.landPlannings;
+
+                                return  _buildListLandPlanning();
+            
+          
         } else if (state is LandPlanningNotLoaded) {
-          return Container(child: Text("Không load được"));
+          return   Text("Lỗi hệ thống. Vui lòng báo lên quản trị viên ");
         } else {
-          return const Expanded(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+          return   Center(
+            child: CircularProgressIndicator(),
+          );
+          
         }
       },
     );

@@ -2,18 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:land_app/model/entity/news.dart';
 class NewsRepository{
     final List<News> _news;
-    NewsRepository() : _news =[]; 
+    final List<News> _homeNews; 
+    NewsRepository() : _news =[] , _homeNews =[]; 
     Future<List<News>> getHomeNews()async{
+      _homeNews.clear();
        await FirebaseFirestore.instance
        .collection('news')
-       .orderBy('dateCreated', descending: true)
+       .orderBy('dateCreated', descending: false)
        .limitToLast(5)
        .get()
     .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
-           print(doc["title"]);
             var newNews = News(
-              id : doc.id,
               authorId: doc["authorId"],
               title: doc["title"],
               dateCreated: doc["dateCreated"].toDate(),
@@ -22,13 +22,14 @@ class NewsRepository{
               dateUpdated:  doc["dateUpdated"].toDate(),
               hashTags: doc["hashTags"]
               ); 
-            _news.add(newNews);
+            _homeNews.add(newNews);
         }
     }); 
-    print(_news[0].content); 
-    return Future<List<News>>.value(_news);
+   
+    return Future<List<News>>.value(_homeNews);
     }
     Future<List<News>> getAll()async{
+      _news.clear();
        await FirebaseFirestore.instance
        .collection('news')
        .orderBy('dateCreated', descending: true)
@@ -38,7 +39,6 @@ class NewsRepository{
         for (var doc in querySnapshot.docs) {
            print(doc["title"]);
             var newNews = News(
-              id : doc.id,
               authorId: doc["authorId"],
               title: doc["title"],
               dateCreated: doc["dateCreated"].toDate(),
@@ -50,6 +50,7 @@ class NewsRepository{
             _news.add(newNews);
         }
     }); 
+    
     print(_news[0].content); 
     return Future<List<News>>.value(_news);
     }

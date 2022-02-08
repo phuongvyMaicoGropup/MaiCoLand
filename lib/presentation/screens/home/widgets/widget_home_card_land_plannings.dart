@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:land_app/model/entity/land_planning.dart';
+import 'package:land_app/presentation/screens/land_plannings/land_planning_details/land_planning_details_screen.dart';
 class WidgetHomeCardLandPlanning extends StatelessWidget {
   const WidgetHomeCardLandPlanning({
     Key? key,
@@ -13,10 +14,10 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => DetailMapLandPlanning(landPlanning: landPlanning)))
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailMapLandPlanning(landPlanning: landPlanning)))
       },
       child: Stack(
         children: [

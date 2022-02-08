@@ -1,18 +1,21 @@
 
 
 
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+
 class News {
   const News({
-    required this.id,
-    required this.authorId,
-    required this.content,
-    required this.title,
     required this.dateCreated,
     required this.dateUpdated,
+    required this.authorId,
+    required this.title,
+    required this.content,
     required this.image,
-     this.hashTags
+    this.hashTags
   });
-  final String id;
   final DateTime dateCreated;
   final DateTime dateUpdated;
   final String authorId;
@@ -22,32 +25,104 @@ class News {
   final List<String>? hashTags;
 //
 
-  factory News.fromMap(Map<String, dynamic>? data, String documentId) {
-    if (data == null) {
-      throw StateError('missing data for NewsId: $documentId');
+  factory News.fromMap(Map<String, dynamic>? json) {
+    if (json == null) {
+      throw StateError('missing json for NewsId');
     }
     return News(
-        id: documentId,
-        title: data['title'],
-        content: data['content'],
-        dateCreated: data['dateCreated'],
-        image: data['image'],
-        authorId : data['authorId'],
-        dateUpdated: data['dateUpdated'],
-        hashTags : data['hashTags']
+        title: json['title'] as String,
+        content: json['content'] as String,
+        dateCreated: (json['dateCreated'] as Timestamp).toDate(),
+        image: json['image'] as String,
+        authorId : json['authorId'],
+        dateUpdated: (json['dateUpdated'] as Timestamp).toDate(),
+        hashTags : json['hashTags']
         );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'dateCreated': dateCreated.millisecondsSinceEpoch,
+      'dateUpdated': dateUpdated.millisecondsSinceEpoch,
+      'authorId': authorId,
       'title': title,
       'content': content,
-      'dateCreated': dateCreated,
-      'authorId': authorId,
-      'dateUpdated': dateUpdated,
-      'id': id,
-      'hashTags': hashTags,
       'image': image,
+      'hashTags': hashTags,
     };
+  }
+
+  News copyWith({
+    DateTime? dateCreated,
+    DateTime? dateUpdated,
+    String? authorId,
+    String? title,
+    String? content,
+    String? image,
+    List<String>? hashTags,
+  }) {
+    return News(
+      dateCreated: dateCreated ?? this.dateCreated,
+      dateUpdated: dateUpdated ?? this.dateUpdated,
+      authorId: authorId ?? this.authorId,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      image: image ?? this.image,
+      hashTags: hashTags ?? this.hashTags,
+    );
+  }
+
+
+  Map<String, dynamic> toJson() =>  {
+      'dateCreated': dateCreated.millisecondsSinceEpoch,
+      'dateUpdated': dateUpdated.millisecondsSinceEpoch,
+      'authorId': authorId,
+      'title': title,
+      'content': content,
+      'image': image,
+      'hashTags': hashTags,
+    };
+
+   factory News.fromJson(Map<String,dynamic> json) {
+    //  if (json == null) return null;
+     return  News( title: json['title']! as String,
+        content: json['content']! as String,
+        dateCreated: (json['dateCreated']! as Timestamp).toDate(),
+        image: json['image']! as String,
+        authorId : json['authorId']!,
+        dateUpdated: (json['dateUpdated']! as Timestamp).toDate(),
+        hashTags : json['hashTags']! as List<String>
+   );
+   }
+       
+
+  @override
+  String toString() {
+    return 'News(dateCreated: $dateCreated, dateUpdated: $dateUpdated, authorId: $authorId, title: $title, content: $content, image: $image, hashTags: $hashTags)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+  
+    return other is News &&
+      other.dateCreated == dateCreated &&
+      other.dateUpdated == dateUpdated &&
+      other.authorId == authorId &&
+      other.title == title &&
+      other.content == content &&
+      other.image == image &&
+      listEquals(other.hashTags, hashTags);
+  }
+
+  @override
+  int get hashCode {
+    return dateCreated.hashCode ^
+      dateUpdated.hashCode ^
+      authorId.hashCode ^
+      title.hashCode ^
+      content.hashCode ^
+      image.hashCode ^
+      hashTags.hashCode;
   }
 }

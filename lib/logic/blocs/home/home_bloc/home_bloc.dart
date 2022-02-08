@@ -19,12 +19,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void _mapLoadHomeToState(LoadHome event, Emitter<HomeState> emit,) async {
     try {
-      print("hi12");
 
       await homeRepository.getHomeData();
-      print("hi2");
       HomeResponse response =HomeResponse(landPlannings : homeRepository.landPlannings, news : homeRepository.news);
-      print(response.landPlannings[0]);
 
       emit(HomeLoaded(response: response));
     } catch (e) {

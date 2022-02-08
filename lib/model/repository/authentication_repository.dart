@@ -11,7 +11,7 @@ class AuthenticationRepository {
     print("signup begin");
     UserCredential userInfo = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    print("signup end");
+     await signIn(email: email, password: password);
     user.updateDisplayName(displayName).then((_){
       print("Successfully changed username");
     }).catchError((error){

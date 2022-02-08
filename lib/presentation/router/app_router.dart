@@ -7,6 +7,7 @@ import 'package:land_app/presentation/screens/account/account_settings_screen.da
 import 'package:land_app/presentation/screens/land_plannings/land_plannings_screen.dart';
 import 'package:land_app/presentation/screens/news/news_details/news_details_screen.dart';
 import 'package:land_app/presentation/screens/news/news_screen.dart';
+import 'package:land_app/presentation/screens/news/news_search/news_search_screen.dart';
 import 'package:land_app/presentation/screens/screens.dart';   
 class AppRouter{
   Route? onGenerateRoute(RouteSettings routeSettings){
@@ -31,6 +32,9 @@ class AppRouter{
 
        case '/account': 
       return MaterialPageRoute(builder: (_)=>  AccountScreen());
+      
+       case '/news/search': 
+      return MaterialPageRoute(builder: (_)=>  NewsSearchScreen());
       // case '/second':
       //   return MaterialPageRoute(builder: (_)=> const SecondScreen(title: "Trang hai", color: Colors.redAccent));
       // case '/third':
