@@ -7,25 +7,34 @@ import 'package:land_app/model/entity/app_user.dart';
 import 'package:land_app/model/entity/news.dart';
 import 'package:land_app/model/repository/authentication_repository.dart';
 import 'package:land_app/model/repository/user_repository.dart';
-class NewsCard extends StatelessWidget {
+class NewsCard extends StatefulWidget {
    NewsCard({
     Key? key,
     required this.news,
   }) : super(key: key);
-  final  _userRepo = UserRepository();
   News news;
-  // AppUser author =
 
-  // Future userInfo()async{
-  //   news.user = await _userRepo.getUserByUid(news.authorId);
-  //   print(news.user);
+  @override
+  State<NewsCard> createState() => _NewsCardState();
+}
+
+class _NewsCardState extends State<NewsCard> {
+  final  _userRepo = UserRepository();
+  AppUser author =AppUser(uid : "", displayName: "",email: "", phoneNumber: "",photoURL : ""); 
+  // getAuthorInfo()async {
+  //   setState(()async{
+
+  //   author = await _userRepo.getUserByUid(widget.news.authorId);
+  //   });
   // }
+  
   @override
   Widget build(BuildContext context) {
     // author.photoURL
+    // getAuthorInfo();
     User author = RepositoryProvider.of<AuthenticationRepository>(context).user;
     return GestureDetector(
-      onTap: () => openShowDetails(context, news),
+      onTap: () => openShowDetails(context, widget.news),
       child:  Container(
       width: MediaQuery.of(context).size.width*0.9,
       height: MediaQuery.of(context).size.height*0.18,
@@ -51,7 +60,7 @@ class NewsCard extends StatelessWidget {
                 bottomLeft: Radius.circular(5),
               ),
               image: DecorationImage(
-                image: NetworkImage(news.image),
+                image: NetworkImage(widget.news.image),
                 fit: BoxFit.cover,
               ),
             ),
@@ -66,7 +75,7 @@ class NewsCard extends StatelessWidget {
                   milliseconds: 500,
                 ),
                 placeholder: 'assets/images/loading.gif',
-                image: news.image,
+                image: widget.news.image,
                 fit: BoxFit.cover,
                 width: 180,
               ),
@@ -130,7 +139,7 @@ class NewsCard extends StatelessWidget {
 
                 Flexible(
                   child: Text(
-                    news.title,
+                    widget.news.title,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -141,7 +150,7 @@ class NewsCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Ngày đăng : ${news.dateCreated.day}/${news.dateCreated.month}/${news.dateCreated.year}",
+                  "Ngày đăng : ${widget.news.dateCreated.day}/${widget.news.dateCreated.month}/${widget.news.dateCreated.year}",
                   textAlign: TextAlign.right,
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
 
@@ -161,11 +170,13 @@ class NewsCard extends StatelessWidget {
     ),
     );
   }
+
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
     return (to.difference(from).inHours / 24).round();
   }
+
    void openShowDetails(BuildContext context,News item) {
     Navigator.pushNamed(context, '/news/details', arguments: item);
   }
