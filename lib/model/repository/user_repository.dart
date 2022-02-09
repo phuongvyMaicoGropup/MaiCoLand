@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:land_app/model/entity/app_user.dart';
 
 import 'authentication_repository.dart';
 
@@ -76,5 +77,24 @@ class UserRepository{
       backgroundColor: backgroundColor,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Future<AppUser> getUserByUid (String uid) async{
+    String? id; 
+    print(uid);
+    await FirebaseFirestore.instance.collection('users')
+    .where('uid', isEqualTo: uid)
+    .limit(1)
+    .get()
+    .then((snapshot)   {
+        id = snapshot.docs[0].id;
+      });
+    var userRefs = FirebaseFirestore.instance.collection('users').withConverter<AppUser>(
+      fromFirestore: (snapshot, _) => AppUser.fromMap(snapshot.data()!),
+      toFirestore: (AppUser, _) => AppUser.toMap(),
+    );
+    AppUser user =  await userRefs.doc(id).get().then((snapshot) => snapshot.data()!);
+    
+    return Future<AppUser>.value(user); 
   }
 }

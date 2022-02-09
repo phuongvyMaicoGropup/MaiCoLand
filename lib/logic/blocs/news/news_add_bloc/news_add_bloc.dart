@@ -56,6 +56,8 @@ class NewsAddBloc extends Bloc<NewsAddEvent,NewsAddState>{
   
   void _onHashTagChanged(NewsAddHashTagChanged event,
       Emitter<NewsAddState> emit,){
+        print("hashTag changed event" );
+        print( event.hashTag);
         emit(state.copyWith(
           hashTag : event.hashTag,
           status: Formz.validate([state.content, state.title]),
@@ -71,6 +73,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent,NewsAddState>{
         print("he");
         print(state);
         print(state.hashTag);
+     
         await FirebaseFirestore.instance
                               .collection("news")
                               .add({
@@ -80,7 +83,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent,NewsAddState>{
                             "imageUrl": state.image,
                             "dateCreated":  DateTime.now(),
                             "dateUpdated":DateTime.now(),
-                            "hashTags": state.hashTag
+                            "hashTags":state.hashTag
                           });
           print("thành công "); 
                          

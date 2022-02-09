@@ -13,6 +13,8 @@ class NewsRepository{
        .get()
     .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
+                  List<String>? hashTags = doc['hashTags'].toString().split('/').toList();
+
             var newNews = News(
               authorId: doc["authorId"],
               title: doc["title"],
@@ -20,7 +22,7 @@ class NewsRepository{
               content : doc["content"],
               image: doc["imageUrl"],
               dateUpdated:  doc["dateUpdated"].toDate(),
-              hashTags: doc["hashTags"]
+              hashTags: hashTags
               ); 
             _homeNews.add(newNews);
         }
@@ -28,7 +30,12 @@ class NewsRepository{
    
     return Future<List<News>>.value(_homeNews);
     }
+    CollectionReference<News> news =  FirebaseFirestore.instance.collection('news').withConverter<News>(
+      fromFirestore: (snapshot, _) => News.fromMap(snapshot.data()!),
+      toFirestore: (News, _) => News.toMap(),
+    );
     Future<List<News>> getAll()async{
+
       _news.clear();
        await FirebaseFirestore.instance
        .collection('news')
@@ -37,6 +44,7 @@ class NewsRepository{
        .get()
     .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
+           List<String>? hashTags = doc['hashTags'].toString().split('/').toList();
            print(doc["title"]);
             var newNews = News(
               authorId: doc["authorId"],
@@ -45,7 +53,7 @@ class NewsRepository{
               content : doc["content"],
               image: doc["imageUrl"],
               dateUpdated:  doc["dateUpdated"].toDate(),
-              hashTags : doc["hashTags"]
+              hashTags : hashTags
               ); 
             _news.add(newNews);
         }

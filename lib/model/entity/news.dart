@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:land_app/model/entity/app_user.dart';
 
 class News {
   const News({
@@ -14,7 +15,8 @@ class News {
     required this.title,
     required this.content,
     required this.image,
-    this.hashTags
+     this.hashTags,
+    //  this.user
   });
   final DateTime dateCreated;
   final DateTime dateUpdated;
@@ -23,6 +25,7 @@ class News {
   final String content;
   final String image;
   final List<String>? hashTags;
+  // final AppUser? user; 
 //
 
   factory News.fromMap(Map<String, dynamic>? json) {
@@ -60,6 +63,7 @@ class News {
     String? content,
     String? image,
     List<String>? hashTags,
+    // AppUser user; 
   }) {
     return News(
       dateCreated: dateCreated ?? this.dateCreated,
@@ -69,6 +73,7 @@ class News {
       content: content ?? this.content,
       image: image ?? this.image,
       hashTags: hashTags ?? this.hashTags,
+      // user : user ?? this.user;
     );
   }
 

@@ -1,10 +1,13 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:land_app/logic/blocs/news/news_bloc_index/news_bloc.dart';
+import 'package:land_app/model/entity/app_user.dart';
 import 'package:land_app/model/entity/news.dart';
+import 'package:land_app/model/repository/user_repository.dart';
 import 'package:land_app/presentation/screens/news/widgets/news_card.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 class NewsScreen extends StatefulWidget {
@@ -16,7 +19,7 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   List<News> items = [];
-
+  var _userRepo = UserRepository();
   @override
   Widget build(BuildContext context) {
     
@@ -86,13 +89,18 @@ class _NewsScreenState extends State<NewsScreen> {
                 scrollDirection: Axis.vertical,
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (BuildContext context, int index) {
+                  List<String>? hashTags = snapshot.data!.docs[index].get('hashTags').toString().split('/').toList();
+                  
                   final news = News(
                     dateCreated: snapshot.data!.docs[index].get('dateCreated').toDate() ,
                     image: snapshot.data!.docs[index].get('imageUrl'),
                     content: snapshot.data!.docs[index].get('content'),
                     authorId: snapshot.data!.docs[index].get('authorId'),
                     title: snapshot.data!.docs[index].get('title'),
-                    dateUpdated: snapshot.data!.docs[index].get('dateUpdated').toDate(),);
+                    dateUpdated: snapshot.data!.docs[index].get('dateUpdated').toDate(),
+                    hashTags : hashTags  );
+                    print(hashTags);
+                     
                   return NewsCard(
           news: news,
         );
@@ -104,7 +112,7 @@ class _NewsScreenState extends State<NewsScreen> {
       ),
     );
   }
-
+  
   _buildListNews() {
     return ListView.builder(
       scrollDirection: Axis.vertical,
@@ -118,7 +126,8 @@ class _NewsScreenState extends State<NewsScreen> {
       },
     );
   }
- }
+}
+ 
 
 // class NewsSearch extends SearchDelegate<News>{
 

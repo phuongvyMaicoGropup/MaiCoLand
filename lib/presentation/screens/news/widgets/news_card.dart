@@ -1,19 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:land_app/model/entity/app_user.dart';
 import 'package:land_app/model/entity/news.dart';
 import 'package:land_app/model/repository/authentication_repository.dart';
+import 'package:land_app/model/repository/user_repository.dart';
 class NewsCard extends StatelessWidget {
    NewsCard({
     Key? key,
-    required this.news
+    required this.news,
   }) : super(key: key);
-
+  final  _userRepo = UserRepository();
   News news;
+  // AppUser author =
 
+  // Future userInfo()async{
+  //   news.user = await _userRepo.getUserByUid(news.authorId);
+  //   print(news.user);
+  // }
   @override
   Widget build(BuildContext context) {
+    // author.photoURL
     User author = RepositoryProvider.of<AuthenticationRepository>(context).user;
     return GestureDetector(
       onTap: () => openShowDetails(context, news),
@@ -76,7 +85,7 @@ class NewsCard extends StatelessWidget {
                       flex: 3, 
                       child: CircleAvatar(
                         backgroundImage:
-                        author.photoURL ==null
+                        author.photoURL ==null|| author.photoURL==""
                             ? const NetworkImage("https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320") :
                         NetworkImage(author.photoURL.toString()),
                       ),

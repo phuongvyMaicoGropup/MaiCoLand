@@ -22,7 +22,7 @@ class NewsAddContentChanged extends NewsAddEvent{
   List<Object> get props =>[content];
 }
 class NewsAddHashTagChanged extends NewsAddEvent{
-  final List<String> hashTag ;
+  final String hashTag ;
   NewsAddHashTagChanged(this.hashTag);
   @override
   List<Object> get props =>[hashTag];

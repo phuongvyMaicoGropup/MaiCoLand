@@ -6,7 +6,7 @@ class NewsAddState extends Equatable {
     this.title = const Title.pure(),
     this.content = const Content.pure(),
     this.image ="https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320",
-    this.hashTag ,
+    this.hashTag ="",
     this.status = FormzStatus.pure,
   });
 
@@ -14,17 +14,17 @@ class NewsAddState extends Equatable {
   final Content content; 
   final String image; 
   // final File? pdfContent ;
-  final List<String>? hashTag ; 
+  final String hashTag ; 
   final FormzStatus status;
 
   @override
-  List<Object> get props => [title, content ,status,image];
+  List<Object> get props => [title, content ,status,image,hashTag];
 
   NewsAddState copyWith({
     Title? title , 
     Content? content,
     String? image,
-    List<String>? hashTag,
+    String? hashTag,
     FormzStatus? status,
   }) {
     return NewsAddState(

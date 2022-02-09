@@ -72,6 +72,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
 
   Widget _ImageInput(context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
+      buildWhen: (previous, current) => previous.image != current.image,
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,6 +117,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
   Widget _HashTagInput(context){
     
     return BlocBuilder<NewsAddBloc, NewsAddState>(
+      buildWhen: (previous, current) => previous.hashTag != current.hashTag,
       builder: (context, state) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const LabelWidget(label: "HashTag"),
@@ -131,9 +133,10 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                     setState((){
                   hashTags.add(_hashTag.text);
                   });
+                    var hashTagsChange = hashTags.join("/");
                     context
                       .read<NewsAddBloc>()
-                      .add(NewsAddHashTagChanged(hashTags));
+                      .add(NewsAddHashTagChanged(hashTagsChange));
                   _hashTag.text = ""; 
                   }
                   print(hashTags);
