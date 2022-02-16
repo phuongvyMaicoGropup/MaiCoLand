@@ -63,6 +63,8 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.1
   material_floating_search_bar: ^0.3.6
   otp_text_field: ^1.1.2
+  shared_preferences: ^2.0.13
+  graphql_flutter: ^5.0.1
   
   # firebase_auth: ^3.3.5
 

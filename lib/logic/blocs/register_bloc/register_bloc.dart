@@ -55,6 +55,7 @@ class RegisterBloc extends Bloc<RegisterEvent,RegisterState>{
           email: state.email.value,
           password: state.password.value,
           displayName : state.username.value,
+          
         );
         
         emit(state.copyWith(status: FormzStatus.submissionSuccess));

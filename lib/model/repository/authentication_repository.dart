@@ -1,27 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:land_app/model/repository/user_repository.dart';
+import 'package:land_app/presentation/screens/register/verify_screen.dart';
+
 class AuthenticationRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   get user => _auth.currentUser;
+  final _userRepo = UserRepository();
 
- //SIGN UP METHOD
+  //SIGN UP METHOD
   Future signUp(
-      {required String email,required String password,required String displayName}) async {
-    try{
+      {required String email,
+      required String password,
+      required String displayName}) async {
+    try {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password); 
+           await _userRepo.addUser(email, displayName, user.uid);
+        await user.updateDisplayName(displayName).then((_) {
+          print("Successfully changed username");
+        }).catchError((error) {
+          print("username can't be changed" + error.toString());
+        });
+      
 
-    print("signup begin");
-    UserCredential userInfo = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-     await signIn(email: email, password: password);
-    user.updateDisplayName(displayName).then((_){
-      print("Successfully changed username");
-    }).catchError((error){
-      print("username can't be changed" + error.toString());
-      //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
-    });
-   
-    return null; 
-    } on FirebaseAuthException catch(e){
-      return e.message; 
+
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
     }
   }
 

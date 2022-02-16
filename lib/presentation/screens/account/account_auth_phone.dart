@@ -98,7 +98,7 @@ class _AccountAuthPhoneState extends State<AccountAuthPhone> {
                     print(phone);
                     if (validNumber(_phonenumberController.text)) {
                       await auth.verifyPhoneNumber(
-                        phoneNumber: "+84788892441",
+                        phoneNumber: phone,
                         verificationCompleted: (AuthCredential credential) async {
                           // await auth.signInWithCredential(credential); 
                         },

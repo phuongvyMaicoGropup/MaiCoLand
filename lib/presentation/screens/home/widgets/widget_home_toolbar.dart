@@ -54,7 +54,7 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
            Opacity(
              child: Row(
                children: <Widget>[
-                 Text('Chưa xác thực', style:  TextStyle(color :  AppColors.black),)
+                 Text( user.phoneNumber.toString() == "" ?'Chưa xác thực': user.phoneNumber.toString() , style:  TextStyle(color :  AppColors.black),)
                ],
              ),
              opacity: 0.5,

@@ -9,6 +9,7 @@ import 'package:land_app/model/entity/app_user.dart';
 
 class News {
   const News({
+    required this.id,
     required this.dateCreated,
     required this.dateUpdated,
     required this.authorId,
@@ -16,8 +17,9 @@ class News {
     required this.content,
     required this.image,
      this.hashTags,
-    //  this.user
+     this.user
   });
+  final String id; 
   final DateTime dateCreated;
   final DateTime dateUpdated;
   final String authorId;
@@ -25,7 +27,7 @@ class News {
   final String content;
   final String image;
   final List<String>? hashTags;
-  // final AppUser? user; 
+  final AppUser? user; 
 //
 
   factory News.fromMap(Map<String, dynamic>? json) {
@@ -33,6 +35,7 @@ class News {
       throw StateError('missing json for NewsId');
     }
     return News(
+        id : json['id'] as String , 
         title: json['title'] as String,
         content: json['content'] as String,
         dateCreated: (json['dateCreated'] as Timestamp).toDate(),
@@ -56,6 +59,7 @@ class News {
   }
 
   News copyWith({
+    String? id,
     DateTime? dateCreated,
     DateTime? dateUpdated,
     String? authorId,
@@ -63,9 +67,10 @@ class News {
     String? content,
     String? image,
     List<String>? hashTags,
-    // AppUser user; 
+    AppUser? user
   }) {
     return News(
+      id : id ?? this.id,
       dateCreated: dateCreated ?? this.dateCreated,
       dateUpdated: dateUpdated ?? this.dateUpdated,
       authorId: authorId ?? this.authorId,
@@ -73,12 +78,13 @@ class News {
       content: content ?? this.content,
       image: image ?? this.image,
       hashTags: hashTags ?? this.hashTags,
-      // user : user ?? this.user;
+      user : user ?? this.user
     );
   }
 
 
   Map<String, dynamic> toJson() =>  {
+      'id': id,
       'dateCreated': dateCreated.millisecondsSinceEpoch,
       'dateUpdated': dateUpdated.millisecondsSinceEpoch,
       'authorId': authorId,
@@ -90,7 +96,9 @@ class News {
 
    factory News.fromJson(Map<String,dynamic> json) {
     //  if (json == null) return null;
-     return  News( title: json['title']! as String,
+     return  News( 
+       id : json['id']! as String,
+       title: json['title']! as String,
         content: json['content']! as String,
         dateCreated: (json['dateCreated']! as Timestamp).toDate(),
         image: json['image']! as String,

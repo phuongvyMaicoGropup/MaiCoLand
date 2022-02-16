@@ -13,10 +13,9 @@ class NewsBloc
 
     extends Bloc<NewsEvent, NewsState> {
   final NewsRepository _newsRepo = NewsRepository();
-  final _newsSubject = BehaviorSubject<List<News>>();
+ 
   
-  Stream<List<News>> get news => _newsSubject.stream;
-
+  Stream<Iterable<News>> get news => _newsRepo.allNewsData;
   NewsBloc() : super(NewsLoading())  {
     
     
@@ -29,7 +28,12 @@ class NewsBloc
   void _mapNewsLoadToState(NewsLoad event, emit) async {  
    try {      
       final response =await _newsRepo.getAll();
+ //   final newsRef = _newsRepo.news;
+    //   QuerySnapshot<News> querySnapshot = await newsRef.get();
+    //   print(querySnapshot);
 
+    // // Get data from docs and convert map to List
+    // List<News> allData = querySnapshot.docs.map((doc) => doc.data()).toList();
       emit(NewsLoaded(response));
     } catch (e) {
       emit(NewsNotLoaded());

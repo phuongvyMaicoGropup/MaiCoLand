@@ -34,6 +34,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
             _landPlannings.add(newLand);
         });
     }); 
+    
     return Future<List<LandPlanning>>.value(_landPlannings);
     }
     Future<List<LandPlanning>> getHomeLand()async{
@@ -60,6 +61,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
             _landPlannings.add(newLand);
         });
     }); 
+    
     return Future<List<LandPlanning>>.value(_landPlannings);
     }
 }

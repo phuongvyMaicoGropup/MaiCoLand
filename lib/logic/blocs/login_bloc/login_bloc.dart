@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:land_app/model/formz_model/models.dart';
+import 'package:land_app/model/local/pref.dart';
 import 'package:land_app/model/repository/authentication_repository.dart';
 
 part 'login_event.dart';
@@ -48,10 +49,13 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         );
         print(_authenticationRepository.user);
         print("loginend");
+        // LocalPref().saveString(uid,)
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } catch (_) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
     }
   }
+
+
 }

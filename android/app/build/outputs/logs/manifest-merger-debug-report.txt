@@ -16,6 +16,7 @@ MERGED from [:sqflite] E:\flutter_project\land_app\build\sqflite\intermediates\l
 MERGED from [:path_provider_android] E:\flutter_project\land_app\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:connectivity_plus] E:\flutter_project\land_app\build\connectivity_plus\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:webview_flutter_android] E:\flutter_project\land_app\build\webview_flutter_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:shared_preferences_android] E:\flutter_project\land_app\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:advance_pdf_viewer] E:\flutter_project\land_app\build\advance_pdf_viewer\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\DELL\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:17:1-83:12
 MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\DELL\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:2:1-26:12
@@ -187,6 +188,8 @@ MERGED from [:connectivity_plus] E:\flutter_project\land_app\build\connectivity_
 MERGED from [:connectivity_plus] E:\flutter_project\land_app\build\connectivity_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:webview_flutter_android] E:\flutter_project\land_app\build\webview_flutter_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:webview_flutter_android] E:\flutter_project\land_app\build\webview_flutter_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_android] E:\flutter_project\land_app\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_android] E:\flutter_project\land_app\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:advance_pdf_viewer] E:\flutter_project\land_app\build\advance_pdf_viewer\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:advance_pdf_viewer] E:\flutter_project\land_app\build\advance_pdf_viewer\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\DELL\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:21:5-44

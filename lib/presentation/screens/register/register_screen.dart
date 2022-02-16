@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:land_app/logic/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:land_app/logic/blocs/login_bloc/login_bloc.dart';
 import 'package:land_app/logic/blocs/register_bloc/register_bloc.dart';
 import 'package:land_app/model/repository/authentication_repository.dart';
@@ -244,12 +245,7 @@ class _RegisterButton extends StatelessWidget {
                 onPressed: state.status.isValidated
                     ? () async {
                         context.read<RegisterBloc>().add(RegisterSubmitted());
-                        // await AuthenticationRepository()
-                        //     .signUp(
-                        //         email: state.email.value,
-                        //         password: state.password.value,
-                        //         displayName: state.username.value);
-                          
+                        context.read<AuthenticationBloc>().add(AppLoaded());
                         
                       }
                     : null,
