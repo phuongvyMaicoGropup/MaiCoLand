@@ -19,7 +19,7 @@ void main() {
       ),
       BlocProvider(
         create: (context) {
-          return NewsAddBloc(userRepo: userRepo);
+          return NewsAddBloc(userRepository: userRepo);
         },
       )
     ], child: MyApp(userRepo: userRepo)),

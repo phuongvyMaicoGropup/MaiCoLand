@@ -1,5 +1,5 @@
 class GeoPoint {
-  GeoPoint({required this.longitude, required this.latitude});
+  GeoPoint(this.longitude, this.latitude);
   final double longitude;
   final double latitude;
 }

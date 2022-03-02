@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
+import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/model/responses/user_reponse.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 
+import 'model/entities/GeoPoint.dart';
 import 'presentation/screens/auth_screen/login_screen.dart';
+import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_detail_screen.dart';
+import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
 import 'presentation/screens/news/news_add/news_add_screen.dart';
 
 class MyApp extends StatefulWidget {
@@ -20,10 +24,47 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   int _selectedIndex = 0;
+//   accessToken
+// "pk.eyJ1IjoiYW5kcmVhdHJhbjIwMDIiLCJhIjoiY2t4aXZndmk0NTFodTJwbXVlbXJpNnM0dyJ9.fOnQcO_C_2T8wlNCzIWzwQ"
+// content
+// "Chưa có thông tin"
+// dateCreated
+// January 2, 2022 at 12:00:00 AM UTC+7
+// imageUrl
+// "https://firebasestorage.googleapis.com/v0/b/tinevyland.appspot.com/o/images%2Fphuquoc.png%20(3).png?alt=media&token=834de6b7-3b65-4305-8eb5-d670da4bba27"
+// isValidated
+// true
+// leftBotton
+// [10.006904668867175° N, 103.980668° E]
+// leftTop
+// [10.085334° N, 103.980668° E]
+// mapUrl
+// "https://api.mapbox.com/styles/v1/andreatran2002/ckxjye6d2kw0p15o562zzeg4g/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW5kcmVhdHJhbjIwMDIiLCJhIjoiY2t4aXZndmk0NTFodTJwbXVlbXJpNnM0dyJ9.fOnQcO_C_2T8wlNCzIWzwQ"
+// rightBotton
+// [10.006904668867175° N, 104.0368015904123° E]
+// rightTop
+// [10.085334° N, 104.036458° E]
+// title
+// "Quy hoạch đô thị An Thới huyện Phú Quốc tỉnh Kiên Giang"
+// (string)
+
   final List<Widget> _pages = <Widget>[
     const HomeScreen(),
     const NewsAddScreen(),
-    const HomeScreen(),
+    DetailMapLandPlanning(
+      landPlanning: LandPlanning(
+          id: "123",
+          title: "test",
+          content: "Chuwa co thong tin",
+          dateCreated: DateTime.now(),
+          isValidated: true,
+          leftBottom: GeoPoint(103.980668, 10.006904668867175),
+          leftTop: GeoPoint(103.980668, 10.085334),
+          rightBottom: GeoPoint(104.0368015904123, 10.006904668867175),
+          rightTop: GeoPoint(104.036458, 10.085334),
+          imageUrl:
+              "https://firebasestorage.googleapis.com/v0/b/tinevyland.appspot.com/o/images%2Fphuquoc.png.png?alt=media&token=6fe87f1e-0da8-42f1-84ca-5a3e5e7ef14b"),
+    ),
     // CreateItemScreen(),
     // AccountScreen()
   ];
