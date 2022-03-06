@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/responses/user_reponse.dart';
 
 abstract class AuthenticationState extends Equatable {
@@ -10,7 +11,7 @@ abstract class AuthenticationState extends Equatable {
 class AuthenticationUninitialized extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
-  final UserReponse userReponse;
+  final User userReponse;
 
   AuthenticationAuthenticated(this.userReponse); 
   List<Object?> get props => [userReponse];

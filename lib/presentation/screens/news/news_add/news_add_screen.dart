@@ -10,6 +10,7 @@ import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/widgets/label_widget.dart';
 import 'package:maico_land/presentation/widgets/widget_input_text.dart';
 import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class NewsAddScreen extends StatefulWidget {
   const NewsAddScreen({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+  final hashTagController = TextEditingController();
   // final imagePath = TextEditingController();
   var _hashTag = TextEditingController();
   @override
@@ -56,42 +58,12 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _TitleInput(titleController),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 15),
                     _ContentInput(contentController),
-                    const SizedBox(height: 10),
-                    Text("Ảnh minh hoạ",
-                        style: TextStyle(
-                            fontSize: 10, color: AppColors.appGreen1)),
-                    IconButton(
-                        onPressed: () async {
-                          var result = await FilePicker.platform.pickFiles(
-                            type: FileType.custom,
-                            allowMultiple: false,
-                            allowedExtensions: ['jpg', 'png'],
-                          );
-                          if (result == null) return;
-                          final file = result.files.first;
-                          print(file.path);
-                          // openFile(file);
-                        },
-                        icon: Icon(Icons.add)),
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.white,
-                          backgroundColor: AppColors.appGreen1,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 8),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Processing Data')),
-                            );
-                          }
-                        },
-                        child: Text("Đăng"))
+                    const SizedBox(height: 15),
+                    _HashTagInput(context),
+                    _ImageInput(),
+                    _NewsAddButton(),
                   ],
                 ),
               );
@@ -100,71 +72,40 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
     );
   }
 
-  // void openFile(PlatformFile file) {
-  //   OpenFile.open(file.path);
-  // }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Future selectImage() async {
-    var file = await PickFile().pickImage(context);
-    setState(() {
-      imagePath = file;
-    });
-  }
-
-  Widget _ImageInput(context) {
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.image != current.image,
-      builder: (context, state) {
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-              child: Row(
-            children: [
-              const LabelWidget(label: "Ảnh minh họa"),
-              IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                onPressed: () async {
-                  await selectImage();
-                  context
-                      .read<NewsAddBloc>()
-                      .add(NewsAddImageChanged(imagePath!));
-                },
-              )
-            ],
-          )),
-          imagePath != null
-              ? Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.file(File(imagePath!), fit: BoxFit.cover)
-
-                  // child: ,
-                  )
-              : Text('Chưa có ảnh minh họa ',
-                  style: TextStyle(color: Theme.of(context).colorScheme.error)),
-          const SizedBox(height: 10),
-        ]);
-      },
-    );
-  }
-
   Widget _HashTagInput(context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
       buildWhen: (previous, current) => previous.hashTag != current.hashTag,
       builder: (context, state) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const LabelWidget(label: "HashTag"),
           TextField(
             controller: _hashTag,
             key: const Key('NewsAddForm_hashTagInput_textField'),
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black26),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              alignLabelWithHint: true,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  borderSide: BorderSide(color: AppColors.appGreen1)),
+              labelText: "HashTag",
+              focusedErrorBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  borderSide: BorderSide(color: AppColors.red)),
+              errorBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  borderSide: BorderSide(color: AppColors.red)),
+              errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+              focusColor: AppColors.appGreen1,
+              errorText:
+                  state.title.invalid ? 'Vui lòng nhập trên 10 kí tự !' : null,
+              contentPadding: const EdgeInsets.only(
+                top: 10.0,
+                left: 10.0,
+                right: 10.0,
+              ),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
@@ -193,14 +134,82 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
     return GridView.builder(
       shrinkWrap: true,
       itemBuilder: (BuildContext ctx, index) {
+        if (items.isEmpty) {
+          return Chip(
+            backgroundColor: Colors.black.withOpacity(0.04),
+            label: Text("         "),
+            labelStyle: TextStyle(color: Colors.white, fontSize: 10),
+          );
+        } else {
+          return Chip(
+              backgroundColor: AppColors.appGreen2,
+              label: Text(items[index]),
+              labelStyle: TextStyle(color: Colors.white, fontSize: 10),
+              onDeleted: () {
+                setState(() {
+                  items.remove(items[index]);
+                });
+              });
+        }
+      },
+      itemCount: items.isNotEmpty ? items.length : 8,
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 80,
+          childAspectRatio: 5 / 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 0),
+    );
+  }
+}
+
+class _HashTagInput extends StatelessWidget {
+  _HashTagInput(this.controller);
+  final TextEditingController controller;
+  List<String> hashTags = [];
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NewsAddBloc, NewsAddState>(
+      // buildWhen: (previous, current) => previous.hashTag != current.hashTag,
+      builder: (context, state) {
+        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text("HashTag",
+              style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
+          TextField(
+            controller: controller,
+            key: const Key('NewsAddForm_hashTagInput_textField'),
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  if (controller.text != "") {
+                    hashTags.add(controller.text);
+                    var hashTagsChange = hashTags.join("/");
+                    context
+                        .read<NewsAddBloc>()
+                        .add(NewsAddHashTagChanged(hashTagsChange));
+                    controller.text = "";
+                  }
+                  print(hashTags);
+                },
+              ),
+            ),
+          ),
+          _HashTagChip(hashTags, context),
+        ]);
+      },
+    );
+  }
+
+  Widget _HashTagChip(List<String> items, BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      itemBuilder: (BuildContext ctx, index) {
         return Chip(
             backgroundColor: AppColors.appGreen2,
             label: Text(items[index]),
             labelStyle: TextStyle(color: Colors.white),
             onDeleted: () {
-              setState(() {
-                items.remove(items[index]);
-              });
+              items.remove(items[index]);
             });
       },
       itemCount: items.length,
@@ -209,6 +218,51 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
           childAspectRatio: 5 / 3,
           crossAxisSpacing: 10,
           mainAxisSpacing: 0),
+    );
+  }
+}
+
+class _ImageInput extends StatelessWidget {
+  String? imagePath;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NewsAddBloc, NewsAddState>(
+      buildWhen: (previous, current) => previous.image != current.image,
+      builder: (context, state) {
+        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+              child: Row(
+            children: [
+              Text("Ảnh minh hoạ",
+                  style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
+              IconButton(
+                icon: Icon(
+                  Icons.add,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                onPressed: () async {
+                  var file = await PickFile().pickImage(context);
+
+                  context.read<NewsAddBloc>().add(NewsAddImageChanged(file));
+                },
+              )
+            ],
+          )),
+          state.image !=
+                  "https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320"
+              ? Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.file(File(state.image), fit: BoxFit.cover)
+
+                  // child: ,
+                  )
+              : WidgetSkeleton(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                ),
+        ]);
+      },
     );
   }
 }
@@ -252,17 +306,14 @@ class _TitleInput extends StatelessWidget {
                     borderSide: BorderSide(color: AppColors.red)),
                 errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
                 focusColor: AppColors.appGreen1,
+                errorText: state.title.invalid
+                    ? 'Vui lòng nhập trên 10 kí tự !'
+                    : null,
                 contentPadding: const EdgeInsets.only(
                   top: 10.0,
                   left: 10.0,
                   right: 10.0,
                 )),
-            validator: (value) {
-              if (state.content.invalid || value == null || value.isEmpty) {
-                return 'Vui lòng nhập trên 10 kí tự !';
-              }
-              return null;
-            },
           )
         ]);
       },
@@ -315,7 +366,7 @@ class _ContentInput extends StatelessWidget {
                 right: 10.0,
               ),
               errorText: state.content.invalid
-                  ? 'Vui lòng nhập trên 10 kí tự !'
+                  ? 'Vui lòng nhập trên 20 kí tự !'
                   : null,
             ),
           )

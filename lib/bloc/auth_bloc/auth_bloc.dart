@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
+import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/model/responses/user_reponse.dart';
 
@@ -22,7 +23,7 @@ class AuthenticationBloc
     final String token = await userRepo.hasToken();
 
     if (token != "") {
-      UserReponse userResponse = userRepo.getUserInfo(token);
+      User userResponse = userRepo.getUserInfo(token);
       emit(AuthenticationAuthenticated(userResponse));
     } else {
       emit(AuthenticationUnauthenticated());
@@ -34,7 +35,7 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) async {
     emit(AuthenticationLoading());
-    UserReponse userResponse =  userRepo.getUserInfo(event.token);
+    User userResponse =  userRepo.getUserInfo(event.token);
 
     await userRepo.persisteToken(event.token);
     emit(AuthenticationAuthenticated(userResponse));

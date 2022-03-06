@@ -8,13 +8,13 @@ import 'package:maico_land/presentation/styles/styles.dart';
 
 class WidgetHomeToolbar extends StatefulWidget {
   @override
-  final UserReponse user;
+  final User user;
   const WidgetHomeToolbar({required this.user, Key? key}) : super(key: key);
   _WidgetHomeToolbarState createState() => _WidgetHomeToolbarState(user);
 }
 
 class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
-  UserReponse user;
+  User user;
   _WidgetHomeToolbarState(this.user);
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
       child: Row(
         children: <Widget>[
           _buildAvatar(user.photoURL.toString()),
-          _buildNames(user.username),
+          _buildNames(user.userName),
           _buildActions(),
         ],
       ),
@@ -62,8 +62,7 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
             ),
             opacity: 0.5,
           ),
-          Text(
-              username ,
+          Text(username,
               maxLines: 1,
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: AppColors.black)),
@@ -83,7 +82,7 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
           borderRadius: BorderRadius.all(Radius.circular(22)),
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: photoURL == "null"
+              image: photoURL == ""
                   ? const NetworkImage(
                       "https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/avatar%2Fdefault_avatar.png?alt=media&token=9f1c337b-1135-4aa9-9ff8-2529f3590af5")
                   : NetworkImage(photoURL)),

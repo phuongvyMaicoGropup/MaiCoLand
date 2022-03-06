@@ -4,6 +4,8 @@ import 'package:maico_land/bloc/auth_bloc/auth_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth_state.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/responses/user_reponse.dart';
+import 'package:maico_land/presentation/screens/home_screen/bloc/home_event.dart';
+import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 
 import 'bloc/home_bloc.dart';
@@ -20,51 +22,87 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // AuthenticationBloc authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    AuthenticationBloc authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
     return SafeArea(
         child: Scaffold(
             backgroundColor: AppColors.white,
-            body:
-                // MultiBlocProvider(
-
-                //   providers: [
-                //     // BlocProvider(create: (context) {
-                //     //   return LandPlanningBloc();
-                //     // }),
-                //     // BlocProvider(create: (context) => HomeNewsBloc()),
-                //     // BlocProvider(
-                //     //     create: (context) => HomeShowsCategoryBloc(
-                //     //         homeBloc: BlocProvider.of<HomeBloc>(context))),
-                //   ],
-                //   child:
-                // ),
-                Center(
-              child: Container(
+            body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+              return Center(
+                  child: Container(
                 width: MediaQuery.of(context).size.width * 0.97,
                 color: AppColors.white,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    // Builder(builder: (context) {
-                    //   final authState =
-                    //       context.watch<AuthenticationBloc>().state;
-                    //   if (authState is AuthenticationAuthenticated) {
-                    //     UserReponse user = authState.userReponse;
-                    //     return WidgetHomeToolbar(user: user);
-                    //   }
-                    //   return Container();
-                    // }),
-
+                    Builder(builder: (context) {
+                      final authState =
+                          context.watch<AuthenticationBloc>().state;
+                      if (authState is AuthenticationAuthenticated) {
+                        User user = authState.userReponse;
+                        return WidgetHomeToolbar(user: user);
+                      }
+                      return Container();
+                    }),
                     const WidgetHomeBanner(),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    // WidgetHomeCategories(),
-                    // _buildContent(state),
+                    _buildContent(state)
                   ],
                 ),
-              ),
-            )));
+              ));
+            })));
+  }
+
+  Widget _buildContent(HomeState state) {
+    if (state is HomeLoaded) {
+      return Expanded(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            BlocProvider.of<HomeBloc>(context).add(RefreshHome());
+            BlocProvider.of<HomeBloc>(context).add(LoadHome());
+          },
+          child: ListView(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            children: <Widget>[
+              Builder(builder: (context) {
+                final homeState = context.watch<HomeBloc>().state;
+                if (homeState is HomeLoaded) {
+                  // BlocProvider.of<LandPlanningBloc>(context).add(
+                  //     DisplayLandPlanning(homeState.response.landPlannings));
+                  BlocProvider.of<HomeNewsBloc>(context)
+                      .add(HomeDisplayNews(homeState.response.news));
+                }
+                return Column(children: [
+                  // WidgetHomeLandPlanning(),
+                  const SizedBox(height: 10),
+                  WidgetHomeNews(),
+                ]);
+              })
+            ],
+          ),
+        ),
+      );
+    } else if (state is HomeLoading) {
+      return const Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (state is HomeNotLoaded) {
+      return const Expanded(
+        child: Center(
+          child: Text('Cannot load data'),
+        ),
+      );
+    } else {
+      return const Expanded(
+        child: Center(
+          child: Text('Unknown state'),
+        ),
+      );
+    }
   }
 }

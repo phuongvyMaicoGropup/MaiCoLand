@@ -9,7 +9,9 @@ class Username extends FormzInput<String, UsernameValidationError>{
   UsernameValidationError? validator(String? value) {
     if (value?.isNotEmpty != true )  return UsernameValidationError.empty;
     if (value!.length < 4) return UsernameValidationError.invalid; 
+    if (value.contains(' ')) return UsernameValidationError.invalid;
     return null; 
   }
   
 }
+

@@ -1,76 +1,106 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:land_app/logic/blocs/home/home_news_bloc/news_bloc.dart';
-// import 'package:land_app/model/entity/news.dart';
-// import 'package:land_app/presentation/common_widgets/widgets.dart';
-// import 'package:land_app/presentation/screens/home/widgets/widget_home_card_news.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maico_land/model/entities/news.dart';
+import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
-// class WidgetHomeNews extends StatelessWidget {
-//   List<News> items = [];
+class WidgetHomeNews extends StatelessWidget {
+  List<News> items = [];
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeNewsBloc, HomeNewsState>(
+      builder: (context, state) {
+        if (state is NewsLoaded) {
+          items = state.news;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<HomeNewsBloc, HomeNewsState>(
-//       builder: (context, state) {
-//         if (state is NewsLoaded) {
-//           items = state.news;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: const HeadingTextWidget(text: "Tin tức"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 25),
+                    child: TextButton(
+                      onPressed: () {
+                        // Navigator.pushNamed(context, "/news");
+                      },
+                      child: Text(
+                        "Xem thêm",
+                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                              fontFamily: "Montserrat",
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 5),
+              Container(height: 210.0, child: _buildListNews()),
+            ],
+          );
+        } else if (state is NewsNotLoaded) {
+          return Container(child: Text("Không load được"));
+        } else
+          return Container(child: Text("Lỗi"));
+      },
+    );
+  }
 
-//           return Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: <Widget>[
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 children: [
-//                   Padding(
-//                     padding: const EdgeInsets.only(left: 20),
-//                     child:  const HeadingTextWidget(text: "Tin tức"),
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.only(right: 25),
-//                     child: TextButton(
-//                       onPressed: () {
-//                         Navigator.pushNamed(context, "/news");
-//                       },
-//                       child: Text(
-//                         "Xem thêm",
-//                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
-//                               fontFamily: "Montserrat",
-//                               color: Theme.of(context).colorScheme.primary,
-//                             ),
-//                       ),
-//                     ),
-//                   )
-//                 ],
-//               ),
-//               const SizedBox(height: 5),
-//               Container(height: 210.0, child: _buildListNews()),
-//             ],
-//           );
-//         } else if (state is NewsNotLoaded) {
-//           return Container(child: Text("Không load được"));
-//         } else
-//           return Container(child: Text("Lỗi"));
-//       },
-//     );
-//   }
+  _buildListNews() {
+    return items.length == 0
+        ? ListView.builder(
+            padding: EdgeInsets.all(8),
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: 5,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                  padding: const EdgeInsets.all(8.0), child: newSkeleton());
+            })
+        : ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: items.length < 6 ? items.length : 5,
+            itemBuilder: (BuildContext context, int index) {
+              var item = items[index];
+              return Container();
+              // return   WidgetHomeCardNews(
+              //       news: item,
+              // );
+            },
+          );
+  }
 
-//   _buildListNews() {
-//     return ListView.builder(
-//       shrinkWrap: true,
-//       scrollDirection: Axis.horizontal,
-//       itemCount: items.length < 6 ? items.length : 5,
-//       itemBuilder: (BuildContext context, int index) {
-//         var item = items[index];
-       
-//         return   WidgetHomeCardNews(
-//               news: item, 
-//         );
-//       },
-//     );
-//   }
-//   void openShowDetails(BuildContext context,News item) {
-//     Navigator.pushNamed(context, '/news/details', arguments: item);
-//   }
-// }
+  Widget newSkeleton() {
+    return Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.02),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          WidgetSkeleton(height: 105, width: 170),
+          SizedBox(height: 8),
+          WidgetSkeleton(width: 130, height: 20),
+          SizedBox(height: 8),
+          WidgetSkeleton(width: 40, height: 20),
+        ]));
+  }
+
+  void openShowDetails(BuildContext context, News item) {
+    Navigator.pushNamed(context, '/news/details', arguments: item);
+  }
+}

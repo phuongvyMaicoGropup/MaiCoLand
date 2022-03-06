@@ -35,15 +35,6 @@ class _DetailMapLandPlanningState extends State<DetailMapLandPlanning> {
               ),
             ),
           ],
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
-          ),
         ),
         body: Builder(builder: (BuildContext context) {
           return WebView(
@@ -267,10 +258,10 @@ const cors = require('cors')({origin: true});
 </html>
     ''';
 
-    // _controller.loadUrl(Uri.dataFromString(fileText,
-    //         mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
-    //     .toString());
-    _controller.loadUrl(
-        "https://www.google.com/maps/d/viewer?mid=1lJ7IdqA60d1IdcpuQAWqrNzFtr_qyLyr&ll=10.046498573785454%2C104.01220708579629&z=15");
+    _controller.loadUrl(Uri.dataFromString(fileText,
+            mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+        .toString());
+    // _controller.loadUrl(
+    //     "https://www.google.com/maps/d/viewer?mid=1lJ7IdqA60d1IdcpuQAWqrNzFtr_qyLyr&ll=10.046498573785454%2C104.01220708579629&z=15");
   }
 }

@@ -9,6 +9,7 @@ import 'package:maico_land/presentation/styles/app_colors.dart';
 
 import 'model/entities/GeoPoint.dart';
 import 'presentation/screens/auth_screen/login_screen.dart';
+import 'presentation/screens/auth_screen/register_screen.dart';
 import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_detail_screen.dart';
 import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
 import 'presentation/screens/news/news_add/news_add_screen.dart';
@@ -52,19 +53,18 @@ class _MyAppState extends State<MyApp> {
     const HomeScreen(),
     const NewsAddScreen(),
     DetailMapLandPlanning(
-      landPlanning: LandPlanning(
-          id: "123",
-          title: "test",
-          content: "Chuwa co thong tin",
-          dateCreated: DateTime.now(),
-          isValidated: true,
-          leftBottom: GeoPoint(103.980668, 10.006904668867175),
-          leftTop: GeoPoint(103.980668, 10.085334),
-          rightBottom: GeoPoint(104.0368015904123, 10.006904668867175),
-          rightTop: GeoPoint(104.036458, 10.085334),
-          imageUrl:
-              "https://firebasestorage.googleapis.com/v0/b/tinevyland.appspot.com/o/images%2Fphuquoc.png.png?alt=media&token=6fe87f1e-0da8-42f1-84ca-5a3e5e7ef14b"),
-    ),
+        landPlanning: LandPlanning(
+            id: "123",
+            title: "test",
+            content: "Chuwa co thong tin",
+            dateCreated: DateTime.now(),
+            isValidated: true,
+            leftBottom: GeoPoint(106.556801, 10.7399685),
+            leftTop: GeoPoint(106.556801, 10.776478),
+            rightBottom: GeoPoint(106.6087906, 10.7399533),
+            rightTop: GeoPoint(106.6087906, 10.776478),
+            imageUrl:
+                "https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2F6292a378bf10704e2901.jpg?alt=media&token=b5b7874f-0c5e-48ca-bae4-f16796a90d23")),
     // CreateItemScreen(),
     // AccountScreen()
   ];
@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> {
             );
           }
           if (state is AuthenticationUnauthenticated) {
-            return LoginScreen(userRepo: widget.userRepo);
+            return RegisterScreen(userRepo: widget.userRepo);
           }
           if (state is AuthenticationLoading) {
             return Scaffold(body: CircularProgressIndicator());
