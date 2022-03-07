@@ -27,11 +27,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final registerFormKey = GlobalKey<FormState>();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
+  final passwordController = TextEditingController();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final hashTagController = TextEditingController();
-  // final imagePath = TextEditingController();
-  var _hashTag = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(body: _buildContent()));
@@ -39,35 +38,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      child: BlocBuilder<RegisterBloc, RegisterState>(
-          buildWhen: (previous, current) => previous != current,
-          builder: (context, state) {
-            return Form(
-              key: registerFormKey,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
-                child: Column(
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-                    Image(
-                        image: const AssetImage('assets/logo.png'),
-                        height: MediaQuery.of(context).size.height * 0.2),
-                    const SizedBox(height: 15),
-                    UserNameInput(usernameController),
-                    const SizedBox(height: 15),
-                    _FirstNameInput(firstNameController),
-                    const SizedBox(height: 15),
-                    _LastNameInput(lastNameController),
-                    const SizedBox(height: 15),
-                    _EmailInput(emailController),
-                    _RegisterButton(),
-                  ],
-                ),
-              ),
-            );
-          }),
-    );
+        child: Form(
+      key: registerFormKey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+        child: Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.10),
+            Image(
+                image: const AssetImage('assets/logo.png'),
+                height: MediaQuery.of(context).size.height * 0.2),
+            const SizedBox(height: 15),
+            UserNameInput(usernameController),
+            const SizedBox(height: 15),
+            _FirstNameInput(firstNameController),
+            const SizedBox(height: 15),
+            _LastNameInput(lastNameController),
+            const SizedBox(height: 15),
+            _EmailInput(emailController),
+            const SizedBox(height: 15),
+            _PasswordInput(passwordController),
+            const SizedBox(height: 15),
+            _RegisterButton(),
+            const SizedBox(height: 10),
+            Container(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                    child: const Text("Đăng nhập ngay",
+                        style: TextStyle(
+                            fontSize: 12, color: AppColors.appGreen1)),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil("/login", (route) => false);
+                    })),
+          ],
+        ),
+      ),
+    ));
   }
 }
 
@@ -109,8 +116,9 @@ class _FirstNameInput extends StatelessWidget {
                 borderSide: BorderSide(color: AppColors.red)),
             errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
-            errorText:
-                state.firstName.invalid ? 'Vui lòng nhập trên 4 kí tự !' : null,
+            errorText: state.firstName.invalid
+                ? 'Vui lòng nhập trên 4 kí tự (không chứa dấu cách)!'
+                : null,
           ),
         );
       },
@@ -156,8 +164,9 @@ class _LastNameInput extends StatelessWidget {
                 borderSide: BorderSide(color: AppColors.red)),
             errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
-            errorText:
-                state.lastName.invalid ? 'Vui lòng nhập trên 4 kí tự !' : null,
+            errorText: state.lastName.invalid
+                ? 'Vui lòng nhập trên 4 kí tự (không chứa dấu cách)!'
+                : null,
           ),
         );
       },
@@ -203,8 +212,9 @@ class UserNameInput extends StatelessWidget {
                 borderSide: BorderSide(color: AppColors.red)),
             errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
-            errorText:
-                state.username.invalid ? 'Vui lòng nhập trên 4 kí tự !' : null,
+            errorText: state.username.invalid
+                ? 'Vui lòng nhập trên 4 kí tự (không chứa dấu cách)!'
+                : null,
           ),
         );
       },
@@ -258,6 +268,54 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
+class _PasswordInput extends StatelessWidget {
+  _PasswordInput(this.controller);
+  final TextEditingController controller;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterBloc, RegisterState>(
+      buildWhen: (previous, current) => previous.password != current.password,
+      builder: (context, state) {
+        return TextFormField(
+          key: const Key('RegisterForm_PasswordInput_textField'),
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.black87,
+            fontWeight: FontWeight.w400,
+          ),
+          onChanged: (value) =>
+              context.read<RegisterBloc>().add(RegisterPasswordChanged(value)),
+          controller: controller,
+          keyboardType: TextInputType.visiblePassword,
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black26),
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            alignLabelWithHint: true,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                borderSide: BorderSide(color: AppColors.appGreen1)),
+            labelText: "Mật khẩu ",
+            focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                borderSide: BorderSide(color: AppColors.red)),
+            errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                borderSide: BorderSide(color: AppColors.red)),
+            errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+            focusColor: AppColors.appGreen1,
+            errorText: state.password.invalid
+                ? 'Mật khẩu ít nhất 8 chữ số bao gồm số , chữ cái thường , chữ cái in hoa và kí tự đặc biệt'
+                : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _RegisterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -266,19 +324,33 @@ class _RegisterButton extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           key: const Key('RegisterForm_continue_raisedButton'),
-          child: const Text('Lưu', style: TextStyle(color: Colors.white)),
+          child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.06,
+              child: const Text('Đăng ký tài khoản',
+                  style: TextStyle(color: Colors.white))),
           onPressed: state.status.isValidated
               ? () async {
                   try {
                     context.read<RegisterBloc>().add(RegisterSubmitted());
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil("/", (route) => false);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text("Đăng ký tài khoản thành công"),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    );
+                    if (state.status.isSubmissionSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text("Đăng ký tài khoản thành công"),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                              "Tên tài khoản hoặc email đã được đăng ký. Vui lòng kiểm tra thông tin!"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

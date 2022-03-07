@@ -41,6 +41,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Emitter<RegisterState> emit,
   ) {
     final username = Username.dirty(event.username.toString());
+    print("username: " + username.toString());
     emit(state.copyWith(
       username: username,
       status: Formz.validate([
@@ -58,6 +59,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Emitter<RegisterState> emit,
   ) {
     final lastName = LastName.dirty(event.lastName.toString());
+    print("lasname: " + lastName.toString());
     emit(state.copyWith(
       lastName: lastName,
       status: Formz.validate([
@@ -111,15 +113,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
-        await _userRepo.register(
+        String result = await _userRepo.register(
           firstName: state.firstName.value,
           lastName: state.lastName.value,
           email: state.email.value,
           password: state.password.value,
           username: state.username.value,
         );
-
-        emit(state.copyWith(status: FormzStatus.submissionSuccess));
+        if (result == "true")
+          emit(state.copyWith(status: FormzStatus.submissionSuccess));
+        else
+          emit(state.copyWith(status: FormzStatus.submissionFailure));
       } catch (_) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }

@@ -6,6 +6,7 @@ import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/model/responses/user_reponse.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
+import 'package:maico_land/router/app_router.dart';
 
 import 'model/entities/GeoPoint.dart';
 import 'presentation/screens/auth_screen/login_screen.dart';
@@ -15,8 +16,10 @@ import 'presentation/screens/land_planning/land_planning_detail_screen/land_plan
 import 'presentation/screens/news/news_add/news_add_screen.dart';
 
 class MyApp extends StatefulWidget {
-  const MyApp({required this.userRepo, Key? key}) : super(key: key);
+  const MyApp({required this.appRouter, required this.userRepo, Key? key})
+      : super(key: key);
   final UserRepository userRepo;
+  final AppRouter appRouter;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -80,6 +83,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         title: 'Flutter Deo',
         theme: appTheme,
+        onGenerateRoute: widget.appRouter.onGenerateRoute,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
           if (state is AuthenticationAuthenticated) {
