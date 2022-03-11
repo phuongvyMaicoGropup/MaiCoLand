@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
+import 'package:maico_land/model/api/request/news_request.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/formz_model/models.dart';
+import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:http/http.dart' as http;
 part 'news_add_event.dart';
@@ -14,7 +16,8 @@ part 'news_add_state.dart';
 
 class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
   final UserRepository _userRepo;
-  final DioProvider dio_provider = DioProvider();
+  final NewsRepository _newsRepo = NewsRepository();
+  final DioProvider _dioProvider = DioProvider();
   NewsAddBloc({required UserRepository userRepository})
       : _userRepo = userRepository,
         super(const NewsAddState()) {
@@ -77,28 +80,17 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     if (state.status.isValidated) {
       print(state);
       try {
-        // print("he");
-        // print(state);
-        // print(state.hashTag);
+        var imagePath = await _dioProvider.uploadOneImage(state.image);
 
-        // await FirebaseFirestore.instance
-        //                       .collection("news")
-        //                       .add({
-        //                     "authorId": _UserRepository.user.uid,
-        //                     "content": state.content.value,
-        //                     "title": state.title.value,
-        //                     "imageUrl": state.image,
-        //                     "dateCreated":  DateTime.now(),
-        //                     "dateUpdated":DateTime.now(),
-        //                     "hashTags":state.hashTag
-        //                   });
-        //   print("thành công ");
-        Response presignedUrl = await dio_provider.dio.get(
-            dio_provider.getPresignedUrl,
-            queryParameters: {'path': 'news', 'contentType': 'image/png'});
-        var resultg = await http.put(Uri.parse(presignedUrl.data),
-            body: File(state.image));
-        print(resultg.contentLength);
+        var newsRequest = NewsRequest(state.title.value, state.content.value,
+            state.hashTag.split('/').toList(), imagePath);
+
+        var result = await _newsRepo.create(newsRequest);
+        if (result == true) {
+          emit(state.copyWith(status: FormzStatus.submissionSuccess));
+        } else {
+          emit(state.copyWith(status: FormzStatus.submissionFailure));
+        }
       } catch (e) {
         print(e);
         emit(state.copyWith(status: FormzStatus.submissionFailure));

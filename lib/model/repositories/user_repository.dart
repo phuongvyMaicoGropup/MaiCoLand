@@ -7,6 +7,7 @@ import 'package:maico_land/model/responses/user_reponse.dart';
 
 class UserRepository {
   final DioProvider dio_provider = DioProvider();
+  final JWTParse jwt = JWTParse();
 
   Future<String> hasToken() async {
     var value = await dio_provider.storage.read(key: "token");
@@ -24,10 +25,10 @@ class UserRepository {
     dio_provider.storage.delete(key: "token");
     dio_provider.storage.deleteAll();
   }
-  
+
   Future<String> login(
       String username, String password, bool rememberMe) async {
-    Response response = await dio_provider.dio.post(dio_provider.loginUrl,
+    Response response = await dio_provider.dio.post(dio_provider.loginApi,
         data: {
           'userName': username,
           'password': password,
@@ -38,14 +39,13 @@ class UserRepository {
   }
 
   Future<String> register(
-      {
-      required String firstName,
+      {required String firstName,
       required String lastName,
       required String username,
       required String email,
       required String password}) async {
     Response response =
-        await dio_provider.dio.get(dio_provider.registerUrl, queryParameters: {
+        await dio_provider.dio.get(dio_provider.registerApi, queryParameters: {
       "firstName": firstName,
       "lastName": lastName,
       "userName": username,
@@ -56,8 +56,12 @@ class UserRepository {
     return Future<String>.value(response.data.toString());
   }
 
+  Future<String> getUserId() async {
+    var token = await hasToken();
+    return jwt.parseJwt(token)['id'];
+  }
+
   User getUserInfo(String token) {
-    JWTParse jwt = JWTParse();
     var user = jwt.parseJwt(token);
     print(user);
     User userReponse = User(

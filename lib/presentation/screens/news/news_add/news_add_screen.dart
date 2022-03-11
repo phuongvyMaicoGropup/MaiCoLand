@@ -387,18 +387,9 @@ class _NewsAddButton extends StatelessWidget {
           child: const Text('Lưu', style: TextStyle(color: Colors.white)),
           onPressed: state.status.isValidated
               ? () async {
-                  print("lưn");
-                  try {
-                    // if (state.image!="https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320"){
-                    //     var imageUrl = await Storage.storageImage(context,File(state.image));
-                    //   context.read<NewsAddBloc>().add(NewsAddImageChanged(imageUrl));
-                    //   }
-                  } catch (e) {}
+                
 
                   try {
-                    print(state.image);
-                    print(state.content);
-
                     context.read<NewsAddBloc>().add(NewsAddSubmitted());
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil("/", (route) => false);
