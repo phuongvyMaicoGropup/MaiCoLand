@@ -37,6 +37,9 @@ dependencies:
   rxdart: ^0.27.3
   bloc: ^8.0.2
   flutter_bloc: ^8.0.1
+  showcaseview: ^1.1.5
+  image_picker: ^0.8.4+10
+  http: ^0.13.4
   flutter_map: ^0.14.0
   flutter_map_arcgis: ^2.0.0
   equatable: ^2.0.3

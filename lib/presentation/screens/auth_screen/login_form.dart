@@ -40,6 +40,9 @@ class _LoginFormState extends State<LoginForm> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Đăng nhập thất bại'), backgroundColor: Colors.red));
       }
+      if (state is LoginSuccess) {
+        Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
+      }
     }, child: BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         return SingleChildScrollView(
@@ -52,7 +55,7 @@ class _LoginFormState extends State<LoginForm> {
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.15),
                       Image(
-                          image: AssetImage('assets/logo.png'),
+                          image: const AssetImage('assets/logo.png'),
                           height: MediaQuery.of(context).size.height * 0.2),
                       const SizedBox(height: 10),
                       WidgetInputTextField(
@@ -94,7 +97,13 @@ class _LoginFormState extends State<LoginForm> {
                                       ],
                                     )
                                   : TextButton(
-                                      child: Text("Đăng nhập"),
+                                      child: Container(
+                                          alignment: Alignment.center,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.9,
+                                          child: Text("Đăng nhập")),
                                       onPressed: () {
                                         _onLoginButtonPressed();
                                       },
@@ -107,25 +116,18 @@ class _LoginFormState extends State<LoginForm> {
                                     ))
                         ]),
                       ),
-                      Center(
-                          child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                  child: Row(children: [
-                                Text("Chưa có tài khoản ? "),
-                                SizedBox(width: 5),
-                                GestureDetector(
-                                    child: Text("Đăng ký ngay"),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RegisterScreen(
-                                                    userRepo: userRepo)),
-                                      );
-                                    }),
-                              ]))))
+                      Container(
+                          alignment: Alignment.center,
+                          child: Row(children: [
+                            Text("Chưa có tài khoản ? "),
+                            SizedBox(width: 5),
+                            GestureDetector(
+                                child: Text("Đăng ký ngay"),
+                                onTap: () {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, "/register", (route) => false);
+                                }),
+                          ]))
                     ],
                   ),
                 )),

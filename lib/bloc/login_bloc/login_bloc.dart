@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final token = await userRepo.login(
           event.username, event.password, event.rememberMe);
       authBloc.add(LoggedIn(token: token));
-      emit(LoginInitial());
+      emit(LoginSuccess());
     } catch (e) {
       emit(LoginFailure(error: e.toString()));
     }

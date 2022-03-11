@@ -5,6 +5,7 @@ import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/login_screen.dart';
 import 'package:maico_land/presentation/screens/auth_screen/register_screen.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
+import 'package:maico_land/presentation/screens/news/news_add/news_add_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings routeSettings) {
@@ -18,8 +19,8 @@ class AppRouter {
       case '/register':
         return MaterialPageRoute(
             builder: (_) => RegisterScreen(userRepo: userRepo));
-//       case '/news/add':
-//       return MaterialPageRoute(builder: (_)=> const NewsAddScreen());
+      case '/news/add':
+      return MaterialPageRoute(builder: (_)=> const NewsAddScreen());
 //       case '/landplannings':
 //       return MaterialPageRoute(builder: (_)=> const LandPlanningsScreen());
 //  case '/news':

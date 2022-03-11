@@ -24,7 +24,7 @@ class UserRepository {
     dio_provider.storage.delete(key: "token");
     dio_provider.storage.deleteAll();
   }
-
+  
   Future<String> login(
       String username, String password, bool rememberMe) async {
     Response response = await dio_provider.dio.post(dio_provider.loginUrl,

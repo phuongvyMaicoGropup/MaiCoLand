@@ -1,17 +1,20 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/formz_model/models.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-
+import 'package:http/http.dart' as http;
 part 'news_add_event.dart';
 part 'news_add_state.dart';
 
 class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
   final UserRepository _userRepo;
+  final DioProvider dio_provider = DioProvider();
   NewsAddBloc({required UserRepository userRepository})
       : _userRepo = userRepository,
         super(const NewsAddState()) {
@@ -90,7 +93,12 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
         //                     "hashTags":state.hashTag
         //                   });
         //   print("thành công ");
-
+        Response presignedUrl = await dio_provider.dio.get(
+            dio_provider.getPresignedUrl,
+            queryParameters: {'path': 'news', 'contentType': 'image/png'});
+        var resultg = await http.put(Uri.parse(presignedUrl.data),
+            body: File(state.image));
+        print(resultg.contentLength);
       } catch (e) {
         print(e);
         emit(state.copyWith(status: FormzStatus.submissionFailure));

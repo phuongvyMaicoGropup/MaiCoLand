@@ -44,6 +44,20 @@ const headingTextWhite = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const descriptionText = TextStyle(
+  color: Colors.black,
+  fontSize: 12,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w300,
+);
+
+const mediumText = TextStyle(
+  color: AppColors.black,
+  fontSize: 14,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w500,
+);
+
 const headingText1 = TextStyle(
   color: AppColors.black,
   fontSize: 30,
@@ -85,3 +99,4 @@ const textMinorGreen = TextStyle(
 //   backgroundColor: Colors.white,
 //   minimumSize: Size(240, 80),
 // );
+

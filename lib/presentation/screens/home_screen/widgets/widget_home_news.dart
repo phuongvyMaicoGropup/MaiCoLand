@@ -14,20 +14,17 @@ class WidgetHomeNews extends StatelessWidget {
         if (state is NewsLoaded) {
           items = state.news;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: const HeadingTextWidget(text: "Tin tức"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 25),
-                    child: TextButton(
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const HeadingTextWidget(text: "Tin tức"),
+                    TextButton(
                       onPressed: () {
                         // Navigator.pushNamed(context, "/news");
                       },
@@ -38,18 +35,18 @@ class WidgetHomeNews extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primary,
                             ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 5),
-              Container(height: 210.0, child: _buildListNews()),
-            ],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Container(height: 200.0, child: _buildListNews()),
+              ],
+            ),
           );
         } else if (state is NewsNotLoaded) {
           return Container(child: Text("Không load được"));
         } else
-          return Container(child: Text("Lỗi"));
+          return Container(child: CircularProgressIndicator());
       },
     );
   }
@@ -63,7 +60,9 @@ class WidgetHomeNews extends StatelessWidget {
             itemCount: 5,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
-                  padding: const EdgeInsets.all(8.0), child: newSkeleton());
+                  padding:
+                      const EdgeInsets.only(right: 16.0, top: 8, bottom: 8),
+                  child: newSkeleton());
             })
         : ListView.builder(
             shrinkWrap: true,

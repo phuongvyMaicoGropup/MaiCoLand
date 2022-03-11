@@ -14,12 +14,12 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) {
-      return LoginBloc(
-          userRepo: userRepo,
-          authBloc: BlocProvider.of<AuthenticationBloc>(context));
-    },
-    child: LoginForm(userRepo: userRepo),
-    ),
+          return LoginBloc(
+              userRepo: userRepo,
+              authBloc: BlocProvider.of<AuthenticationBloc>(context));
+        },
+        child: LoginForm(userRepo: userRepo),
+      ),
     );
   }
 }

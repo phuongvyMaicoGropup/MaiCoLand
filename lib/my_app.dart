@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/model/responses/user_reponse.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
@@ -9,8 +10,10 @@ import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/router/app_router.dart';
 
 import 'model/entities/GeoPoint.dart';
+import 'presentation/screens/account/account_screen.dart';
 import 'presentation/screens/auth_screen/login_screen.dart';
 import 'presentation/screens/auth_screen/register_screen.dart';
+import 'presentation/screens/create_option_screen/create_option_screen.dart';
 import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_detail_screen.dart';
 import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
 import 'presentation/screens/news/news_add/news_add_screen.dart';
@@ -54,20 +57,21 @@ class _MyAppState extends State<MyApp> {
 
   final List<Widget> _pages = <Widget>[
     const HomeScreen(),
-    const NewsAddScreen(),
-    DetailMapLandPlanning(
-        landPlanning: LandPlanning(
-            id: "123",
-            title: "test",
-            content: "Chuwa co thong tin",
-            dateCreated: DateTime.now(),
-            isValidated: true,
-            leftBottom: GeoPoint(106.556801, 10.7399685),
-            leftTop: GeoPoint(106.556801, 10.776478),
-            rightBottom: GeoPoint(106.6087906, 10.7399533),
-            rightTop: GeoPoint(106.6087906, 10.776478),
-            imageUrl:
-                "https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2F6292a378bf10704e2901.jpg?alt=media&token=b5b7874f-0c5e-48ca-bae4-f16796a90d23")),
+    CreateOptionScreen(),
+    AccountScreen(userRepo: UserRepository()),
+    // DetailMapLandPlanning(
+    //     landPlanning: LandPlanning(
+    //         id: "123",
+    //         title: "test",
+    //         content: "Chuwa co thong tin",
+    //         dateCreated: DateTime.now(),
+    //         isValidated: true,
+    //         leftBottom: GeoPoint(106.556801, 10.7399685),
+    //         leftTop: GeoPoint(106.556801, 10.776478),
+    //         rightBottom: GeoPoint(106.6087906, 10.7399533),
+    //         rightTop: GeoPoint(106.6087906, 10.776478),
+    //         imageUrl:
+    //             "https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2F6292a378bf10704e2901.jpg?alt=media&token=b5b7874f-0c5e-48ca-bae4-f16796a90d23")),
     // CreateItemScreen(),
     // AccountScreen()
   ];
@@ -81,13 +85,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Deo',
+        title: 'MaicoLand',
         theme: appTheme,
         onGenerateRoute: widget.appRouter.onGenerateRoute,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
           if (state is AuthenticationAuthenticated) {
-            // UserReponse user = state.userReponse;
             // print(user);
             return SafeArea(
               child: Scaffold(
