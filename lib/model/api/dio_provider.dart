@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+// import 'package:mime/mime.dart';
+// import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 
 class DioProvider {
@@ -28,19 +31,13 @@ class DioProvider {
       queryParameters: {'path': pathName, 'contentType': 'image/png'},
     );
 
-    var imageBinding = await File(image).readAsBytesSync();
-    print(response.data);
+    var imageBinding = await File(image).readAsBytes();
 
-    var result = await dio.putUri(Uri.parse(response.data.toString()),
-        options: Options(
-          contentType: "image/png",
-          headers: {
-            "Content-Type": "image/png",
-          },
-        ),
-        data: imageBinding);
+    var result = await http.put(Uri.parse(response.data.toString()),
+        body: await File(image).readAsBytesSync(),
+        headers: {'Content-Type': 'image/png'});
+    print(result.request);
     print(result.statusCode);
-    print(result.data);
     return pathName;
   }
 
