@@ -26,7 +26,7 @@ class WidgetHomeNews extends StatelessWidget {
                     const HeadingTextWidget(text: "Tin tức"),
                     TextButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context, "/news");
+                        Navigator.pushNamed(context, "/news");
                       },
                       child: Text(
                         "Xem thêm",

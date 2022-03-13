@@ -78,9 +78,9 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     Emitter<NewsAddState> emit,
   ) async {
     if (state.status.isValidated) {
-      print(state);
       try {
-        var imagePath = await _dioProvider.uploadOneImage(state.image);
+        var imagePath =
+            await _dioProvider.uploadFile(state.image, "image/png", "news");
 
         var newsRequest = NewsRequest(state.title.value, state.content.value,
             state.hashTag.split('/').toList(), imagePath);
@@ -92,7 +92,6 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }
       } catch (e) {
-        print(e);
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
       emit(state.copyWith(status: FormzStatus.submissionInProgress));

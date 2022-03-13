@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+
 class WidgetHomeCardLandPlanning extends StatelessWidget {
-  const WidgetHomeCardLandPlanning({
-    Key? key,
-    required this.landPlanning
-  }) : super(key: key);
+  const WidgetHomeCardLandPlanning({Key? key, required this.landPlanning})
+      : super(key: key);
 
   final LandPlanning landPlanning;
 
@@ -62,34 +61,29 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text(
-                              landPlanning.title,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "Montserrat",
-                                fontSize: 16,
-                              ),
-
-                          ),
-                          Text(landPlanning.isValidated ? "Tình trạng:  Còn hiệu lực": "Tình trạng: Mất hiệu lực", style : TextStyle(fontSize: 12,color : Theme.of(context).colorScheme.primary)),
+                        children: [
                           Text(
-                              landPlanning.content,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Montserrat",
-                                fontSize: 12,
-                              ),
-
+                            landPlanning.title,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style:
+                                Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      fontSize: 16,
+                                    ),
+                          ),
+                          // Text(DateTime.now()  landPlanning.expirationDate ? "Tình trạng:  Còn hiệu lực": "Tình trạng: Mất hiệu lực", style : TextStyle(fontSize: 12,color : Theme.of(context).colorScheme.primary)),
+                          Text(
+                            landPlanning.content,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style:
+                                Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Montserrat",
+                                      fontSize: 12,
+                                    ),
                           ),
                         ],
                       ),
@@ -126,13 +120,17 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                  daysBetween(landPlanning.dateCreated,DateTime.now()) >0 ?daysBetween(landPlanning.dateCreated,DateTime.now()).toString()+" ngày trước": "Hôm nay",
+                    daysBetween(landPlanning.createDate, DateTime.now()) > 0
+                        ? daysBetween(landPlanning.createDate, DateTime.now())
+                                .toString() +
+                            " ngày trước"
+                        : "Hôm nay",
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Colors.white,
-                      fontFamily: "Montserrat",
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
+                          color: Colors.white,
+                          fontFamily: "Montserrat",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
                   ),
                 ],
               ),
@@ -142,10 +140,10 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
       ),
     );
   }
+
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
     return (to.difference(from).inHours / 24).round();
   }
-
 }

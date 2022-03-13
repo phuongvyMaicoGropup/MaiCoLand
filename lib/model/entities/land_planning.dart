@@ -6,19 +6,25 @@ class LandPlanning extends Equatable {
       {required this.id,
       required this.title,
       required this.content,
-      required this.dateCreated,
-      required this.isValidated,
+      required this.createDate,
       required this.imageUrl,
+      required this.filePdfUrl,
       required this.leftTop,
       required this.rightTop,
       required this.leftBottom,
+      required this.expirationDate,
+      required this.createdBy,
+      required this.landArea,
       required this.rightBottom});
   final String id;
   final String title;
   final String content;
-  final DateTime dateCreated;
-  final bool isValidated;
+  final DateTime createDate;
   final String imageUrl;
+  final String filePdfUrl;
+  final double landArea;
+  final DateTime expirationDate;
+  final String createdBy;
   final GeoPoint leftTop;
   final GeoPoint rightTop;
   final GeoPoint leftBottom;
@@ -28,51 +34,17 @@ class LandPlanning extends Equatable {
   // TODO: implement props
   List<Object?> get props => [
         id,
-        title,
+        landArea,
         content,
-        dateCreated,
-        isValidated,
+        title,
+        createDate,
+        createdBy,
         imageUrl,
+        filePdfUrl,
+        expirationDate,
         leftTop,
         leftBottom,
         rightTop,
-        rightBottom,
-        title
+        rightBottom
       ];
-
-  @override
-  String toString() {
-    return 'LandPlanning : { name: $title, content: $content}';
-  }
-
-  factory LandPlanning.fromMap(Map<String, dynamic>? data, String documentId) {
-    if (data == null) {
-      throw StateError('missing data for LandPlanningId: $documentId');
-    }
-    return LandPlanning(
-        id: documentId,
-        title: data['title'],
-        content: data['content'],
-        dateCreated: data['dateCreated'],
-        isValidated: data['isValidated'],
-        imageUrl: data['imageUrl'],
-        leftTop: data['leftTop'],
-        rightTop: data['rightTop'],
-        leftBottom: data['leftBottom'],
-        rightBottom: data['rightBottom']);
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'content': content,
-      'dateCreated': dateCreated,
-      'isValidated': isValidated,
-      'imageUrl': imageUrl,
-      'leftTop': leftTop,
-      'rightTop': rightTop,
-      'leftBottom': leftBottom,
-      'rightBottom': rightBottom,
-    };
-  }
 }

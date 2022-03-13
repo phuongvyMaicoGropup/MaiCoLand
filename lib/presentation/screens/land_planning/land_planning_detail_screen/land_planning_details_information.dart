@@ -54,7 +54,7 @@ class DetailLandPlanning extends StatelessWidget {
             Container(
               alignment: Alignment.topRight,
               child: Text(
-                "Ngày đăng : ${landPlanning.dateCreated.day.toString()}/${landPlanning.dateCreated.month.toString()}/${landPlanning.dateCreated.year.toString()}",
+                "Ngày đăng : ${landPlanning.createDate.day.toString()}/${landPlanning.createDate.month.toString()}/${landPlanning.createDate.year.toString()}",
                 style:
                 Theme.of(context).textTheme.bodyText2?.copyWith(
                   fontWeight: FontWeight.w500,
