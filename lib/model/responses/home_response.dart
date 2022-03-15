@@ -2,8 +2,9 @@ import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/entities/news.dart';
 
 class HomeResponse {
-  List<News> news =[];
-  List<LandPlanning> landPlannings=[];
+  List<News> news;
+  List<LandPlanning> landPlannings = [];
+  HomeResponse({required this.news});
   // List<Banner> banners;
 
   // List<Categoryy> categories;

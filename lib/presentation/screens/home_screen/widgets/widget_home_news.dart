@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
+import 'package:maico_land/presentation/screens/home_screen/widgets/widget_home_card_news.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeNews extends StatelessWidget {
@@ -70,10 +71,9 @@ class WidgetHomeNews extends StatelessWidget {
             itemCount: items.length < 6 ? items.length : 5,
             itemBuilder: (BuildContext context, int index) {
               var item = items[index];
-              return Container();
-              // return   WidgetHomeCardNews(
-              //       news: item,
-              // );
+              return WidgetHomeCardNews(
+                news: item,
+              );
             },
           );
   }

@@ -23,7 +23,6 @@ class News {
   final DateTime createDate;
   final String createdBy;
   final DateTime updateDate;
-
   News copyWith({
     String? id,
     String? title,

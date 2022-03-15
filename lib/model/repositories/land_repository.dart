@@ -2,27 +2,57 @@ import 'package:dio/dio.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class LandPlanningRepository {
   final DioProvider _dioProvider = DioProvider();
   final UserRepository _userRepo = UserRepository();
 
-  Future<bool> create(LandPlanningRequest news) async {
+  Future<bool> create(LandPlanningRequest item) async {
     String userId = await _userRepo.getUserId();
-    // Response newsResponse =
-    //     await _dioProvider.dio.post(_dioProvider.createNewsApi,
-    //         data: {
-    //           "title": news.title,
-    //           "content": news.content,
-    //           "hashTags": news.hashTags,
-    //           "imageUrl": news.imageUrl,
-    //           "createBy": userId
-    //         },
-    //         options: Options(headers: {"Content-Type": "application/json"}));
-    return Future<bool>.value(true);
-    // if (newsResponse.statusCode == 200) {
-    // } else {
-    //   return Future<bool>.value(false);
-    // }
+    var id = Uuid().v4();
+            var imagePathDb = await _dioProvider.uploadFile(
+                item.imageUrl, "image/png", "land-planning/$id");
+            var filePdfPathDb = await _dioProvider.uploadFile(
+                item.filePdfUrl, "aplication/pdf", "land-planning/$id");
+    Response newsResponse =
+        await _dioProvider.dio.post(_dioProvider.createNewsApi,
+            data: {
+              "title": item.title,
+  "createdBy": userId,
+  "content": item.content,
+  "imageUrl": imagePathDb,
+  "landArea": item.landArea,
+  "filePdfUrl":filePdfPathDb,
+  "expirationDate": item.expirationDate,
+  "leftTop": {
+    "latitude": item.leftTop.latitude,
+    "longitude": item.leftTop.longitude
+  },
+  "rightTop": {
+    "latitude": item.rightTop.latitude,
+    "longitude": item.rightTop.longitude
+  },
+  "leftBottom": {
+    "latitude": item.leftBottom.latitude,
+    "longitude": item.leftBottom.longitude
+  },
+  "rightBottom": {
+    "latitude": item.rightBottom.latitude,
+    "longitude": item.rightBottom.longitude
+  },
+  "address": {
+    "idLevel1": item.address.idLevel1,
+    "idLevel2": item.address.idLevel2,
+    "idLevel3": item.address.idLevel3,
+  }
+            },
+            options: Options(headers: {"Content-Type": "application/json"}));
+    
+    if (newsResponse.statusCode == 200) {
+         return Future<bool>.value(true);
+    } else {
+      return Future<bool>.value(false);
+    }
   }
 }

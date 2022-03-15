@@ -1,15 +1,10 @@
 import 'dart:io';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:maico_land/bloc/news_add_bloc/news_add_bloc.dart';
 import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
-import 'package:maico_land/presentation/widgets/label_widget.dart';
-import 'package:maico_land/presentation/widgets/widget_input_text.dart';
-import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class NewsAddScreen extends StatefulWidget {
@@ -92,7 +87,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
               errorBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+              errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
               focusColor: AppColors.appGreen1,
               errorText:
                   state.title.invalid ? 'Vui lòng nhập trên 10 kí tự !' : null,
@@ -114,7 +109,6 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                         .add(NewsAddHashTagChanged(hashTagsChange));
                     _hashTag.text = "";
                   }
-                  print(hashTags);
                 },
               ),
             ),
@@ -394,7 +388,7 @@ class _NewsAddButton extends StatelessWidget {
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text(
                             "Lỗi đăng bài. Vui lòng khởi động lại phần mềm!"),
                         backgroundColor: Colors.red,

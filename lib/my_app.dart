@@ -92,34 +92,33 @@ class _MyAppState extends State<MyApp> {
             builder: (context, state) {
           if (state is AuthenticationAuthenticated) {
             // print(user);
-            return SafeArea(
-              child: Scaffold(
-                bottomNavigationBar: BottomNavigationBar(
-                  backgroundColor: Colors.white,
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  elevation: 0,
-                  mouseCursor: SystemMouseCursors.grab,
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: 'Home',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.add_circle_outline),
-                      label: 'Thêm tin',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.account_circle),
-                      label: 'Account',
-                    ),
-                  ],
-                  currentIndex: _selectedIndex, //New
-                  onTap: _onItemTapped,
-                ),
-                body: Center(
-                  child: _pages.elementAt(_selectedIndex), //New
-                ),
+            return Scaffold(
+              
+              bottomNavigationBar: BottomNavigationBar(
+                backgroundColor: Colors.white,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                elevation: 0,
+                mouseCursor: SystemMouseCursors.grab,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.add_circle_outline),
+                    label: 'Thêm tin',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.account_circle),
+                    label: 'Account',
+                  ),
+                ],
+                currentIndex: _selectedIndex, //New
+                onTap: _onItemTapped,
+              ),
+              body: Center(
+                child: _pages.elementAt(_selectedIndex), //New
               ),
             );
           }

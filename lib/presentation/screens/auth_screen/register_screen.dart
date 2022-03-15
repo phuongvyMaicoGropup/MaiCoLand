@@ -10,7 +10,6 @@ import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/widgets/label_widget.dart';
-import 'package:maico_land/presentation/widgets/widget_input_text.dart';
 import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 

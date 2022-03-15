@@ -31,6 +31,35 @@ class NewsRepository {
     // }
   }
 
+  Future<List<News>> getHomeNews() async {
+    Response response = await _dioProvider.dio.get(
+        _dioProvider.getNewsPagination,
+        queryParameters: {'pageNumber': 1, 'pageSize': 5});
+
+    var json = response.data;
+    List<News> result = [];
+    for (int i = 0; i < json.length; i++) {
+      List<String> hashTags = [];
+      for (int j = 0; j < json[i]['hashTags'].length; j++) {
+        hashTags.add(json[i]['hashTags'][j]);
+      }
+      var link = await _dioProvider.getFileLink(json[i]['imageUrl']);
+
+      var news = News(
+          id: json[i]["id"],
+          title: json[i]["title"],
+          content: json[i]["content"],
+          hashTags: hashTags,
+          imageUrl: link,
+          likes: json[i]["likes"],
+          createDate: DateTime.parse(json[i]["createDate"]),
+          createdBy: json[i]["createdBy"],
+          updateDate: DateTime.parse(json[i]["updateDate"]));
+      result.add(news);
+    }
+    return Future<List<News>>.value(result);
+  }
+
   Future<List<News>> getNewsPagination(int pageNumber, int pageSize) async {
     Response response = await _dioProvider.dio.get(
         _dioProvider.getNewsPagination,

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:maico_land/model/entities/GeoPoint.dart';
+import 'package:maico_land/model/entities/address.dart';
 
 class LandPlanning extends Equatable {
   LandPlanning(
@@ -15,7 +16,8 @@ class LandPlanning extends Equatable {
       required this.expirationDate,
       required this.createdBy,
       required this.landArea,
-      required this.rightBottom});
+      required this.rightBottom,
+      required this.address});
   final String id;
   final String title;
   final String content;
@@ -29,7 +31,7 @@ class LandPlanning extends Equatable {
   final GeoPoint rightTop;
   final GeoPoint leftBottom;
   final GeoPoint rightBottom;
-
+  final Address address;
   @override
   // TODO: implement props
   List<Object?> get props => [
@@ -45,6 +47,6 @@ class LandPlanning extends Equatable {
         leftTop,
         leftBottom,
         rightTop,
-        rightBottom
+        rightBottom,address
       ];
 }

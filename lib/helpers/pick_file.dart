@@ -25,7 +25,7 @@ class PickFile{
     final path = result.files.single.path!;
     return Future<String>.value(path);
     }
-   Future<File> pickFilePdf(BuildContext context) async {
+   Future<String> pickFilePdf(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
@@ -37,13 +37,14 @@ class PickFile{
           content: Text("File không hợp lệ . Vui lòng chọn file khác!"),
         ),
       );
-      return Future<File>.value(null);
+      return Future<String>.value(null);
     }
 
    
     final path = result.files.single.path!;
-    return Future<File>.value(File(path));
+    return Future<String>.value(path);
     }
+    
    
   
 

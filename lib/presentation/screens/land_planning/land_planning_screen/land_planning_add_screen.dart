@@ -4,37 +4,75 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:maico_land/bloc/news_add_bloc/news_add_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:maico_land/bloc/land_planning_add_bloc/land_planning_add_bloc.dart';
 import 'package:maico_land/helpers/pick_file.dart';
+import 'package:maico_land/model/api/dio_provider.dart';
+import 'package:maico_land/model/api/request/land_planning_request.dart';
+import 'package:maico_land/model/entities/GeoPoint.dart';
+import 'package:maico_land/model/entities/address.dart';
+import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
+import 'package:maico_land/presentation/styles/styles.dart';
+import 'package:maico_land/presentation/widgets/input_text.dart';
 import 'package:maico_land/presentation/widgets/label_widget.dart';
-import 'package:maico_land/presentation/widgets/widget_input_text.dart';
 import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
+import 'package:uuid/uuid.dart';
 
-class NewsAddScreen extends StatefulWidget {
-  const NewsAddScreen({Key? key}) : super(key: key);
+class LandPlanningAddScreen extends StatefulWidget {
+  const LandPlanningAddScreen({Key? key}) : super(key: key);
 
   @override
-  _NewsAddScreenState createState() => _NewsAddScreenState();
+  _LandPlanningAddScreenState createState() => _LandPlanningAddScreenState();
 }
 
-class _NewsAddScreenState extends State<NewsAddScreen> {
-  String? imagePath;
-  List<String> hashTags = [];
+class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
+  String imagePath = "Chưa cập nhập thông tin";
+  final _landPlanningRepo = LandPlanningRepository();
+  String filePdfPath = "Chưa cập nhập thông tin ";
+  final _dioProvider = DioProvider();
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-  final hashTagController = TextEditingController();
-  // final imagePath = TextEditingController();
-  var _hashTag = TextEditingController();
+  final imageController = TextEditingController();
+  final filePdfController = TextEditingController();
+  final landAreaController = TextEditingController();
+  final expirationDateController = TextEditingController();
+  final leftTopxController = TextEditingController();
+  final leftTopyController = TextEditingController();
+  final rightTopxController = TextEditingController();
+  final rightTopyController = TextEditingController();
+  final leftBottomxController = TextEditingController();
+  final leftBottomyController = TextEditingController();
+  final rightBottomxController = TextEditingController();
+  final rightBottomyController = TextEditingController();
+  final String addressIdLevel1 = "";
+  final String addressIdLevel2 = "";
+  final String addressIdLevel3 = "";
+
+  DateTime selectedDate = DateTime.now();
+
+  _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2060),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "Đăng tin",
+            "Tạo bản đồ quy hoạch",
             style: TextStyle(
               color: Colors.white,
               fontFamily: "Montserrat",
@@ -54,358 +92,158 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _TitleInput(titleController),
-                const SizedBox(height: 15),
-                _ContentInput(contentController),
-                const SizedBox(height: 15),
-                _HashTagInput(context),
-                _ImageInput(),
-                _NewsAddButton(),
+                InputText(
+                    controller: titleController,
+                    width: MediaQuery.of(context).size.width,
+                    label: "Tiêu đề",
+                    inputType: TextInputType.multiline,
+                    maxLines: 2,
+                    minLines: 1,
+                    validator: r"[\s\S]{10,}",
+                    errorMessage: "Vui lòng nhập trên 10 kí tự "),
+                const SizedBox(height: 10),
+                InputText(
+                    controller: contentController,
+                    maxLines: 10,
+                    minLines: 5,
+                    inputType: TextInputType.multiline,
+                    width: MediaQuery.of(context).size.width,
+                    label: "Nội dung",
+                    validator: r"[\s\S]{20,}",
+                    errorMessage: "Vui lòng nhập trên 20 kí tự "),
+                const SizedBox(height: 10),
+                InputText(
+                    controller: landAreaController,
+                    maxLines: 1,
+                    minLines: 1,
+                    inputType: TextInputType.number,
+                    width: MediaQuery.of(context).size.width,
+                    label: "Diện tích",
+                    validator: r"[\s\S]{20,}",
+                    errorMessage: "Vui lòng nhập trên 20 kí tự "),
+                const SizedBox(height: 10),
+                InputPoint(
+                    width: MediaQuery.of(context).size.width,
+                    label: "Toạ độ trái (trên) ",
+                    maxLines: 1,
+                    controllerX: leftTopxController,
+                    controllerY: leftTopyController,
+                    validator: r".",
+                    errorMessage: "Vui lòng nhập toạ độ "),
+                const SizedBox(height: 10),
+                InputPoint(
+                    width: MediaQuery.of(context).size.width,
+                    label: "Toạ độ phải (trên) ",
+                    maxLines: 1,
+                    controllerX: rightTopxController,
+                    controllerY: rightTopyController,
+                    validator: r".",
+                    errorMessage: "Vui lòng nhập toạ độ "),
+                const SizedBox(height: 10),
+                InputPoint(
+                    width: MediaQuery.of(context).size.width,
+                    label: "Toạ độ trái (dưới) ",
+                    maxLines: 1,
+                    controllerX: leftBottomxController,
+                    controllerY: leftBottomyController,
+                    validator: r".",
+                    errorMessage: "Vui lòng nhập toạ độ "),
+                const SizedBox(height: 10),
+                InputPoint(
+                    width: MediaQuery.of(context).size.width,
+                    label: "Toạ độ phải (dưới) ",
+                    maxLines: 1,
+                    controllerX: rightBottomxController,
+                    controllerY: rightBottomyController,
+                    validator: r".",
+                    errorMessage: "Vui lòng nhập toạ độ "),
+                Text("File ",
+                    style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
+                TextButton(
+                    onPressed: () async {
+                      filePdfPath = await PickFile().pickFilePdf(context);
+                      print(filePdfPath);
+                    },
+                    child: Text(filePdfPath.split('/').last)),
+                Text("Thông tin chi tiết ",
+                    style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
+                TextButton(
+                  onPressed: () async {
+                    imagePath = await PickFile().pickImage(context);
+                    print(imagePath);
+                  },
+                  child: Text(imagePath.split('/').last),
+                ),
+                Text("Ngày kết thúc  ",
+                    style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
+                TextButton(
+                  onPressed: () async {
+                    _selectDate(context);
+                  },
+                  child: Text(DateFormat('dd-MM-yyyy').format(selectedDate)),
+                ),
+                SubmitedButton(),
               ],
             ),
           )),
     );
   }
 
-  Widget _HashTagInput(context) {
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.hashTag != current.hashTag,
-      builder: (context, state) {
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextField(
-            controller: _hashTag,
-            key: const Key('NewsAddForm_hashTagInput_textField'),
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.black26),
-                borderRadius: BorderRadius.circular(4.0),
+  Widget SubmitedButton() {
+    return ElevatedButton(
+        key: const Key('NewsAddForm_continue_raisedButton'),
+        child: const Text('Lưu', style: TextStyle(color: Colors.white)),
+        onPressed: () async {
+          try {
+            var landPlanningRequest = LandPlanningRequest(
+              titleController.text,
+              contentController.text,
+              imagePath,
+              Address(addressIdLevel1, addressIdLevel2, addressIdLevel3),
+              double.parse(landAreaController.text),
+              filePdfPath,
+              selectedDate,
+              GeoPoint(
+                double.parse(leftTopxController.text),
+                double.parse(leftTopxController.text),
               ),
-              alignLabelWithHint: true,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: AppColors.appGreen1)),
-              labelText: "HashTag",
-              focusedErrorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: AppColors.red)),
-              errorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
-              focusColor: AppColors.appGreen1,
-              errorText:
-                  state.title.invalid ? 'Vui lòng nhập trên 10 kí tự !' : null,
-              contentPadding: const EdgeInsets.only(
-                top: 10.0,
-                left: 10.0,
-                right: 10.0,
+              GeoPoint(
+                double.parse(leftTopxController.text),
+                double.parse(leftTopxController.text),
               ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  if (_hashTag.text != "") {
-                    setState(() {
-                      hashTags.add(_hashTag.text);
-                    });
-                    var hashTagsChange = hashTags.join("/");
-                    context
-                        .read<NewsAddBloc>()
-                        .add(NewsAddHashTagChanged(hashTagsChange));
-                    _hashTag.text = "";
-                  }
-                  print(hashTags);
-                },
+              GeoPoint(
+                double.parse(leftTopxController.text),
+                double.parse(leftTopxController.text),
               ),
-            ),
-          ),
-          _HashTagChip(hashTags),
-        ]);
-      },
-    );
-  }
-
-  Widget _HashTagChip(List<String> items) {
-    return GridView.builder(
-      shrinkWrap: true,
-      itemBuilder: (BuildContext ctx, index) {
-        if (items.isEmpty) {
-          return Chip(
-            backgroundColor: Colors.black.withOpacity(0.04),
-            label: Text("         "),
-            labelStyle: TextStyle(color: Colors.white, fontSize: 10),
-          );
-        } else {
-          return Chip(
-              backgroundColor: AppColors.appGreen2,
-              label: Text(items[index]),
-              labelStyle: TextStyle(color: Colors.white, fontSize: 10),
-              onDeleted: () {
-                setState(() {
-                  items.remove(items[index]);
-                });
-              });
-        }
-      },
-      itemCount: items.isNotEmpty ? items.length : 8,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 80,
-          childAspectRatio: 5 / 3,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 0),
-    );
-  }
-}
-
-class _HashTagInput extends StatelessWidget {
-  _HashTagInput(this.controller);
-  final TextEditingController controller;
-  List<String> hashTags = [];
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      // buildWhen: (previous, current) => previous.hashTag != current.hashTag,
-      builder: (context, state) {
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text("HashTag",
-              style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
-          TextField(
-            controller: controller,
-            key: const Key('NewsAddForm_hashTagInput_textField'),
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  if (controller.text != "") {
-                    hashTags.add(controller.text);
-                    var hashTagsChange = hashTags.join("/");
-                    context
-                        .read<NewsAddBloc>()
-                        .add(NewsAddHashTagChanged(hashTagsChange));
-                    controller.text = "";
-                  }
-                  print(hashTags);
-                },
+              GeoPoint(
+                double.parse(leftTopxController.text),
+                double.parse(leftTopxController.text),
               ),
-            ),
-          ),
-          _HashTagChip(hashTags, context),
-        ]);
-      },
-    );
-  }
+            );
 
-  Widget _HashTagChip(List<String> items, BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      itemBuilder: (BuildContext ctx, index) {
-        return Chip(
-            backgroundColor: AppColors.appGreen2,
-            label: Text(items[index]),
-            labelStyle: TextStyle(color: Colors.white),
-            onDeleted: () {
-              items.remove(items[index]);
-            });
-      },
-      itemCount: items.length,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 80,
-          childAspectRatio: 5 / 3,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 0),
-    );
-  }
-}
-
-class _ImageInput extends StatelessWidget {
-  String? imagePath;
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.image != current.image,
-      builder: (context, state) {
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-              child: Row(
-            children: [
-              Text("Ảnh minh hoạ",
-                  style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
-              IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                onPressed: () async {
-                  var file = await PickFile().pickImage(context);
-
-                  context.read<NewsAddBloc>().add(NewsAddImageChanged(file));
-                },
-              )
-            ],
-          )),
-          state.image !=
-                  "https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320"
-              ? Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.file(File(state.image), fit: BoxFit.cover)
-
-                  // child: ,
-                  )
-              : WidgetSkeleton(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                ),
-        ]);
-      },
-    );
-  }
-}
-
-class _TitleInput extends StatelessWidget {
-  _TitleInput(this.controller);
-  final TextEditingController controller;
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.title != current.title,
-      builder: (context, state) {
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextFormField(
-            key: const Key('NewsAddForm_titleInput_textField'),
-            maxLines: 1,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-              fontWeight: FontWeight.w400,
-            ),
-            onChanged: (value) =>
-                context.read<NewsAddBloc>().add(NewsAddTitleChanged(value)),
-            controller: controller,
-            decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.black26),
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                alignLabelWithHint: true,
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    borderSide: BorderSide(color: AppColors.appGreen1)),
-                labelText: "Tiêu đề",
-                focusedErrorBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    borderSide: BorderSide(color: AppColors.red)),
-                errorBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    borderSide: BorderSide(color: AppColors.red)),
-                errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
-                focusColor: AppColors.appGreen1,
-                errorText: state.title.invalid
-                    ? 'Vui lòng nhập trên 10 kí tự !'
-                    : null,
-                contentPadding: const EdgeInsets.only(
-                  top: 10.0,
-                  left: 10.0,
-                  right: 10.0,
-                )),
-          )
-        ]);
-      },
-    );
-  }
-}
-
-class _ContentInput extends StatelessWidget {
-  _ContentInput(this.controller);
-  final TextEditingController controller;
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.content != current.content,
-      builder: (context, state) {
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextFormField(
-            key: const Key('NewsAddForm_contentInput_textField'),
-            maxLines: 10,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-              fontWeight: FontWeight.w400,
-            ),
-            onChanged: (value) =>
-                context.read<NewsAddBloc>().add(NewsAddContentChanged(value)),
-            controller: controller,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.black26),
-                borderRadius: BorderRadius.circular(4.0),
+            var result = await _landPlanningRepo.create(landPlanningRequest);
+            if (result == true) {
+              // emit(state.copyWith(status: FormzStatus.submissionSuccess));
+            } else {
+              // emit(state.copyWith(status: FormzStatus.submissionFailure));
+            }
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil("/", (route) => false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text("Đăng bài thành công"),
+                backgroundColor: Theme.of(context).colorScheme.primary,
               ),
-              alignLabelWithHint: true,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: AppColors.appGreen1)),
-              labelText: "Nội dung",
-              focusedErrorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: AppColors.red)),
-              errorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
-              focusColor: AppColors.appGreen1,
-              contentPadding: const EdgeInsets.only(
-                top: 10.0,
-                left: 10.0,
-                right: 10.0,
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Lỗi đăng bài. Vui lòng khởi động lại phần mềm!"),
+                backgroundColor: Colors.red,
               ),
-              errorText: state.content.invalid
-                  ? 'Vui lòng nhập trên 20 kí tự !'
-                  : null,
-            ),
-          )
-        ]);
-      },
-    );
-  }
-}
-
-class _NewsAddButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
-        return ElevatedButton(
-          key: const Key('NewsAddForm_continue_raisedButton'),
-          child: const Text('Lưu', style: TextStyle(color: Colors.white)),
-          onPressed: state.status.isValidated
-              ? () async {
-                  try {
-                    context.read<NewsAddBloc>().add(NewsAddSubmitted());
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil("/", (route) => false);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text("Đăng bài thành công"),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    );
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                            "Lỗi đăng bài. Vui lòng khởi động lại phần mềm!"),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                    print(e.toString());
-                  }
-                }
-              : null,
-        );
-      },
-    );
+            );
+            print(e.toString());
+          }
+        });
   }
 }

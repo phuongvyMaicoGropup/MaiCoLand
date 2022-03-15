@@ -20,10 +20,10 @@ class CreateOptionScreen extends StatelessWidget {
         Icons.newspaper_outlined,
         "/news/add"),
     CreateOption(
-        "Đăng tin tức",
-        "Đăng tin tức bất động sản / quy hoạch đất / thị trường ",
-        Icons.newspaper_outlined,
-        "/news/add")
+        "Đăng bản đồ quy hoạch",
+        "Đăng bản đồ quy hoạch sử dụng đất/ dự án  ",
+        Icons.map_outlined,
+        "/landplanning/add")
   ];
   @override
   Widget build(BuildContext context) {
@@ -50,8 +50,8 @@ class OptionCard extends StatelessWidget {
   final CreateOption item;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return TextButton(
+      onPressed: () {
         Navigator.of(context).pushNamed(item.link);
       },
       child: Container(

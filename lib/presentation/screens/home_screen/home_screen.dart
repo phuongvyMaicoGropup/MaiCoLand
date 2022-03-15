@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    AuthenticationBloc authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
     return SafeArea(
         child: Scaffold(
@@ -79,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // WidgetHomeLandPlanning(),
                   const SizedBox(height: 10),
                   WidgetHomeNews(),
+                 
                 ]);
               })
             ],
