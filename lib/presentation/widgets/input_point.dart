@@ -86,7 +86,7 @@ class InputPoint extends StatelessWidget {
                   color: Colors.black87,
                   fontWeight: FontWeight.w400,
                 ),
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.number,
                 minLines: 1,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: controllerY,

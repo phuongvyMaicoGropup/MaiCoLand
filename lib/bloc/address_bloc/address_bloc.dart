@@ -21,13 +21,22 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     on<AddressIdLevel1Selected>(_mapAddressIdLevel1SelectedToState);
     on<AddressIdLevel2Selected>(_mapAddressIdLevel2SelectedToState);
     on<AddressIdLevel3Selected>(_mapAddressIdLevel3SelectedToState);
+    on<AddressInitial>(_mapAddressInitialToState);
   }
 
   Future<void> _mapAddressIdLevel1SelectedToState(
     AddressIdLevel1Selected event,
     Emitter<AddressState> emit,
   ) async {
-    emit(state.copyWith(level1: event.item));
+    emit(state.copyWith(level1: event.item, level2: null, level3: null));
+    print(state);
+  }
+
+  Future<void> _mapAddressInitialToState(
+    AddressInitial event,
+    Emitter<AddressState> emit,
+  ) async {
+    emit(state.copyWith(level1: null, level2: null, level3: null));
     print(state);
   }
 
@@ -35,7 +44,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     AddressIdLevel2Selected event,
     Emitter<AddressState> emit,
   ) async {
-    emit(state.copyWith(level2: event.item));
+    emit(state.copyWith(level2: event.item, level3: null));
   }
 
   Future<void> _mapAddressIdLevel3SelectedToState(

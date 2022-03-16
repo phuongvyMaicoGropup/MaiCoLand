@@ -6,9 +6,11 @@ abstract class AddressEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class AddressInitial extends AddressEvent {}
+
 class AddressIdLevel1Selected extends AddressEvent {
   final Level1 item;
-  AddressIdLevel1Selected({required this.item});
+  AddressIdLevel1Selected({required this.item});    
 }
 class AddressIdLevel2Selected extends AddressEvent {
   final Level2 item;

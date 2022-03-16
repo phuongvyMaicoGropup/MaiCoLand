@@ -176,13 +176,17 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                   },
                   child: Text(imagePath.split('/').last),
                 ),
-                Text("Ngày kết thúc  ",
+                const Text("Ngày kết thúc  ",
                     style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
                 TextButton(
                   onPressed: () async {
                     _selectDate(context);
                   },
-                  child: Text(DateFormat('dd-MM-yyyy').format(selectedDate)),
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(8),
+                      child:
+                          Text(DateFormat('dd/MM/yyyy').format(selectedDate))),
                 ),
                 SubmitedButton()
               ],

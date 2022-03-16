@@ -87,13 +87,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         title: 'MaicoLand',
         theme: appTheme,
+        debugShowCheckedModeBanner: false,
         onGenerateRoute: widget.appRouter.onGenerateRoute,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
           if (state is AuthenticationAuthenticated) {
             // print(user);
             return Scaffold(
-              
               bottomNavigationBar: BottomNavigationBar(
                 backgroundColor: Colors.white,
                 showSelectedLabels: false,
@@ -139,7 +139,7 @@ ThemeData _buildAppTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
       colorScheme: base.colorScheme.copyWith(
-        primary: AppColors.appGreen1,
+        primary: AppColors.appGreen2,
         onPrimary: AppColors.white,
         secondary: AppColors.appGreen4,
         error: AppColors.appErrorRed,

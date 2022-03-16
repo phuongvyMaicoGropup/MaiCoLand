@@ -141,94 +141,135 @@ class SelectAddress extends StatelessWidget {
   dvhcvn.Level2? dropdownValue2;
   dvhcvn.Level3? dropdownValue3;
   @override
-  Widget build(BuildContext _) => BlocBuilder<AddressBloc, AddressState>(
-      buildWhen: (previous, current) => previous != current,
-      builder: (context, state) {
+  Widget build(BuildContext _) =>
+      BlocBuilder<AddressBloc, AddressState>(builder: (context, state) {
         return ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(10),
             children: [
-              const Center(child: Text("Thêm bản đồ mới", style: mediumText)),
-              DropdownButton<dvhcvn.Level1>(
-                hint: Text(state.level1.name != ""
-                    ? state.level1.name
-                    : "- Tỉnh thành -"),
-                value: dropdownValue1,
-                icon: const Icon(Icons.arrow_downward, size: 18),
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                borderRadius: BorderRadius.circular(10),
-                underline: Container(
-                  height: 2,
-                  color: Theme.of(context).colorScheme.primary,
+              Center(
+                  child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text("Thêm bản đồ mới", style: mediumText))),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(bottom: 13),
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.gray.withOpacity(0.1),
+                  border: Border.all(
+                      color: AppColors.gray.withOpacity(0.5),
+                      width: 1.0,
+                      style: BorderStyle.solid), //Border.all
+                  /*** The BorderRadius widget  is here ***/
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(2),
+                  ), //BorderRadius.
                 ),
-                onChanged: (dvhcvn.Level1? newValue) {
-                  context
-                      .read<AddressBloc>()
-                      .add(AddressIdLevel1Selected(item: newValue!));
-                  print(newValue);
-                },
-                items: dvhcvn.level1s
-                    .map<DropdownMenuItem<dvhcvn.Level1>>((value) {
-                  return DropdownMenuItem<dvhcvn.Level1>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
+                child: DropdownButton<dvhcvn.Level1>(
+                  alignment: AlignmentDirectional.centerStart,
+                  hint: Text(state.level1.name != ""
+                      ? state.level1.name
+                      : "- Tỉnh thành -"),
+                  value: dropdownValue1,
+                  icon: const Icon(Icons.arrow_downward, size: 18),
+                  // elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+
+                  underline: Container(),
+                  onChanged: (dvhcvn.Level1? newValue) {
+                    context
+                        .read<AddressBloc>()
+                        .add(AddressIdLevel1Selected(item: newValue!));
+
+                    print(newValue);
+                  },
+                  items: dvhcvn.level1s
+                      .map<DropdownMenuItem<dvhcvn.Level1>>((value) {
+                    return DropdownMenuItem<dvhcvn.Level1>(
+                      value: value,
+                      child: Text(value.name),
+                    );
+                  }).toList(),
+                ),
               ),
-              DropdownButton<dvhcvn.Level2>(
-                hint: Text(state.level2.name != ""
-                    ? state.level2.name
-                    : "- Quận huyện -"),
-                value: dropdownValue2,
-                icon: const Icon(Icons.arrow_downward, size: 18),
-                elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
-                underline: Container(
-                  height: 2,
-                  color: Theme.of(context).colorScheme.primary,
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.gray.withOpacity(0.1),
+                  border: Border.all(
+                      color: AppColors.gray.withOpacity(0.5),
+                      width: 1.0,
+                      style: BorderStyle.solid), //Border.all
+                  /*** The BorderRadius widget  is here ***/
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(2),
+                  ), //BorderRadius.
                 ),
-                onChanged: (dvhcvn.Level2? newValue) {
-                  context
-                      .read<AddressBloc>()
-                      .add(AddressIdLevel2Selected(item: newValue!));
-                  print(newValue);
-                },
-                items: state.level1.children
-                    .map<DropdownMenuItem<dvhcvn.Level2>>((value) {
-                  return DropdownMenuItem<dvhcvn.Level2>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
+                child: DropdownButton<dvhcvn.Level2>(
+                  hint: Text(state.level2.name != ""
+                      ? state.level2.name
+                      : "- Quận huyện -"),
+                  value: dropdownValue2,
+                  icon: const Icon(Icons.arrow_downward, size: 18),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(),
+                  onChanged: (dvhcvn.Level2? newValue) {
+                    context
+                        .read<AddressBloc>()
+                        .add(AddressIdLevel2Selected(item: newValue!));
+                    print(newValue);
+                  },
+                  items: state.level1.children
+                      .map<DropdownMenuItem<dvhcvn.Level2>>((value) {
+                    return DropdownMenuItem<dvhcvn.Level2>(
+                      value: value,
+                      child: Text(value.name),
+                    );
+                  }).toList(),
+                ),
               ),
-              DropdownButton<dvhcvn.Level3>(
-                hint: Text(state.level3.name != ""
-                    ? state.level3.name
-                    : "- Phường xã -"),
-                value: dropdownValue3,
-                icon: const Icon(Icons.arrow_downward, size: 18),
-                elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
-                underline: Container(
-                  height: 2,
-                  color: Theme.of(context).colorScheme.primary,
+              Container(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.gray.withOpacity(0.1),
+                  border: Border.all(
+                      color: AppColors.gray.withOpacity(0.5),
+                      width: 1.0,
+                      style: BorderStyle.solid), //Border.all
+                  /*** The BorderRadius widget  is here ***/
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(2),
+                  ), //BorderRadius.
                 ),
-                onChanged: (dvhcvn.Level3? newValue) {
-                  context
-                      .read<AddressBloc>()
-                      .add(AddressIdLevel3Selected(item: newValue!));
-                  print(newValue);
-                },
-                items: state.level2.children
-                    .map<DropdownMenuItem<dvhcvn.Level3>>((value) {
-                  return DropdownMenuItem<dvhcvn.Level3>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
+                child: DropdownButton<dvhcvn.Level3>(
+                  hint: Text(state.level3.name != ""
+                      ? state.level3.name
+                      : "- Phường xã -"),
+                  value: dropdownValue3,
+                  icon: const Icon(Icons.arrow_downward, size: 18),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(),
+                  onChanged: (dvhcvn.Level3? newValue) {
+                    context
+                        .read<AddressBloc>()
+                        .add(AddressIdLevel3Selected(item: newValue!));
+                    print(newValue);
+                  },
+                  items: state.level2.children
+                      .map<DropdownMenuItem<dvhcvn.Level3>>((value) {
+                    return DropdownMenuItem<dvhcvn.Level3>(
+                      value: value,
+                      child: Text(value.name),
+                    );
+                  }).toList(),
+                ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(onPressed: () {}, child: Text("Huỷ")),
                   TextButton(
@@ -236,6 +277,7 @@ class SelectAddress extends StatelessWidget {
                               state.level2.id != "" &&
                               state.level3.id != "")
                           ? () {
+                              context.read<AddressBloc>().add(AddressInitial());
                               Navigator.of(context).pushNamed(
                                   "/landplanning/add",
                                   arguments: Address(state.level1.id,

@@ -6,7 +6,12 @@ class NewsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-class InitialNewsEvent extends NewsEvent { }
-class LoadNews extends NewsEvent {}
 
-class RefreshNews extends NewsEvent {}
+class InitialNews extends NewsEvent {}
+
+class LoadMoreNews extends NewsEvent {
+  final int pageNumber;
+  final int pageSize;
+
+  LoadMoreNews(this.pageNumber, this.pageSize); 
+}

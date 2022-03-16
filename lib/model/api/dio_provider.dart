@@ -34,7 +34,7 @@ class DioProvider {
     var imageBinding = await File(filePath).readAsBytes();
 
     var result = await http.put(Uri.parse(response.data.toString()),
-        body: await File(filePath).readAsBytesSync(),
+        body:  File(filePath).readAsBytesSync(),
         headers: {'Content-Type': contentType});
     return Future<String>.value("$pathUpload/$pathName");
   }

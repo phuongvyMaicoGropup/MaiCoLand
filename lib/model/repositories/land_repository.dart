@@ -27,7 +27,7 @@ class LandPlanningRepository {
                 "imageUrl": imagePathDb,
                 "landArea": item.landArea,
                 "filePdfUrl": filePdfPathDb,
-                "expirationDate": item.expirationDate,
+                "expirationDate": item.expirationDate.toString(),
                 "leftTop": {
                   "latitude": item.leftTop.latitude,
                   "longitude": item.leftTop.longitude
