@@ -227,8 +227,7 @@ class LandPlanningAddBloc
         "land-planning/" + fileId,
       );
 
-      // var result = await _landPlanningRepo.create(LandPlanningRequest);
-      var result = true;
+      var result = await _landPlanningRepo.create(event.land);
       if (result == true) {
         emit(LandPlanningSuccess());
       } else {

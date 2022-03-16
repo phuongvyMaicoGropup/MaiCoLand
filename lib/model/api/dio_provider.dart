@@ -14,6 +14,7 @@ class DioProvider {
   get createNewsApi => baseUrl + "api/news/create";
   get getFileUrl => baseUrl + "api/file/getlink";
   get getNewsPagination => baseUrl + "api/news/read";
+  get createLandPlaningApi => baseUrl + "api/landplanning/create";
 
   final FlutterSecureStorage storage = FlutterSecureStorage();
   final Dio dio = Dio();

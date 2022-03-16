@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maico_land/bloc/address_bloc/address.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/bloc/register_bloc/register_bloc.dart';
 import 'package:maico_land/model/repositories/home_repository.dart';
@@ -46,6 +47,11 @@ void main() {
           BlocProvider(
             create: (context) {
               return NewsAddBloc(userRepository: userRepo);
+            },
+          ),
+           BlocProvider(
+            create: (context) {
+              return AddressBloc();
             },
           )
         ],

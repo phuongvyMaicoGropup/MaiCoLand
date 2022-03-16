@@ -21,7 +21,9 @@ import 'package:maico_land/presentation/widgets/widgets.dart';
 import 'package:uuid/uuid.dart';
 
 class LandPlanningAddScreen extends StatefulWidget {
-  const LandPlanningAddScreen({Key? key}) : super(key: key);
+  const LandPlanningAddScreen({required this.address, Key? key})
+      : super(key: key);
+  final Address address;
 
   @override
   _LandPlanningAddScreenState createState() => _LandPlanningAddScreenState();
@@ -119,8 +121,8 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                     inputType: TextInputType.number,
                     width: MediaQuery.of(context).size.width,
                     label: "Diện tích",
-                    validator: r"[\s\S]{20,}",
-                    errorMessage: "Vui lòng nhập trên 20 kí tự "),
+                    validator: r".",
+                    errorMessage: "Vui lòng không để trống"),
                 const SizedBox(height: 10),
                 InputPoint(
                     width: MediaQuery.of(context).size.width,
@@ -182,7 +184,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                   },
                   child: Text(DateFormat('dd-MM-yyyy').format(selectedDate)),
                 ),
-                SubmitedButton(),
+                SubmitedButton()
               ],
             ),
           )),
@@ -191,7 +193,6 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
 
   Widget SubmitedButton() {
     return ElevatedButton(
-        key: const Key('NewsAddForm_continue_raisedButton'),
         child: const Text('Lưu', style: TextStyle(color: Colors.white)),
         onPressed: () async {
           try {
@@ -199,7 +200,6 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
               titleController.text,
               contentController.text,
               imagePath,
-              Address(addressIdLevel1, addressIdLevel2, addressIdLevel3),
               double.parse(landAreaController.text),
               filePdfPath,
               selectedDate,
@@ -219,22 +219,29 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                 double.parse(leftTopxController.text),
                 double.parse(leftTopxController.text),
               ),
+              widget.address,
             );
+            print(landPlanningRequest);
 
             var result = await _landPlanningRepo.create(landPlanningRequest);
             if (result == true) {
-              // emit(state.copyWith(status: FormzStatus.submissionSuccess));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text("Tạo bản đồ thành công"),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                ),
+              );
             } else {
-              // emit(state.copyWith(status: FormzStatus.submissionFailure));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                      "Đã xảy ra lỗi khi tạo bản đồ . Vui lòng thử lại sau"),
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                ),
+              );
             }
             Navigator.of(context)
                 .pushNamedAndRemoveUntil("/", (route) => false);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text("Đăng bài thành công"),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-              ),
-            );
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/login_screen.dart';
@@ -31,7 +32,9 @@ class AppRouter {
       case '/news/add':
         return MaterialPageRoute(builder: (_) => const NewsAddScreen());
       case '/landplanning/add':
-        return MaterialPageRoute(builder: (_) => const LandPlanningAddScreen());
+        Address address = routeSettings.arguments as Address;
+        return MaterialPageRoute(
+            builder: (_) => LandPlanningAddScreen(address: address));
 //       case '/landplannings':
 //       return MaterialPageRoute(builder: (_)=> const LandPlanningsScreen());
 //  case '/news':
