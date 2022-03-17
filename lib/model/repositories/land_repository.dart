@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
@@ -18,6 +19,9 @@ class LandPlanningRepository {
       var filePdfPathDb = await _dioProvider.uploadFile(
           item.filePdfUrl, "application/pdf", "land-planning/$id");
       print(filePdfPathDb);
+      print(item);
+      var date = item.expirationDate.toUtc();
+      print(date);
       Response newsResponse =
           await _dioProvider.dio.post(_dioProvider.createLandPlaningApi,
               data: {
@@ -27,7 +31,7 @@ class LandPlanningRepository {
                 "imageUrl": imagePathDb,
                 "landArea": item.landArea,
                 "filePdfUrl": filePdfPathDb,
-                "expirationDate": item.expirationDate.toString(),
+                "expirationDate": date.toString(),
                 "leftTop": {
                   "latitude": item.leftTop.latitude,
                   "longitude": item.leftTop.longitude
@@ -55,6 +59,8 @@ class LandPlanningRepository {
       return Future<bool>.value(true);
     } catch (e) {
       print(e);
+
+
       return Future<bool>.value(false);
     }
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:maico_land/bloc/news_bloc/news_bloc.dart';
+import 'package:maico_land/bloc/news_bloc/news_event.dart';
 import 'package:maico_land/bloc/news_bloc/news_state.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
@@ -68,15 +69,14 @@ class _NewsScreenState extends State<NewsScreen> {
               ],
             ),
             body: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
-              return _buildListNews(state);
+              return _buildListNews();
             })));
   }
 
-  Widget _buildListNews(NewsState state) {
+  Widget _buildListNews() {
     return RefreshIndicator(
-      onRefresh: () => Future.sync(
-        () => _pagingController.refresh(),
-      ),
+      onRefresh: () => Future.sync(() => _pagingController.refresh())
+      ,
       child: PagedListView<int, News>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<News>(

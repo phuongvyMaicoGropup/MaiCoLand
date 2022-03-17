@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 class DioProvider {
-  get baseUrl => "http://maicogroup.net:3005/";
+  // get baseUrl => "http://maicogroup.net:3005/";
+  get baseUrl => "https://maicoland123.herokuapp.com/";
   get loginApi => baseUrl + "api/user/authenticate";
   get registerApi => baseUrl + "api/user/register";
   get getPresignedApi => baseUrl + "api/file/getpresignedurl";
@@ -34,7 +35,7 @@ class DioProvider {
     var imageBinding = await File(filePath).readAsBytes();
 
     var result = await http.put(Uri.parse(response.data.toString()),
-        body:  File(filePath).readAsBytesSync(),
+        body: File(filePath).readAsBytesSync(),
         headers: {'Content-Type': contentType});
     return Future<String>.value("$pathUpload/$pathName");
   }

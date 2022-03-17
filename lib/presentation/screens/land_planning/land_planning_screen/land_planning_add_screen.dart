@@ -198,6 +198,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
   Widget SubmitedButton() {
     return ElevatedButton(
         child: const Text('Lưu', style: TextStyle(color: Colors.white)),
+        key: const Key('LandPlanningAddForm_submitField'),
         onPressed: () async {
           try {
             var landPlanningRequest = LandPlanningRequest(
@@ -235,6 +236,8 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
               );
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("/", (route) => false);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -243,9 +246,9 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                   backgroundColor: Theme.of(context).colorScheme.error,
                 ),
               );
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("/", (route) => false);
             }
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil("/", (route) => false);
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -253,6 +256,8 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                 backgroundColor: Colors.red,
               ),
             );
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil("/", (route) => false);
             print(e.toString());
           }
         });

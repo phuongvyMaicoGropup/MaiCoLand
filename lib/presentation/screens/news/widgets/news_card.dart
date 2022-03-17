@@ -18,7 +18,8 @@ class NewsCard extends StatelessWidget {
       onTap: () => openShowDetails(context, news),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.18,
+        height: MediaQuery.of(context).size.height * 0.14,
+        padding: const EdgeInsets.only(top: 8),
         margin: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -34,36 +35,23 @@ class NewsCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.45,
+              width: MediaQuery.of(context).size.width * 0.35,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  bottomLeft: Radius.circular(5),
-                ),
-                image: DecorationImage(
-                  image: NetworkImage(news.imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                ),
-                child: FadeInImage.assetNetwork(
-                  // fadeInCurve: Curves.bounceIn,
-                  fadeInDuration: const Duration(
-                    milliseconds: 500,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.5),
+                    offset: const Offset(0, 2),
+                    blurRadius: 2,
                   ),
-                  placeholder: 'assets/images/loading.gif',
-                  image: news.imageUrl,
-                  fit: BoxFit.cover,
-                  width: 180,
+                ],
+                image: const DecorationImage(
+                  image: AssetImage('assets/logo.png'),
+                  fit: BoxFit.fitWidth,
                 ),
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width * 0.45,
+              width: MediaQuery.of(context).size.width * 0.65,
               padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,13 +107,15 @@ class NewsCard extends StatelessWidget {
                   // ),
 
                   Flexible(
+                    flex: 7,
                     child: Text(
                       news.title,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             fontFamily: "Montserrat",
-                            fontSize: 16,
+                            fontSize: 15,
                           ),
                     ),
                   ),

@@ -14,14 +14,12 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   }
   void _mapInitialNewsToState(
       InitialNews event, Emitter<NewsState> emit) async {
-    List<News> news = await newsRepo.getNewsPagination(0, 10);
+    List<News> news = await newsRepo.getNewsPagination(1, 10);
     state.news = news;
   }
 
   void _mapLoadMoreNewsToState(
       LoadMoreNews event, Emitter<NewsState> emit) async {
-    List<News> news =
-        await newsRepo.getNewsPagination(event.pageNumber, event.pageSize);
-    state.news.addAll(news);
+    state.news.addAll(event.news);
   }
 }

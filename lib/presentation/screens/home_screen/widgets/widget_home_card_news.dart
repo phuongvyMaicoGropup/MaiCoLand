@@ -38,7 +38,7 @@ class WidgetHomeCardNews extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Colors.white.withOpacity(0.5),
                           offset: const Offset(0, 2),
                           blurRadius: 2,
                         ),
@@ -48,8 +48,8 @@ class WidgetHomeCardNews extends StatelessWidget {
                       //   topRight: Radius.circular(5),
                       // ),
                       image: DecorationImage(
-                        image: NetworkImage(news.imageUrl),
-                        fit: BoxFit.cover,
+                        image: AssetImage('assets/logo.png'),
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   ),

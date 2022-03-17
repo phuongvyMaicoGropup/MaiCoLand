@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:maico_land/model/entities/news.dart';
 
 class NewsEvent extends Equatable {
   const NewsEvent();
@@ -10,8 +11,7 @@ class NewsEvent extends Equatable {
 class InitialNews extends NewsEvent {}
 
 class LoadMoreNews extends NewsEvent {
-  final int pageNumber;
-  final int pageSize;
+  final List<News> news; 
 
-  LoadMoreNews(this.pageNumber, this.pageSize); 
+  LoadMoreNews(this.news);
 }
