@@ -43,7 +43,7 @@ class _NewsScreenState extends State<NewsScreen> {
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }
-      
+        
     } catch (error) {
       _pagingController.error = "Đã có lỗi xảy ra. Vui lòng thử lại ";
     }
