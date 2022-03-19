@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 class News {
   const News(
@@ -17,7 +18,7 @@ class News {
   final String id;
   final String title;
   final String content;
-  final List<String> hashTags;
+  final List<String>? hashTags;
   final String imageUrl;
   final List<String>? likes;
   final DateTime createDate;
@@ -47,65 +48,6 @@ class News {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'content': content,
-      'hashTags': hashTags,
-      'imageUrl': imageUrl,
-      'likes': likes,
-      'createDate': createDate.millisecondsSinceEpoch,
-      'createdBy': createdBy,
-      'updateDate': updateDate.millisecondsSinceEpoch,
-    };
-  }
-
-  // factory News.fromMap(Map<String, dynamic> map) {
-  //   return News(
-  //     map['id'] ?? '',
-  //     map['title'] ?? '',
-  //     map['content'] ?? '',
-  //     List<String>.from(map['hashTags']),
-  //     map['imageUrl'] ?? '',
-  //     List<String>.from(map['likes']),
-  //     DateTime.fromMillisecondsSinceEpoch(map['createDate']),
-  //     map['createdBy'] ?? '',
-  //     DateTime.fromMillisecondsSinceEpoch(map['updateDate']),
-  //   );
-  // }
-
-  // String toJson() => json.encode(toMap());
-
-  factory News.fromJson(Map<String, dynamic> json) {
-    List<String> hashTags = [];
-    for (int j = 0; j < json['hashTags'].length; j++) {
-      hashTags.add(json['hashTags'][j]);
-    }
-    List<String> likes = [];
-    if (json['likes'] != null) {
-      for (int j = 0; j < json['likes'].length; j++) {
-        hashTags.add(json['likes'][j]);
-      }
-    }
-    return News(
-        id: json["id"] as String,
-        title: json["title"] as String,
-        content: json["content"] as String,
-        hashTags: hashTags,
-        imageUrl: json["imageUrl"] as String,
-        likes: likes,
-        createDate: DateTime.parse(json["createDate"]),
-        createdBy: json["createdBy"] as String,
-        updateDate: DateTime.parse(json["updateDate"]));
-  }
-
-  // Map<String, dynamic> toJson() => {
-  //   "id": id,
-  //   "title": title,
-  //   "likes": likes,
-  //   "image": image,
-  // };
   @override
   String toString() {
     return 'News(id: $id, title: $title, content: $content, hashTags: $hashTags, imageUrl: $imageUrl, likes: $likes, createDate: $createDate, createdBy: $createdBy, updateDate: $updateDate)';
@@ -114,7 +56,6 @@ class News {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
 
     return other is News &&
         other.id == id &&
@@ -140,4 +81,37 @@ class News {
         createdBy.hashCode ^
         updateDate.hashCode;
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'content': content,
+      'hashTags': hashTags,
+      'imageUrl': imageUrl,
+      'likes': likes,
+      'createDate': createDate.millisecondsSinceEpoch,
+      'createdBy': createdBy,
+      'updateDate': updateDate.millisecondsSinceEpoch,
+    };
+  }
+
+  factory News.fromMap(Map<String, dynamic> map) {
+    print("hehe");
+    return News(
+      id: map['id'] ?? '',
+      title: map['title'] ?? '',
+      content: map['content'] ?? '',
+      hashTags: List<String>.from(map['hashTags']),
+      imageUrl: map['imageUrl'] ?? '',
+      likes: List<String>.from(map['likes']),
+      createDate: DateTime.parse(map['createDate']),
+      createdBy: map['createdBy'] ?? '',
+      updateDate: DateTime.parse(map['updateDate']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory News.fromJson(String source) => News.fromMap(json.decode(source));
 }

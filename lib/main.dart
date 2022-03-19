@@ -16,6 +16,7 @@ import 'package:maico_land/router/app_router.dart';
 import 'bloc/news_add_bloc/news_add_bloc.dart';
 import 'presentation/screens/auth_screen/login_screen.dart';
 import 'presentation/screens/home_screen/bloc/home_bloc.dart';
+import 'presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 import 'presentation/screens/home_screen/home_screen.dart';
 
@@ -38,13 +39,20 @@ void main() {
             create: (context) {
               HomeRepository homeRepo = HomeRepository();
               HomeNewsBloc homeNewsBloc = HomeNewsBloc();
-              return HomeBloc(homeRepository: homeRepo, newsBloc: homeNewsBloc)
-                ..add(LoadHome());
+              HomeLandPlanningBloc landBloc = HomeLandPlanningBloc();
+
+              return HomeBloc(homeRepository: homeRepo, newsBloc: homeNewsBloc, landBloc: landBloc)
+              ..add(LoadHome());
             },
           ),
           BlocProvider(
             create: (context) {
               return HomeNewsBloc();
+            },  
+          ),
+          BlocProvider(
+            create: (context) {
+              return HomeLandPlanningBloc();
             },
           ),
           BlocProvider(

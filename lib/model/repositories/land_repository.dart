@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
+import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,14 +16,13 @@ class LandPlanningRepository {
       var id = Uuid().v4();
       var imagePathDb = await _dioProvider.uploadFile(
           item.imageUrl, "image/png", "land-planning/$id");
-      print(imagePathDb);
       var filePdfPathDb = await _dioProvider.uploadFile(
           item.filePdfUrl, "application/pdf", "land-planning/$id");
-      print(filePdfPathDb);
       print(item);
       var date = item.expirationDate.toUtc();
       print(date);
-      Response newsResponse =
+      print(item.address);
+      Response LandPlanningResponse =
           await _dioProvider.dio.post(_dioProvider.createLandPlaningApi,
               data: {
                 "title": item.title,
@@ -49,9 +49,9 @@ class LandPlanningRepository {
                   "longitude": item.rightBottom.longitude
                 },
                 "address": {
-                  "idLevel1": item.address.idLevel1,
-                  "idLevel2": item.address.idLevel2,
-                  "idLevel3": item.address.idLevel3,
+                  "idLevel1": item.address.idLevel1.toString(),
+                  "idLevel2": item.address.idLevel2.toString(),
+                  "idLevel3": item.address.idLevel3.toString(),
                 }
               },
               options: Options(headers: {"Content-Type": "application/json"}));
@@ -60,8 +60,58 @@ class LandPlanningRepository {
     } catch (e) {
       print(e);
 
-
       return Future<bool>.value(false);
     }
+  }
+
+  Future<List<LandPlanning>> getHomeLandPlanning() async {
+    Response response = await _dioProvider.dio.get(
+        _dioProvider.getLandPlanningPagination,
+        queryParameters: {'pageNumber': 1, 'pageSize': 5});
+
+    var json = response.data;
+    List<LandPlanning> result = [];
+    String linkPdf, linkImage;
+    LandPlanning land;
+    for (int i = 0; i < json.length; i++) {
+      linkImage = await _dioProvider.getFileLink(json[i]['imageUrl']);
+      linkPdf = await _dioProvider.getFileLink(json[i]['filePdfUrl']);
+      land = LandPlanning.fromMap(json[i]);
+      land.copyWith(filePdfUrl: linkPdf, imageUrl: linkImage);
+      print(land.filePdfUrl);
+      result.add(land);
+    }
+    return Future<List<LandPlanning>>.value(result);
+  }
+
+  Future<List<LandPlanning>> getLandPlanningPagination(
+      int pageNumber, int pageSize, String searchKey) async {
+    Response response;
+    if (searchKey == "") {
+      response = await _dioProvider.dio.get(
+          _dioProvider.getLandPlanningPagination,
+          queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize});
+    } else {
+      response = await _dioProvider.dio.get(_dioProvider.searchLandPlanning,
+          queryParameters: {
+            'searchKey': searchKey,
+            'idAddress1': "",
+            'idAddress2': ""
+          });
+    }
+    var json = response.data;
+    print(json[0]['hashTags']);
+    // var a = parsed[0]['hashTags'].toList();
+    List<LandPlanning> result = [];
+    for (int i = 0; i < json.length; i++) {
+      var linkImage = await _dioProvider.getFileLink(json[i]['imageUrl']);
+      var linkPdf = await _dioProvider.getFileLink(json[i]['filePdfUrl']);
+
+      LandPlanning land = LandPlanning.fromMap(json[i]);
+      land.copyWith(filePdfUrl: linkPdf, imageUrl: linkImage);
+      result.add(land);
+    }
+
+    return Future<List<LandPlanning>>.value(result);
   }
 }

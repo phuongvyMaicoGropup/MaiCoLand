@@ -28,7 +28,10 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     AddressIdLevel1Selected event,
     Emitter<AddressState> emit,
   ) async {
-    emit(state.copyWith(level1: event.item, level2: null, level3: null));
+    emit(state.copyWith(
+        level1: event.item,
+        level2: Level2(0, "", "", Type.phuong, []),
+        level3: Level3(0, 0, "", "", Type.phuong)));
     print(state);
   }
 
@@ -36,7 +39,16 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     AddressInitial event,
     Emitter<AddressState> emit,
   ) async {
-    emit(state.copyWith(level1: null, level2: null, level3: null));
+    emit(state.copyWith(
+        level1: Level1("", "", Type.huyen, []),
+        level2: Level2(0, "", "", Type.phuong, []),
+        level3: Level3(
+          0,
+          0,
+          "",
+          "",
+          Type.huyen,
+        )));
     print(state);
   }
 
@@ -44,7 +56,8 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     AddressIdLevel2Selected event,
     Emitter<AddressState> emit,
   ) async {
-    emit(state.copyWith(level2: event.item, level3: null));
+    emit(state.copyWith(
+        level2: event.item, level3: Level3(0, 0, "", "", Type.phuong)));
   }
 
   Future<void> _mapAddressIdLevel3SelectedToState(

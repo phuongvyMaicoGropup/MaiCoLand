@@ -116,7 +116,7 @@ class OptionCard extends StatelessWidget {
               flex: 2,
               child: Container(
                   clipBehavior: Clip.hardEdge,
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       color: AppColors.appGreen2, shape: BoxShape.circle),
                   child: Icon(item.icon, size: 30, color: Colors.white))),
@@ -141,8 +141,9 @@ class SelectAddress extends StatelessWidget {
   dvhcvn.Level2? dropdownValue2;
   dvhcvn.Level3? dropdownValue3;
   @override
-  Widget build(BuildContext _) =>
-      BlocBuilder<AddressBloc, AddressState>(builder: (context, state) {
+  Widget build(BuildContext _) => BlocBuilder<AddressBloc, AddressState>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
         return ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(10),
@@ -203,7 +204,7 @@ class SelectAddress extends StatelessWidget {
                       width: 1.0,
                       style: BorderStyle.solid), //Border.all
                   /*** The BorderRadius widget  is here ***/
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(2),
                   ), //BorderRadius.
                 ),

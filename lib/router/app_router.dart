@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/address.dart';
+import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/login_screen.dart';
 import 'package:maico_land/presentation/screens/auth_screen/register_screen.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
-import 'package:maico_land/presentation/screens/land_planning/land_planning_screen/land_planning_add_screen.dart';
+import 'package:maico_land/presentation/screens/land_planning/land_planning_add_screen/land_planning_add_screen.dart';
+import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_detail_screen.dart';
+import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
+import 'package:maico_land/presentation/screens/land_planning/land_planning_screen/land_planning_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_add/news_add_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_details/news_details_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_screen.dart';
@@ -35,10 +39,12 @@ class AppRouter {
         Address address = routeSettings.arguments as Address;
         return MaterialPageRoute(
             builder: (_) => LandPlanningAddScreen(address: address));
-//       case '/landplannings':
-//       return MaterialPageRoute(builder: (_)=> const LandPlanningsScreen());
-//  case '/news':
-//       return MaterialPageRoute(builder: (_)=> const NewsScreen());
+      case '/landplanning':
+        return MaterialPageRoute(builder: (_) => const LandPlanningScreen());
+      case '/landplanning/details':
+        var land = routeSettings.arguments as LandPlanning;
+        return MaterialPageRoute(
+            builder: (_) => DetailMapLandPlanning(landPlanning: land));
       case '/news/details':
         var news = routeSettings.arguments as News;
         return MaterialPageRoute(builder: (_) => NewsDetailsScreen(news: news));

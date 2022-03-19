@@ -91,7 +91,10 @@ const textMinorBlack = TextStyle(
     fontWeight: FontWeight.bold, fontSize: 11, color: AppColors.black);
 
 const textMinorGreen = TextStyle(
-    fontWeight: FontWeight.bold, fontSize: 11, color: AppColors.appGreen2);
+    fontWeight: FontWeight.bold, fontSize: 12, color: AppColors.appGreen2);
+
+const textMinorRed =
+    TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppColors.red);
 
 // Button Style
 

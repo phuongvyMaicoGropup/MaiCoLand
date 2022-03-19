@@ -3,8 +3,8 @@ import 'package:maico_land/model/entities/news.dart';
 
 class HomeResponse {
   List<News> news;
-  List<LandPlanning> landPlannings = [];
-  HomeResponse({required this.news});
+  List<LandPlanning> landPlannings;
+  HomeResponse({required this.news, required this.landPlannings});
   // List<Banner> banners;
 
   // List<Categoryy> categories;

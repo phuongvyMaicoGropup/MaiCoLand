@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
 
 class WidgetHomeCardLandPlanning extends StatelessWidget {
   const WidgetHomeCardLandPlanning({Key? key, required this.landPlanning})
@@ -12,15 +13,16 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => DetailMapLandPlanning(landPlanning: landPlanning)))
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DetailMapLandPlanning(landPlanning: landPlanning)))
       },
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 4, bottom: 4, left: 20),
+            padding: const EdgeInsets.only(top: 4, bottom: 4, right: 20),
             child: Container(
               width: 180,
               decoration: BoxDecoration(

@@ -200,6 +200,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
         child: const Text('Lưu', style: TextStyle(color: Colors.white)),
         key: const Key('LandPlanningAddForm_submitField'),
         onPressed: () async {
+          print(widget.address);
           try {
             var landPlanningRequest = LandPlanningRequest(
               titleController.text,

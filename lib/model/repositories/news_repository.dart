@@ -39,22 +39,9 @@ class NewsRepository {
     var json = response.data;
     List<News> result = [];
     for (int i = 0; i < json.length; i++) {
-      List<String> hashTags = [];
-      for (int j = 0; j < json[i]['hashTags'].length; j++) {
-        hashTags.add(json[i]['hashTags'][j]);
-      }
       var link = await _dioProvider.getFileLink(json[i]['imageUrl']);
-
-      var news = News(
-          id: json[i]["id"],
-          title: json[i]["title"],
-          content: json[i]["content"],
-          hashTags: hashTags,
-          imageUrl: link,
-          likes: json[i]["likes"],
-          createDate: DateTime.parse(json[i]["createDate"]),
-          createdBy: json[i]["createdBy"],
-          updateDate: DateTime.parse(json[i]["updateDate"]));
+      var news = News.fromMap(json[i]);
+      news.copyWith(imageUrl: link);
       result.add(news);
     }
     return Future<List<News>>.value(result);
@@ -66,28 +53,14 @@ class NewsRepository {
         queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize});
 
     var json = response.data;
-    print(json[0]['hashTags']);
-    // var a = parsed[0]['hashTags'].toList();
     List<News> result = [];
     for (int i = 0; i < json.length; i++) {
-      List<String> hashTags = [];
-      for (int j = 0; j < json[i]['hashTags'].length; j++) {
-        hashTags.add(json[i]['hashTags'][j]);
-      }
       var link = await _dioProvider.getFileLink(json[i]['imageUrl']);
-
-      var news = News(
-          id: json[i]["id"],
-          title: json[i]["title"],
-          content: json[i]["content"],
-          hashTags: hashTags,
-          imageUrl: link,
-          likes: json[i]["likes"],
-          createDate: DateTime.parse(json[i]["createDate"]),
-          createdBy: json[i]["createdBy"],
-          updateDate: DateTime.parse(json[i]["updateDate"]));
+      var news = News.fromMap(json[i]);
+      news.copyWith(imageUrl: link);
       result.add(news);
     }
+    // print(News.fromMap(json[0]));
     return Future<List<News>>.value(result);
   }
 }

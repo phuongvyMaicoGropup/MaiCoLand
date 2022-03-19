@@ -5,6 +5,7 @@ import 'package:maico_land/bloc/auth_bloc/auth_state.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/responses/user_reponse.dart';
 import 'package:maico_land/presentation/screens/home_screen/bloc/home_event.dart';
+import 'package:maico_land/presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 
@@ -22,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
         child: Scaffold(
             backgroundColor: AppColors.white,
@@ -69,8 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Builder(builder: (context) {
                 final homeState = context.watch<HomeBloc>().state;
                 if (homeState is HomeLoaded) {
-                  // BlocProvider.of<LandPlanningBloc>(context).add(
-                  //     DisplayLandPlanning(homeState.response.landPlannings));
+                  BlocProvider.of<HomeLandPlanningBloc>(context).add(
+                      HomeDisplayLandPlanning(
+                          homeState.response.landPlannings));
                   BlocProvider.of<HomeNewsBloc>(context)
                       .add(HomeDisplayNews(homeState.response.news));
                 }
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // WidgetHomeLandPlanning(),
                   const SizedBox(height: 10),
                   WidgetHomeNews(),
-                 
+                  WidgetHomeLandPlanning(),
                 ]);
               })
             ],
