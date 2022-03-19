@@ -43,10 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                       return Container();
                     }),
-                    const WidgetHomeBanner(),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    
                     _buildContent(state)
                   ],
                 ),
@@ -66,6 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             children: <Widget>[
+              const WidgetHomeBanner(),
+                    const SizedBox(
+                      height: 10,
+                    ),
               Builder(builder: (context) {
                 final homeState = context.watch<HomeBloc>().state;
                 if (homeState is HomeLoaded) {

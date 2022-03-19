@@ -22,13 +22,16 @@ class LandPlanningScreen extends StatefulWidget {
 class _LandPlanningScreenState extends State<LandPlanningScreen> {
   String searchKey = "";
   final LandPlanningRepository _LandPlanningRepo = LandPlanningRepository();
+  List<LandPlanning> listSearch = [];
+  
   final searchController = TextEditingController();
   static const _pageSize = 10;
+   Icon customIcon = const Icon(Icons.search);
+ Widget customSearchBar = const Text('Bản đồ quy hoạch đất');
 
   final PagingController<int, LandPlanning> _pagingController =
       PagingController(firstPageKey: 1);
-  final PagingController<int, LandPlanning> _searchPagingController =
-      PagingController(firstPageKey: 1);
+ 
 
   @override
   void initState() {
@@ -41,7 +44,6 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      if (searchKey == "") {
         final newItems = await _LandPlanningRepo.getLandPlanningPagination(
             pageKey, _pageSize, searchKey);
         final isLastPage = newItems.length < _pageSize;
@@ -51,17 +53,6 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
           final nextPageKey = pageKey + newItems.length;
           _pagingController.appendPage(newItems, nextPageKey);
         }
-      } else {
-        final newItems = await _LandPlanningRepo.getLandPlanningPagination(
-            pageKey, _pageSize, searchKey);
-        final isLastPage = newItems.length < _pageSize;
-        if (isLastPage) {
-          _searchPagingController.appendLastPage(newItems);
-        } else {
-          final nextPageKey = pageKey + newItems.length;
-          _searchPagingController.appendPage(newItems, nextPageKey);
-        }
-      }
     } catch (error) {
       _pagingController.error = "Đã có lỗi xảy ra. Vui lòng thử lại ";
     }
@@ -70,7 +61,6 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
   @override
   void dispose() {
     _pagingController.dispose();
-    _searchPagingController.dispose();
     super.dispose();
   }
 
@@ -79,30 +69,36 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: TextField(
-                controller: searchController,
-                style: textMediumBlack.copyWith(
-                    fontSize: 14, fontWeight: FontWeight.w400),
-                onChanged: (value) {
-                  setState(() {
-                    searchKey = value;
-                  });
-                  _searchPagingController.addPageRequestListener((pageKey) {
-                    _fetchPage(pageKey);
-                  });
-                },
-                decoration: const InputDecoration(
-                  fillColor: Colors.white,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.search, size: 16),
-                  ),
-                  filled: true,
-                  contentPadding: EdgeInsets.only(
-                      top: 13, bottom: 3.0, left: 5.0, right: 5.0),
-                  hintText: "Bản đồ quy hoạch đất",
-                ),
-              ),
+              // title: 
+              title:  TextField(
+     onChanged: (value){
+       setState(() {
+         searchKey = value; 
+       });
+       listSearch.clear();
+       _pagingController.itemList!.forEach((element) { if (element.title.contains(searchKey) ) listSearch.add(element); });
+      //  _pagingController.
+     },
+    decoration: InputDecoration(
+    
+    hintText: 'Nhập tên bản đồ quy hoạch đất..',
+    
+    hintStyle: TextStyle(
+     color: Colors.white,
+     fontSize: 15,
+     fontStyle: FontStyle.italic,
+    ),
+    border: InputBorder.none,
+    ),
+    
+    style: TextStyle(
+    color: Colors.white,
+    ),
+   ),
+               actions: [
+                 Icon(Icons.cancel)
+
+  ],
               centerTitle: true,
             ),
             body: SingleChildScrollView(
@@ -149,9 +145,9 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
             )));
   }
 
+
   Widget _buildListLandPlanning() {
-    return (searchKey == "")
-        ? RefreshIndicator(
+    return searchKey == ""?RefreshIndicator(
             onRefresh: () => Future.sync(() => _pagingController.refresh()),
             child: PagedListView<int, LandPlanning>(
               shrinkWrap: true,
@@ -161,18 +157,12 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
                     LandPlanningCard(land: item),
               ),
             ),
-          )
-        : RefreshIndicator(
-            onRefresh: () =>
-                Future.sync(() => _searchPagingController.refresh()),
-            child: PagedListView<int, LandPlanning>(
-              shrinkWrap: true,
-              pagingController: _searchPagingController,
-              builderDelegate: PagedChildBuilderDelegate<LandPlanning>(
-                itemBuilder: (context, item, index) =>
-                    LandPlanningCard(land: item),
-              ),
-            ),
-          );
+          ): 
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: listSearch.length, 
+            itemBuilder: ((context, index) => LandPlanningCard(land: listSearch[index])));
+          ;
+        
   }
 }

@@ -18,6 +18,7 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   final NewsRepository _newsRepo = NewsRepository();
+  List<News> listSearch = [];
   static const _pageSize = 10;
 
   final PagingController<int, News> _pagingController =
@@ -33,6 +34,7 @@ class _NewsScreenState extends State<NewsScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
+      
       final newItems = await _newsRepo.getNewsPagination(pageKey, _pageSize);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -41,6 +43,7 @@ class _NewsScreenState extends State<NewsScreen> {
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }
+      
     } catch (error) {
       _pagingController.error = "Đã có lỗi xảy ra. Vui lòng thử lại ";
     }
@@ -79,9 +82,16 @@ class _NewsScreenState extends State<NewsScreen> {
       ,
       child: PagedListView<int, News>(
         pagingController: _pagingController,
+        
         builderDelegate: PagedChildBuilderDelegate<News>(
           itemBuilder: (context, item, index) => NewsCard(news: item),
+  //         firstPageErrorIndicatorBuilder: (context) => ErrorIndicator(
+  //   error: _pagingController.error,
+  //   onTryAgain: () => _pagingController.refresh(),
+  // ),
+  // noItemsFoundIndicatorBuilder: (context) => EmptyListIndicator(),
         ),
+        
       ),
     );
   }
