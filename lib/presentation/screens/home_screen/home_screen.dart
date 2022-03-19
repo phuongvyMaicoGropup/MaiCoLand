@@ -8,6 +8,8 @@ import 'package:maico_land/presentation/screens/home_screen/bloc/home_event.dart
 import 'package:maico_land/presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
+import 'package:maico_land/presentation/widgets/land_planning_skeleton.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 import 'bloc/home_bloc.dart';
 import 'bloc/home_state.dart';
@@ -43,10 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                       return Container();
                     }),
-                    const WidgetHomeBanner(),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     _buildContent(state)
                   ],
                 ),
@@ -66,6 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             children: <Widget>[
+              const WidgetHomeBanner(),
+              const SizedBox(
+                height: 10,
+              ),
               Builder(builder: (context) {
                 final homeState = context.watch<HomeBloc>().state;
                 if (homeState is HomeLoaded) {
@@ -87,9 +89,60 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     } else if (state is HomeLoading) {
-      return const Expanded(
-        child: Center(
-          child: CircularProgressIndicator(),
+      return Expanded(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              WidgetSkeleton(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.23),
+              const SizedBox(height: 10),
+              WidgetSkeleton(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.002),
+              const SizedBox(height: 10),
+              Row(children: [
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.03),
+              ]),
+              const SizedBox(height: 20),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.18),
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.18),
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.18),
+              ]),
+              const SizedBox(height: 10),
+              WidgetSkeleton(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.002),
+              const SizedBox(height: 10),
+              Row(children: [
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.03),
+              ]),
+              const SizedBox(height: 20),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.18),
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.18),
+                WidgetSkeleton(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.18),
+              ]),
+            ],
+          ),
         ),
       );
     } else if (state is HomeNotLoaded) {

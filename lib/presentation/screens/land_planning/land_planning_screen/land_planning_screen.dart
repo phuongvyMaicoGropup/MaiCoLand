@@ -21,13 +21,17 @@ class LandPlanningScreen extends StatefulWidget {
 
 class _LandPlanningScreenState extends State<LandPlanningScreen> {
   String searchKey = "";
+  dvhcvn.Level1 idAddress1 = dvhcvn.Level1("", "", dvhcvn.Type.huyen, []);
+  dvhcvn.Level2 idAddress2 = dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
   final LandPlanningRepository _LandPlanningRepo = LandPlanningRepository();
+  List<LandPlanning> listSearch = [];
+
   final searchController = TextEditingController();
   static const _pageSize = 10;
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text('Bản đồ quy hoạch đất');
 
   final PagingController<int, LandPlanning> _pagingController =
-      PagingController(firstPageKey: 1);
-  final PagingController<int, LandPlanning> _searchPagingController =
       PagingController(firstPageKey: 1);
 
   @override
@@ -37,30 +41,39 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
     });
     super.initState();
   }
+
   // This function is called whenever the text field changes
+  void _updateSearchTerm(String searchTerm) {
+    searchKey = searchTerm;
+    _pagingController.refresh();
+  }
+
+  void selectedAddressId1(dvhcvn.Level1? id) {
+    setState(() {
+      idAddress1 = id!;
+      idAddress2 = dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
+    });
+    _pagingController.refresh();
+  }
+
+  void selectedAddressId2(dvhcvn.Level2? id) {
+    setState(() {
+      idAddress2 = id!;
+    });
+
+    _pagingController.refresh();
+  }
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      if (searchKey == "") {
-        final newItems = await _LandPlanningRepo.getLandPlanningPagination(
-            pageKey, _pageSize, searchKey);
-        final isLastPage = newItems.length < _pageSize;
-        if (isLastPage) {
-          _pagingController.appendLastPage(newItems);
-        } else {
-          final nextPageKey = pageKey + newItems.length;
-          _pagingController.appendPage(newItems, nextPageKey);
-        }
+      final newItems = await _LandPlanningRepo.getLandPlanningPagination(
+          pageKey, _pageSize, searchKey, idAddress1.id, idAddress2.id);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
       } else {
-        final newItems = await _LandPlanningRepo.getLandPlanningPagination(
-            pageKey, _pageSize, searchKey);
-        final isLastPage = newItems.length < _pageSize;
-        if (isLastPage) {
-          _searchPagingController.appendLastPage(newItems);
-        } else {
-          final nextPageKey = pageKey + newItems.length;
-          _searchPagingController.appendPage(newItems, nextPageKey);
-        }
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
       _pagingController.error = "Đã có lỗi xảy ra. Vui lòng thử lại ";
@@ -70,7 +83,6 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
   @override
   void dispose() {
     _pagingController.dispose();
-    _searchPagingController.dispose();
     super.dispose();
   }
 
@@ -78,101 +90,125 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+            floatingActionButton: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.appGreen1, shape: BoxShape.circle),
+              child: IconButton(
+                  onPressed: () {
+                    selectedAddressId1(
+                        dvhcvn.Level1("", "", dvhcvn.Type.huyen, []));
+                    selectedAddressId2(
+                        dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []));
+                  },
+                  icon: Icon(Icons.replay_outlined,
+                      color: AppColors.white, size: 30)),
+            ),
             appBar: AppBar(
+              // title:
               title: TextField(
+                onChanged: _updateSearchTerm,
                 controller: searchController,
-                style: textMediumBlack.copyWith(
-                    fontSize: 14, fontWeight: FontWeight.w400),
-                onChanged: (value) {
-                  setState(() {
-                    searchKey = value;
-                  });
-                  _searchPagingController.addPageRequestListener((pageKey) {
-                    _fetchPage(pageKey);
-                  });
-                },
                 decoration: const InputDecoration(
-                  fillColor: Colors.white,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.search, size: 16),
+                  hintText: 'Nhập tên bản đồ quy hoạch đất..',
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
                   ),
-                  filled: true,
-                  contentPadding: EdgeInsets.only(
-                      top: 13, bottom: 3.0, left: 5.0, right: 5.0),
-                  hintText: "Bản đồ quy hoạch đất",
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(
+                  color: Colors.white,
                 ),
               ),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      _updateSearchTerm("");
+                      searchController.text = "";
+                    },
+                    icon: Icon(Icons.cancel))
+              ],
               centerTitle: true,
             ),
             body: SingleChildScrollView(
               child: Column(children: [
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.055,
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.only(right: 10, left: 10),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          color: AppColors.gray.withOpacity(0.5),
-                          width: 1.0,
-                          style: BorderStyle.solid), //Border.al
-                    ),
-                    child: TextButton(
-                        onPressed: () {},
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                  children: [
-                                    WidgetSpan(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2.0),
-                                        child:
-                                            Icon(EvaIcons.pinOutline, size: 15),
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: 'Tất cả',
-                                    ),
-                                  ],
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        width: MediaQuery.of(context).size.width * 0.47,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.grey, width: 2)),
+                        child: DropdownButton<dvhcvn.Level1>(
+                            underline: Container(),
+                            isExpanded: true,
+                            hint: Text(
+                                idAddress1.name != ""
+                                    ? idAddress1.name
+                                    : "Tỉnh/Thành",
+                                style: textMinorBlack),
+                            items: dvhcvn.level1s.map((value) {
+                              return DropdownMenuItem<dvhcvn.Level1>(
+                                value: value,
+                                child: Text(
+                                  value.name,
                                 ),
-                              ),
-                              Icon(EvaIcons.arrowRightOutline),
-                            ]))),
+                              );
+                            }).toList(),
+                            onChanged: (value) => selectedAddressId1(value)
+                            // style: white,
+                            ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        width: MediaQuery.of(context).size.width * 0.47,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.grey, width: 2)),
+                        child: DropdownButton<dvhcvn.Level2>(
+                            underline: Container(),
+                            isExpanded: true,
+                            hint: Text(
+                                idAddress2.name != ""
+                                    ? idAddress2.name
+                                    : "Huyện",
+                                style: textMinorBlack),
+                            items: idAddress1.children.map((value) {
+                              return DropdownMenuItem<dvhcvn.Level2>(
+                                value: value,
+                                child: Text(
+                                  value.name,
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) => selectedAddressId2(value)
+                            // style: white,
+                            ),
+                      ),
+                    ]),
                 _buildListLandPlanning()
               ]),
             )));
   }
 
   Widget _buildListLandPlanning() {
-    return (searchKey == "")
-        ? RefreshIndicator(
-            onRefresh: () => Future.sync(() => _pagingController.refresh()),
-            child: PagedListView<int, LandPlanning>(
-              shrinkWrap: true,
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate<LandPlanning>(
-                itemBuilder: (context, item, index) =>
-                    LandPlanningCard(land: item),
-              ),
-            ),
-          )
-        : RefreshIndicator(
-            onRefresh: () =>
-                Future.sync(() => _searchPagingController.refresh()),
-            child: PagedListView<int, LandPlanning>(
-              shrinkWrap: true,
-              pagingController: _searchPagingController,
-              builderDelegate: PagedChildBuilderDelegate<LandPlanning>(
-                itemBuilder: (context, item, index) =>
-                    LandPlanningCard(land: item),
-              ),
-            ),
-          );
+    return RefreshIndicator(
+      onRefresh: () => Future.sync(() => _pagingController.refresh()),
+      child: PagedListView<int, LandPlanning>(
+        shrinkWrap: true,
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<LandPlanning>(
+          animateTransitions: true,
+          // [transitionDuration] has a default value of 250 milliseconds.
+          transitionDuration: const Duration(milliseconds: 500),
+          itemBuilder: (context, item, index) => LandPlanningCard(land: item),
+        ),
+      ),
+    );
   }
 }

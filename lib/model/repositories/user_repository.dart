@@ -28,13 +28,17 @@ class UserRepository {
 
   Future<String> login(
       String username, String password, bool rememberMe) async {
+        print(password);
+        print(username);
+
     Response response = await dio_provider.dio.post(dio_provider.loginApi,
         data: {
           'userName': username,
           'password': password,
           'rememberMe': rememberMe
         });
-
+    print(response.statusCode);
+    print(response.statusMessage);
     return Future<String>.value(response.data["token"]);
   }
 

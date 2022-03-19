@@ -10,45 +10,45 @@ class WidgetHomeLandPlanning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeLandPlanningBloc, HomeLandPlanningState>(
-      builder: (context, state) {
-        if (state is LandPlanningLoaded) {
-          items = state.land;
-
-          return Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const HeadingTextWidget(text: "Bản đồ quy hoạch"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/landplanning");
-                      },
-                      child: Text(
-                        "Xem thêm",
-                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                              fontFamily: "Montserrat",
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const HeadingTextWidget(text: "Bản đồ quy hoạch"),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/landplanning");
+                },
+                child: Text(
+                  "Xem thêm",
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontFamily: "Montserrat",
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                    )
-                  ],
                 ),
-                const SizedBox(height: 5),
-                Container(height: 200.0, child: _buildListLandPlanning()),
-              ],
-            ),
-          );
-        } else if (state is LandPlanningNotLoaded) {
-          return Container(child: Text("Không load được"));
-        } else
-          return Container(child: CircularProgressIndicator());
-      },
+              )
+            ],
+          ),
+          const SizedBox(height: 5),
+          BlocBuilder<HomeLandPlanningBloc, HomeLandPlanningState>(
+            builder: (context, state) {
+              if (state is LandPlanningLoaded) {
+                items = state.land;
+                return Container(
+                    height: 200.0, child: _buildListLandPlanning());
+              } else if (state is LandPlanningNotLoaded) {
+                return Container(child: Text("Không load được"));
+              } else
+                return Container(child: CircularProgressIndicator());
+            },
+          )
+        ],
+      ),
     );
   }
 

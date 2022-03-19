@@ -85,9 +85,13 @@ class LandPlanningRepository {
   }
 
   Future<List<LandPlanning>> getLandPlanningPagination(
-      int pageNumber, int pageSize, String searchKey) async {
+      int pageNumber,
+      int pageSize,
+      String searchKey,
+      String idAddress1,
+      String idAddress2) async {
     Response response;
-    if (searchKey == "") {
+    if (searchKey == "" && idAddress1 == "" && idAddress2 == "") {
       response = await _dioProvider.dio.get(
           _dioProvider.getLandPlanningPagination,
           queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize});
@@ -95,8 +99,8 @@ class LandPlanningRepository {
       response = await _dioProvider.dio.get(_dioProvider.searchLandPlanning,
           queryParameters: {
             'searchKey': searchKey,
-            'idAddress1': "",
-            'idAddress2': ""
+            'idAddress1': idAddress1,
+            'idAddress2': idAddress2
           });
     }
     var json = response.data;
