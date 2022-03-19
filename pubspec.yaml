@@ -44,6 +44,7 @@ dependencies:
   multi_select_flutter: ^4.1.2
   provider: ^6.0.2
   flutter_bloc: ^8.0.1
+  retrofit: ^3.0.1+1
   showcaseview: ^1.1.5
   dvhcvn: ^2.0.20211101
   image_picker: ^0.8.4+10
