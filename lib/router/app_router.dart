@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
@@ -7,11 +9,13 @@ import 'package:maico_land/presentation/screens/auth_screen/login_screen.dart';
 import 'package:maico_land/presentation/screens/auth_screen/register_screen.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_add_screen/land_planning_add_screen.dart';
+import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_detail_screen.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_screen/land_planning_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_add/news_add_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_details/news_details_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_screen.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings routeSettings) {
@@ -41,8 +45,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LandPlanningScreen());
       case '/landplanning/details':
         var land = routeSettings.arguments as LandPlanning;
+        final controller = Completer<WebViewController>();  
+        
+        // return MaterialPageRoute(
+        // builder: (_) => LandPlanningDetailScreen(land: land));
         return MaterialPageRoute(
-            builder: (_) => LandPlanningDetailMapScreen(landPlanning: land));
+            builder: (_) => LandPlanningDetailMapScreen(
+                controller: controller, landPlanning: land));
       case '/news/details':
         var news = routeSettings.arguments as News;
         return MaterialPageRoute(builder: (_) => NewsDetailsScreen(news: news));

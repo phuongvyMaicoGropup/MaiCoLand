@@ -13,11 +13,8 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    LandPlanningDetailMapScreen(landPlanning: landPlanning)))
+        Navigator.of(context)
+            .pushNamed('/landplanning/details', arguments: landPlanning)
       },
       child: Stack(
         children: [

@@ -17,6 +17,7 @@ class LandPlanningCard extends StatelessWidget {
     // author.photoURL
 
     return GestureDetector(
+      key: UniqueKey(),
       onTap: () => openShowDetails(context, land),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,

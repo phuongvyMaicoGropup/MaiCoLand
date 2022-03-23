@@ -210,7 +210,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
               ),
               GeoPoint(
                 double.parse(leftBottomxController.text),
-                double.parse(leftBottomxController.text),
+                double.parse(leftBottomyController.text),
               ),
               GeoPoint(
                 double.parse(rightBottomxController.text),

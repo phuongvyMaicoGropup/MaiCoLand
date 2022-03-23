@@ -16,7 +16,8 @@ class LandPlanningScreen extends StatefulWidget {
 class _LandPlanningScreenState extends State<LandPlanningScreen> {
   String searchKey = "";
   dvhcvn.Level1 idAddress1 = const dvhcvn.Level1("", "", dvhcvn.Type.huyen, []);
-  dvhcvn.Level2 idAddress2 = const dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
+  dvhcvn.Level2 idAddress2 =
+      const dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
   final LandPlanningRepository _LandPlanningRepo = LandPlanningRepository();
   List<LandPlanning> listSearch = [];
 
