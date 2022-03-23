@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 
 class DioProvider {
   // get baseUrl => "http://maicogroup.net:3005/";
-  get baseUrl => "https://maicoland123.herokuapp.com/";          
+  get baseUrl => "https://maicoland123.herokuapp.com/";
   get loginApi => baseUrl + "api/user/authenticate";
   get registerApi => baseUrl + "api/user/register";
   get getPresignedApi => baseUrl + "api/file/getpresignedurl";
@@ -17,6 +17,7 @@ class DioProvider {
   get getLandPlanningPagination => baseUrl + "api/landplanning/read";
   get createLandPlaningApi => baseUrl + "api/landplanning/create";
   get searchLandPlanning => baseUrl + "api/landplanning/search";
+  get searchNews => baseUrl + "api/news/search";
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   final Dio dio = Dio();

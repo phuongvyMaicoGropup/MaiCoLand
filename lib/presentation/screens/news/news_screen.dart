@@ -17,8 +17,13 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   final NewsRepository _newsRepo = NewsRepository();
+  final searchController = TextEditingController();
   List<News> listSearch = [];
   static const _pageSize = 10;
+
+  void _updateSearchTerm(String searchTerm) {
+    _pagingController.refresh();
+  }
 
   final PagingController<int, News> _pagingController =
       PagingController(firstPageKey: 1);
@@ -33,7 +38,8 @@ class _NewsScreenState extends State<NewsScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _newsRepo.getNewsPagination(pageKey, _pageSize);
+      final newItems = await _newsRepo.getNewsPagination(
+          pageKey, _pageSize, searchController.text);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -58,36 +64,36 @@ class _NewsScreenState extends State<NewsScreen> {
         child: DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Text("Thị trường")),
-              Tab(icon: Text("Chính sách")),
-              Tab(icon: Text("Quy hoạch")),
+          appBar: AppBar(
+            title: TextField(
+              onChanged: _updateSearchTerm,
+              controller: searchController,
+              decoration: const InputDecoration(
+                hintText: 'Nhập tiêu đề bài viết..',
+                hintStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontStyle: FontStyle.italic,
+                ),
+                border: InputBorder.none,
+              ),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    // Navigator.of(context).pushNamed("/news/search");
+                    // showSearch(context: context, delegate: NewsSearch(items), );
+                  },
+                  icon: const Icon(Icons.search))
             ],
           ),
-          title: const Text('Tin tức'),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  // Navigator.of(context).pushNamed("/news/search");
-                  // showSearch(context: context, delegate: NewsSearch(items), );
-                },
-                icon: const Icon(Icons.search))
-          ],
-        ),
-        body: const TabBarView(
-          children: [
-            Icon(Icons.directions_car),
-            Icon(Icons.directions_transit),
-            Icon(Icons.directions_bike),
-          ],
-        ),
-        // BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
-        //   return _buildListNews();
-        // })
-      ),
+          body: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
+            return _buildListNews();
+          })),
     ));
   }
 

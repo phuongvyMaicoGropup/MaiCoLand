@@ -42,11 +42,16 @@ class NewsRepository {
     return Future<List<News>>.value(result);
   }
 
-  Future<List<News>> getNewsPagination(int pageNumber, int pageSize) async {
-    Response response = await _dioProvider.dio.get(
-        _dioProvider.getNewsPagination,
-        queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize});
-
+  Future<List<News>> getNewsPagination(
+      int pageNumber, int pageSize, String key) async {
+    Response response;
+    if (key == "") {
+      response = await _dioProvider.dio.get(_dioProvider.getNewsPagination,
+          queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize});
+    } else {
+      response = await _dioProvider.dio
+          .get(_dioProvider.searchNews, queryParameters: {'searchKey': key});
+    }
     var json = response.data;
     List<News> result = [];
     for (int i = 0; i < json.length; i++) {

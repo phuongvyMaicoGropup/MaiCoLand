@@ -6,6 +6,7 @@ import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/account/widgets/widgets.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
+import 'package:maico_land/presentation/widgets/text_icon.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({required this.userRepo, Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class AccountScreen extends StatelessWidget {
             backgroundColor: AppColors.white,
             body: Center(
               child: Container(
-                padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
+                padding: const EdgeInsets.only(left: 16, top: 10, right: 16),
                 color: AppColors.white,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -72,21 +73,49 @@ class AccountScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               children: <Widget>[
                 Column(children: [
-                  GestureDetector(
-                      onTap: () => updateAvatar(context),
-                      child: AccountAvatarWidget(
-                        photoURL: user.photoURL.toString(),
-                      )),
-                  const SizedBox(height: 10),
-                  buildTextField("Email ", user.email.toString(), false),
-                  buildTextField(
-                      "Tên đăng nhập ", user.userName.toString(), true),
-                  buildTextField(
-                      "Số điện thoại",
-                      user.phoneNumber.toString() != ""
-                          ? user.phoneNumber.toString()
-                          : "Chưa cập nhập",
-                      true),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                            onTap: () => updateAvatar(context),
+                            child: AccountAvatarWidget(
+                                photoURL: user.photoURL.toString(),
+                                width: MediaQuery.of(context).size.width * 0.18,
+                                height:
+                                    MediaQuery.of(context).size.width * 0.18)),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.05),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(user.userName.toString(),
+                                  style: headingText),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              TextIcon(Icons.email, user.email.toString()),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              TextIcon(
+                                  Icons.phone,
+                                  user.phoneNumber.toString() == ""
+                                      ? "Chưa cập nhập"
+                                      : user.phoneNumber.toString()),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                            ])
+                      ]),
+                  // buildTextField(
+                  //     "Tên đăng nhập ", user.userName.toString(), true),
+                  // buildTextField(
+                  //     "Số điện thoại",
+                  //     user.phoneNumber.toString() != ""
+                  //         ? user.phoneNumber.toString()
+                  //         : "Chưa cập nhập",
+                  //     true),
                   const SizedBox(
                     height: 35,
                   ),

@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
 class AccountAvatarWidget extends StatelessWidget {
-  const AccountAvatarWidget({Key? key, required this.photoURL})
+  const AccountAvatarWidget(
+      {required this.height,
+      required this.width,
+      Key? key,
+      required this.photoURL})
       : super(key: key);
   final String photoURL;
+  final double width;
+  final double height;
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Stack(
         children: [
           Container(
-            width: 130,
-            height: 130,
+            width: width,
+            height: height,
             decoration: BoxDecoration(
                 border: Border.all(
                     width: 4, color: Theme.of(context).scaffoldBackgroundColor),
