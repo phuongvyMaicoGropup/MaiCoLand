@@ -1,9 +1,6 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
-import 'package:maico_land/bloc/auth_bloc/auth_bloc.dart';
 import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
@@ -36,9 +33,15 @@ class AccountScreen extends StatelessWidget {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              title: const Center(
+                child: Text("Thông tin tài khoản"),
+              ),
+            ),
             backgroundColor: AppColors.white,
             body: Center(
               child: Container(
@@ -47,13 +50,8 @@ class AccountScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    const Center(
-                      child: Text("Thông tin tài khoản",
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.w600)),
-                    ),
                     const SizedBox(
-                      height: 35,
+                      height: 15,
                     ),
                     _buildContent(),
                   ],
@@ -97,7 +95,7 @@ class AccountScreen extends StatelessWidget {
             ),
           );
         }
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       },
     );
   }
@@ -125,7 +123,7 @@ class AccountScreen extends StatelessWidget {
           ]),
           const SizedBox(height: 10),
           Text(placeholder,
-              style: TextStyle(fontSize: 16, color: AppColors.appGreen1)),
+              style: const TextStyle(fontSize: 16, color: AppColors.appGreen1)),
           const Divider(
             thickness: 1,
           ),

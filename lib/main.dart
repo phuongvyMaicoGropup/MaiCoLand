@@ -14,16 +14,14 @@ import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/router/app_router.dart';
 
 import 'bloc/news_add_bloc/news_add_bloc.dart';
-import 'presentation/screens/auth_screen/login_screen.dart';
 import 'presentation/screens/home_screen/bloc/home_bloc.dart';
 import 'presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
-import 'presentation/screens/home_screen/home_screen.dart';
 
 void main() {
   final UserRepository userRepo = UserRepository();
   final AppRouter router = AppRouter();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.appGreen2,
     systemNavigationBarColor: Colors.transparent,
   ));

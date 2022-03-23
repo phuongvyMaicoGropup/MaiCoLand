@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 class News {
@@ -14,7 +12,8 @@ class News {
       required this.likes,
       required this.createDate,
       required this.createdBy,
-      required this.updateDate});
+      required this.updateDate,
+      required this.type});
   final String id;
   final String title;
   final String content;
@@ -23,18 +22,19 @@ class News {
   final List<String>? likes;
   final DateTime createDate;
   final String createdBy;
+  final int type;
   final DateTime updateDate;
-  News copyWith({
-    String? id,
-    String? title,
-    String? content,
-    List<String>? hashTags,
-    String? imageUrl,
-    List<String>? likes,
-    DateTime? createDate,
-    String? createdBy,
-    DateTime? updateDate,
-  }) {
+  News copyWith(
+      {String? id,
+      String? title,
+      String? content,
+      List<String>? hashTags,
+      String? imageUrl,
+      List<String>? likes,
+      DateTime? createDate,
+      String? createdBy,
+      DateTime? updateDate,
+      int? type}) {
     return News(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -45,6 +45,7 @@ class News {
       createDate: createDate ?? this.createDate,
       createdBy: createdBy ?? this.createdBy,
       updateDate: updateDate ?? this.updateDate,
+      type: type ?? this.type,
     );
   }
 
@@ -66,6 +67,7 @@ class News {
         listEquals(other.likes, likes) &&
         other.createDate == createDate &&
         other.createdBy == createdBy &&
+        other.type == type &&
         other.updateDate == updateDate;
   }
 
@@ -79,6 +81,7 @@ class News {
         likes.hashCode ^
         createDate.hashCode ^
         createdBy.hashCode ^
+        type.hashCode ^
         updateDate.hashCode;
   }
 
@@ -93,22 +96,23 @@ class News {
       'createDate': createDate.millisecondsSinceEpoch,
       'createdBy': createdBy,
       'updateDate': updateDate.millisecondsSinceEpoch,
+      'type': type,
     };
   }
 
   factory News.fromMap(Map<String, dynamic> map) {
     print("hehe");
     return News(
-      id: map['id'] ?? '',
-      title: map['title'] ?? '',
-      content: map['content'] ?? '',
-      hashTags: List<String>.from(map['hashTags']),
-      imageUrl: map['imageUrl'] ?? '',
-      likes: List<String>.from(map['likes']),
-      createDate: DateTime.parse(map['createDate']),
-      createdBy: map['createdBy'] ?? '',
-      updateDate: DateTime.parse(map['updateDate']),
-    );
+        id: map['id'] ?? '',
+        title: map['title'] ?? '',
+        content: map['content'] ?? '',
+        hashTags: List<String>.from(map['hashTags']),
+        imageUrl: map['imageUrl'] ?? '',
+        likes: List<String>.from(map['likes']),
+        createDate: DateTime.parse(map['createDate']),
+        createdBy: map['createdBy'] ?? '',
+        updateDate: DateTime.parse(map['updateDate']),
+        type: map['type']);
   }
 
   String toJson() => json.encode(toMap());

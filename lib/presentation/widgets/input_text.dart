@@ -24,7 +24,7 @@ class InputText extends StatelessWidget {
   TextInputType inputType;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         TextFormField(
@@ -55,7 +55,7 @@ class InputText extends StatelessWidget {
               errorBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+              errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
               focusColor: AppColors.appGreen1,
               contentPadding: const EdgeInsets.only(
                 top: 10.0,

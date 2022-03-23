@@ -1,6 +1,5 @@
 import 'package:dvhcvn/dvhcvn.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AddressData extends ChangeNotifier {
   int _latestChange = 1;

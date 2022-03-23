@@ -8,21 +8,22 @@ import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class NewsAddScreen extends StatefulWidget {
-  const NewsAddScreen({Key? key}) : super(key: key);
-
+  const NewsAddScreen({required this.type, Key? key}) : super(key: key);
+  final int type;
   @override
   _NewsAddScreenState createState() => _NewsAddScreenState();
 }
 
 class _NewsAddScreenState extends State<NewsAddScreen> {
   String? imagePath;
+
   List<String> hashTags = [];
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final contentController = TextEditingController();
   final hashTagController = TextEditingController();
   // final imagePath = TextEditingController();
-  var _hashTag = TextEditingController();
+  final _hashTag = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +56,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                 const SizedBox(height: 15),
                 _HashTagInput(context),
                 _ImageInput(),
-                _NewsAddButton(),
+                _NewsAddButton(widget.type),
               ],
             ),
           )),
@@ -126,14 +127,14 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
         if (items.isEmpty) {
           return Chip(
             backgroundColor: Colors.black.withOpacity(0.04),
-            label: Text("         "),
-            labelStyle: TextStyle(color: Colors.white, fontSize: 10),
+            label: const Text("         "),
+            labelStyle: const TextStyle(color: Colors.white, fontSize: 10),
           );
         } else {
           return Chip(
               backgroundColor: AppColors.appGreen2,
               label: Text(items[index]),
-              labelStyle: TextStyle(color: Colors.white, fontSize: 10),
+              labelStyle: const TextStyle(color: Colors.white, fontSize: 10),
               onDeleted: () {
                 setState(() {
                   items.remove(items[index]);
@@ -196,7 +197,7 @@ class _HashTagInput extends StatelessWidget {
         return Chip(
             backgroundColor: AppColors.appGreen2,
             label: Text(items[index]),
-            labelStyle: TextStyle(color: Colors.white),
+            labelStyle: const TextStyle(color: Colors.white),
             onDeleted: () {
               items.remove(items[index]);
             });
@@ -222,7 +223,7 @@ class _ImageInput extends StatelessWidget {
           Container(
               child: Row(
             children: [
-              Text("Ảnh minh hoạ",
+              const Text("Ảnh minh hoạ",
                   style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
               IconButton(
                 icon: Icon(
@@ -257,7 +258,7 @@ class _ImageInput extends StatelessWidget {
 }
 
 class _TitleInput extends StatelessWidget {
-  _TitleInput(this.controller);
+  const _TitleInput(this.controller);
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -293,7 +294,7 @@ class _TitleInput extends StatelessWidget {
                 errorBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     borderSide: BorderSide(color: AppColors.red)),
-                errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+                errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
                 focusColor: AppColors.appGreen1,
                 errorText: state.title.invalid
                     ? 'Vui lòng nhập trên 10 kí tự !'
@@ -311,7 +312,7 @@ class _TitleInput extends StatelessWidget {
 }
 
 class _ContentInput extends StatelessWidget {
-  _ContentInput(this.controller);
+  const _ContentInput(this.controller);
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -347,7 +348,7 @@ class _ContentInput extends StatelessWidget {
               errorBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+              errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
               focusColor: AppColors.appGreen1,
               contentPadding: const EdgeInsets.only(
                 top: 10.0,
@@ -366,6 +367,8 @@ class _ContentInput extends StatelessWidget {
 }
 
 class _NewsAddButton extends StatelessWidget {
+  _NewsAddButton(this.type);
+  final int type;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
@@ -377,7 +380,7 @@ class _NewsAddButton extends StatelessWidget {
           onPressed: state.status.isValidated
               ? () async {
                   try {
-                    context.read<NewsAddBloc>().add(NewsAddSubmitted());
+                    context.read<NewsAddBloc>().add(NewsAddSubmitted(type));
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil("/", (route) => false);
                     ScaffoldMessenger.of(context).showSnackBar(

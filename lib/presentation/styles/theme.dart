@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maico_land/presentation/styles/styles.dart';
 
 
 class AppTextTheme {

@@ -1,16 +1,13 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-import 'package:maico_land/model/responses/user_reponse.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository userRepo;
   AuthenticationBloc({required this.userRepo})
-      : assert(userRepo != null),
-        super(AuthenticationUninitialized()) {
+      : super(AuthenticationUninitialized()) {
     on<AppStarted>(_mapAppStartedToState);
     on<LoggedIn>(_mapLoggedInToState);
     on<LoggedOut>(_mapLoggedOutToState);

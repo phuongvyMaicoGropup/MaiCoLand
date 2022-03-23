@@ -1,15 +1,9 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:maico_land/bloc/address_bloc/address.dart';
-import 'package:maico_land/bloc/address_bloc/address_bloc.dart';
-import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
 import 'package:dvhcvn/dvhcvn.dart' as dvhcvn;
-import 'package:maico_land/presentation/styles/app_themes.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 
 class LandPlanningScreen extends StatefulWidget {
@@ -21,8 +15,8 @@ class LandPlanningScreen extends StatefulWidget {
 
 class _LandPlanningScreenState extends State<LandPlanningScreen> {
   String searchKey = "";
-  dvhcvn.Level1 idAddress1 = dvhcvn.Level1("", "", dvhcvn.Type.huyen, []);
-  dvhcvn.Level2 idAddress2 = dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
+  dvhcvn.Level1 idAddress1 = const dvhcvn.Level1("", "", dvhcvn.Type.huyen, []);
+  dvhcvn.Level2 idAddress2 = const dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
   final LandPlanningRepository _LandPlanningRepo = LandPlanningRepository();
   List<LandPlanning> listSearch = [];
 
@@ -51,7 +45,7 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
   void selectedAddressId1(dvhcvn.Level1? id) {
     setState(() {
       idAddress1 = id!;
-      idAddress2 = dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
+      idAddress2 = const dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
     });
     _pagingController.refresh();
   }
@@ -91,16 +85,16 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
     return SafeArea(
         child: Scaffold(
             floatingActionButton: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: AppColors.appGreen1, shape: BoxShape.circle),
               child: IconButton(
                   onPressed: () {
                     selectedAddressId1(
-                        dvhcvn.Level1("", "", dvhcvn.Type.huyen, []));
+                        const dvhcvn.Level1("", "", dvhcvn.Type.huyen, []));
                     selectedAddressId2(
-                        dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []));
+                        const dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []));
                   },
-                  icon: Icon(Icons.replay_outlined,
+                  icon: const Icon(Icons.replay_outlined,
                       color: AppColors.white, size: 30)),
             ),
             appBar: AppBar(
@@ -117,7 +111,7 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
                   ),
                   border: InputBorder.none,
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
@@ -127,7 +121,7 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
                       _updateSearchTerm("");
                       searchController.text = "";
                     },
-                    icon: Icon(Icons.cancel))
+                    icon: const Icon(Icons.cancel))
               ],
               centerTitle: true,
             ),
@@ -137,8 +131,8 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        margin: EdgeInsets.all(5),
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
                         width: MediaQuery.of(context).size.width * 0.47,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -164,8 +158,8 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
                             ),
                       ),
                       Container(
-                        margin: EdgeInsets.all(5),
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
                         width: MediaQuery.of(context).size.width * 0.47,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),

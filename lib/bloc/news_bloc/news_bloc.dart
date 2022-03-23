@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
-import 'package:meta/meta.dart';
 
 import 'news_event.dart';
 import 'news_state.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   final NewsRepository newsRepo;
-  NewsBloc({required this.newsRepo}) : super(NewsState([])) {
+  NewsBloc({required this.newsRepo}) : super(NewsState(const [])) {
     on<InitialNews>(_mapInitialNewsToState);
     on<LoadMoreNews>(_mapLoadMoreNewsToState);
   }

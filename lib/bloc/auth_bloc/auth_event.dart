@@ -16,7 +16,7 @@ class LoggedIn extends AuthenticationEvent {
   List<Object?> get props => [token];
 
   @override
-  String toString() => "Logged in ${token}";
+  String toString() => "Logged in $token";
 }
 
 class LoggedOut extends AuthenticationEvent {}

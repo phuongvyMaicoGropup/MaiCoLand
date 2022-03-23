@@ -7,8 +7,8 @@ class HeadingTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(7),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(7),
+      decoration: const BoxDecoration(
           border:
               Border(left: BorderSide(color: AppColors.appGreen1, width: 2.5))),
       child: Text(

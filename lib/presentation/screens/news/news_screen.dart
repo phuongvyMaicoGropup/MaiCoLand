@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:maico_land/bloc/news_bloc/news_bloc.dart';
-import 'package:maico_land/bloc/news_bloc/news_event.dart';
 import 'package:maico_land/bloc/news_bloc/news_state.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
@@ -34,7 +33,6 @@ class _NewsScreenState extends State<NewsScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      
       final newItems = await _newsRepo.getNewsPagination(pageKey, _pageSize);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -43,7 +41,6 @@ class _NewsScreenState extends State<NewsScreen> {
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }
-        
     } catch (error) {
       _pagingController.error = "Đã có lỗi xảy ra. Vui lòng thử lại ";
     }
@@ -58,40 +55,55 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text('Tin tức'),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      // Navigator.of(context).pushNamed("/news/search");
-                      // showSearch(context: context, delegate: NewsSearch(items), );
-                    },
-                    icon: Icon(Icons.search))
-              ],
-            ),
-            body: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
-              return _buildListNews();
-            })));
+        child: DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Text("Thị trường")),
+              Tab(icon: Text("Chính sách")),
+              Tab(icon: Text("Quy hoạch")),
+            ],
+          ),
+          title: const Text('Tin tức'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  // Navigator.of(context).pushNamed("/news/search");
+                  // showSearch(context: context, delegate: NewsSearch(items), );
+                },
+                icon: const Icon(Icons.search))
+          ],
+        ),
+        body: const TabBarView(
+          children: [
+            Icon(Icons.directions_car),
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_bike),
+          ],
+        ),
+        // BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
+        //   return _buildListNews();
+        // })
+      ),
+    ));
   }
 
   Widget _buildListNews() {
     return RefreshIndicator(
-      onRefresh: () => Future.sync(() => _pagingController.refresh())
-      ,
+      onRefresh: () => Future.sync(() => _pagingController.refresh()),
       child: PagedListView<int, News>(
         pagingController: _pagingController,
-        
         builderDelegate: PagedChildBuilderDelegate<News>(
           itemBuilder: (context, item, index) => NewsCard(news: item),
-  //         firstPageErrorIndicatorBuilder: (context) => ErrorIndicator(
-  //   error: _pagingController.error,
-  //   onTryAgain: () => _pagingController.refresh(),
-  // ),
-  // noItemsFoundIndicatorBuilder: (context) => EmptyListIndicator(),
+          //         firstPageErrorIndicatorBuilder: (context) => ErrorIndicator(
+          //   error: _pagingController.error,
+          //   onTryAgain: () => _pagingController.refresh(),
+          // ),
+          // noItemsFoundIndicatorBuilder: (context) => EmptyListIndicator(),
         ),
-        
       ),
     );
   }

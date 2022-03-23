@@ -12,7 +12,7 @@ class _AccountSettingsUsernameScreenState extends State<AccountSettingsUsernameS
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
       appBar: AppBar(
-        title : Text("Chỉnh sửa ")
+        title : const Text("Chỉnh sửa ")
       )
     ));
   }

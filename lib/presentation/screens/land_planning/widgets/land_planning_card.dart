@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/widgets/valid_chip.dart';
 
 class LandPlanningCard extends StatelessWidget {
@@ -22,9 +23,9 @@ class LandPlanningCard extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.18,
         // padding: const EdgeInsets.only(top: 8),
         margin: const EdgeInsets.only(bottom: 10, right: 4, left: 4),
-        decoration: BoxDecoration(color: Colors.white,
+        decoration: const BoxDecoration(color: Colors.white,
             // borderRadius: BorderRadius.circular(10),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
                 color: Colors.black26,
                 offset: Offset(2, 2),
@@ -58,9 +59,10 @@ class LandPlanningCard extends StatelessWidget {
                           top: 5, left: 5, bottom: 5, right: 5),
                       color: Colors.red,
                       child: Text(land.landArea.toString() + " km",
-                          style: TextStyle(color: Colors.white, fontSize: 11))))
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 11))))
             ]),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Stack(children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.60,
@@ -99,11 +101,14 @@ class LandPlanningCard extends StatelessWidget {
                 ),
               ),
               Positioned(
-                  bottom: 0,
+                  bottom: 5,
                   right: 10,
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(EvaIcons.heart, color: Colors.grey))),
+                  child: Row(children: [
+                    Text(land.likes.length.toString(),
+                        style: TextStyle(fontSize: 12, color: AppColors.gray)),
+                    Icon(EvaIcons.heart,
+                        color: Colors.grey.withOpacity(0.7), size: 17)
+                  ])),
             ]),
           ],
         ),

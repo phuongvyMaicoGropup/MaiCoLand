@@ -17,7 +17,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    DetailMapLandPlanning(landPlanning: landPlanning)))
+                    LandPlanningDetailMapScreen(landPlanning: landPlanning)))
       },
       child: Stack(
         children: [

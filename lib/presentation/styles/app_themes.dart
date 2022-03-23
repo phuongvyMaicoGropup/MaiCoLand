@@ -103,3 +103,8 @@ const textMinorRed =
 //   minimumSize: Size(240, 80),
 // );
 
+const textMinorItalicGreen = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 12,
+    color: AppColors.appGreen1,
+    fontStyle: FontStyle.italic);

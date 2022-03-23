@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,9 +18,9 @@ class DioProvider {
   get createLandPlaningApi => baseUrl + "api/landplanning/create";
   get searchLandPlanning => baseUrl + "api/landplanning/search";
 
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   final Dio dio = Dio();
-  final Uuid uuid = Uuid();
+  final Uuid uuid = const Uuid();
 
   Future<String> uploadFile(
       String filePath, String contentType, String pathUpload) async {

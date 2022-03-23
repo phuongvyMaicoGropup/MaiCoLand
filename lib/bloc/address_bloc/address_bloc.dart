@@ -1,17 +1,14 @@
-import 'dart:math';
 
 import 'package:dvhcvn/dvhcvn.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/address_bloc/address.dart';
-import 'package:maico_land/bloc/auth_bloc/auth.dart';
-import 'package:maico_land/model/repositories/user_repository.dart';
 
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
   AddressBloc()
       : super(AddressState(
-            level1: Level1("", "", Type.huyen, []),
-            level2: Level2(0, "", "", Type.phuong, []),
-            level3: Level3(
+            level1: const Level1("", "", Type.huyen, []),
+            level2: const Level2(0, "", "", Type.phuong, []),
+            level3: const Level3(
               0,
               0,
               "",
@@ -30,8 +27,8 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   ) async {
     emit(state.copyWith(
         level1: event.item,
-        level2: Level2(0, "", "", Type.phuong, []),
-        level3: Level3(0, 0, "", "", Type.phuong)));
+        level2: const Level2(0, "", "", Type.phuong, []),
+        level3: const Level3(0, 0, "", "", Type.phuong)));
     print(state);
   }
 
@@ -40,9 +37,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     Emitter<AddressState> emit,
   ) async {
     emit(state.copyWith(
-        level1: Level1("", "", Type.huyen, []),
-        level2: Level2(0, "", "", Type.phuong, []),
-        level3: Level3(
+        level1: const Level1("", "", Type.huyen, []),
+        level2: const Level2(0, "", "", Type.phuong, []),
+        level3: const Level3(
           0,
           0,
           "",
@@ -57,7 +54,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     Emitter<AddressState> emit,
   ) async {
     emit(state.copyWith(
-        level2: event.item, level3: Level3(0, 0, "", "", Type.phuong)));
+        level2: event.item, level3: const Level3(0, 0, "", "", Type.phuong)));
   }
 
   Future<void> _mapAddressIdLevel3SelectedToState(

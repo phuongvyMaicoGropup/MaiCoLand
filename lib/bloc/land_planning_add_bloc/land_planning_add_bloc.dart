@@ -183,19 +183,13 @@
 //     }
 //   }
 // }
-import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
-import 'package:maico_land/model/entities/GeoPoint.dart';
-import 'package:maico_land/model/formz_model/models.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 part 'land_planning_add_event.dart';
 part 'land_planning_add_state.dart';
@@ -215,7 +209,7 @@ class LandPlanningAddBloc
     Emitter<LandPlanningAddState> emit,
   ) async {
     try {
-      String fileId = Uuid().v4();
+      String fileId = const Uuid().v4();
       var imagePath = await _dioProvider.uploadFile(
         event.land.imageUrl,
         "image/png",

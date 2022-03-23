@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:maico_land/model/entities/GeoPoint.dart';
 import 'package:maico_land/model/entities/address.dart';

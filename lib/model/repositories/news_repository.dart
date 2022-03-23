@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:maico_land/model/api/request/news_request.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-import 'package:maico_land/model/responses/user_reponse.dart';
 import '/model/api/dio_provider.dart';
 
 class NewsRepository {
@@ -21,7 +17,8 @@ class NewsRepository {
               "content": news.content,
               "hashTags": news.hashTags,
               "imageUrl": news.imageUrl,
-              "createBy": userId
+              "createBy": userId,
+              "type": news.type
             },
             options: Options(headers: {"Content-Type": "application/json"}));
     return Future<bool>.value(true);
@@ -39,9 +36,7 @@ class NewsRepository {
     var json = response.data;
     List<News> result = [];
     for (int i = 0; i < json.length; i++) {
-      var link = await _dioProvider.getFileLink(json[i]['imageUrl']);
       var news = News.fromMap(json[i]);
-      news.copyWith(imageUrl: link);
       result.add(news);
     }
     return Future<List<News>>.value(result);
@@ -55,9 +50,7 @@ class NewsRepository {
     var json = response.data;
     List<News> result = [];
     for (int i = 0; i < json.length; i++) {
-      var link = await _dioProvider.getFileLink(json[i]['imageUrl']);
       var news = News.fromMap(json[i]);
-      news.copyWith(imageUrl: link);
       result.add(news);
     }
     // print(News.fromMap(json[0]));

@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
-import 'package:maico_land/model/entities/land_planning.dart';
-import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-import 'package:maico_land/model/responses/user_reponse.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/router/app_router.dart';
 
-import 'model/entities/GeoPoint.dart';
 import 'presentation/screens/account/account_screen.dart';
-import 'presentation/screens/auth_screen/login_screen.dart';
-import 'presentation/screens/auth_screen/register_screen.dart';
 import 'presentation/screens/create_option_screen/create_option_screen.dart';
-import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_detail_screen.dart';
-import 'presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
-import 'presentation/screens/news/news_add/news_add_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({required this.appRouter, required this.userRepo, Key? key})
@@ -75,6 +67,51 @@ class _MyAppState extends State<MyApp> {
     // CreateItemScreen(),
     // AccountScreen()
   ];
+  final listPageIntro = [
+    PageViewModel(
+        decoration: const PageDecoration(
+            // fullScreen: true,
+            ),
+        title: "MaicoGroup ",
+        bodyWidget: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Mua bán bất động sản công nghệ mới ",
+              maxLines: 3,
+            ),
+          ],
+        ),
+        image: const Image(
+          width: 600,
+          height: 500,
+          image: AssetImage('assets/logo.png'),
+        )),
+    PageViewModel(
+      title: "Title of first page",
+      bodyWidget: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text("Click on "),
+          Icon(Icons.edit),
+          Text(" to edit a post"),
+        ],
+      ),
+      image: const Center(child: Icon(Icons.android)),
+    ),
+    PageViewModel(
+      title: "Title of first page",
+      bodyWidget: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text("Click on "),
+          Icon(Icons.edit),
+          Text(" to edit a post"),
+        ],
+      ),
+      image: const Center(child: Icon(Icons.android)),
+    )
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -123,12 +160,31 @@ class _MyAppState extends State<MyApp> {
             );
           }
           if (state is AuthenticationUnauthenticated) {
-            return RegisterScreen(userRepo: widget.userRepo);
+            return Scaffold(
+              body: IntroductionScreen(
+                pages: listPageIntro,
+                onDone: () {
+                  // When done button is press
+                },
+                showBackButton: false,
+                showSkipButton: true,
+                next: const Text("Tiếp"),
+                skip: const Text("Bỏ qua"),
+                done: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/register');
+                  },
+                  child: const Text("Xong",
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ),
+            );
+            // return RegisterScreen(userRepo: widget.userRepo);
           }
           if (state is AuthenticationLoading) {
-            return Scaffold(body: CircularProgressIndicator());
+            return const Scaffold(body: CircularProgressIndicator());
           }
-          return Scaffold(body: CircularProgressIndicator());
+          return const Scaffold(body: CircularProgressIndicator());
         }));
   }
 }

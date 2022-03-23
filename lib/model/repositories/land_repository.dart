@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
@@ -13,7 +12,7 @@ class LandPlanningRepository {
   Future<bool> create(LandPlanningRequest item) async {
     try {
       String userId = await _userRepo.getUserId();
-      var id = Uuid().v4();
+      var id = const Uuid().v4();
       var imagePathDb = await _dioProvider.uploadFile(
           item.imageUrl, "image/png", "land-planning/$id");
       var filePdfPathDb = await _dioProvider.uploadFile(
@@ -74,11 +73,8 @@ class LandPlanningRepository {
     String linkPdf, linkImage;
     LandPlanning land;
     for (int i = 0; i < json.length; i++) {
-      linkImage = await _dioProvider.getFileLink(json[i]['imageUrl']);
-      linkPdf = await _dioProvider.getFileLink(json[i]['filePdfUrl']);
       land = LandPlanning.fromMap(json[i]);
-      land.copyWith(filePdfUrl: linkPdf, imageUrl: linkImage);
-      print(land.filePdfUrl);
+      print(land.imageUrl);
       result.add(land);
     }
     return Future<List<LandPlanning>>.value(result);
@@ -108,11 +104,7 @@ class LandPlanningRepository {
     // var a = parsed[0]['hashTags'].toList();
     List<LandPlanning> result = [];
     for (int i = 0; i < json.length; i++) {
-      var linkImage = await _dioProvider.getFileLink(json[i]['imageUrl']);
-      var linkPdf = await _dioProvider.getFileLink(json[i]['filePdfUrl']);
-
       LandPlanning land = LandPlanning.fromMap(json[i]);
-      land.copyWith(filePdfUrl: linkPdf, imageUrl: linkImage);
       result.add(land);
     }
 

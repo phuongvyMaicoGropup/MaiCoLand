@@ -1,17 +1,9 @@
-import 'dart:io';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:maico_land/bloc/news_add_bloc/news_add_bloc.dart';
 import 'package:maico_land/bloc/register_bloc/register_bloc.dart';
-import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
-import 'package:maico_land/presentation/widgets/label_widget.dart';
-import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
-import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({required this.userRepo, Key? key}) : super(key: key);
@@ -43,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
         child: Column(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.10),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             Image(
                 image: const AssetImage('assets/logo.png'),
                 height: MediaQuery.of(context).size.height * 0.2),
@@ -58,7 +50,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 15),
             _PasswordInput(passwordController),
             const SizedBox(height: 15),
-            _RegisterButton(),
+            Builder(builder: (context) {
+              final state = context.watch<RegisterBloc>().state;
+
+              return _RegisterButton(state.status);
+            }),
             const SizedBox(height: 10),
             Container(
                 alignment: Alignment.topRight,
@@ -78,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 }
 
 class _FirstNameInput extends StatelessWidget {
-  _FirstNameInput(this.controller);
+  const _FirstNameInput(this.controller);
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -113,10 +109,10 @@ class _FirstNameInput extends StatelessWidget {
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 borderSide: BorderSide(color: AppColors.red)),
-            errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+            errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
             errorText: state.firstName.invalid
-                ? 'Vui lòng nhập trên 4 kí tự (không chứa dấu cách)!'
+                ? 'Kí tự không bao gồm dấu cách.'
                 : null,
           ),
         );
@@ -126,7 +122,7 @@ class _FirstNameInput extends StatelessWidget {
 }
 
 class _LastNameInput extends StatelessWidget {
-  _LastNameInput(this.controller);
+  const _LastNameInput(this.controller);
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -161,11 +157,10 @@ class _LastNameInput extends StatelessWidget {
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 borderSide: BorderSide(color: AppColors.red)),
-            errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+            errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
-            errorText: state.lastName.invalid
-                ? 'Vui lòng nhập trên 4 kí tự (không chứa dấu cách)!'
-                : null,
+            errorText:
+                state.lastName.invalid ? 'Kí tự không bao gồm dấu cách' : null,
           ),
         );
       },
@@ -174,7 +169,7 @@ class _LastNameInput extends StatelessWidget {
 }
 
 class UserNameInput extends StatelessWidget {
-  UserNameInput(this.controller);
+  const UserNameInput(this.controller);
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -209,7 +204,7 @@ class UserNameInput extends StatelessWidget {
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 borderSide: BorderSide(color: AppColors.red)),
-            errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+            errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
             errorText: state.username.invalid
                 ? 'Vui lòng nhập trên 4 kí tự (không chứa dấu cách)!'
@@ -222,7 +217,7 @@ class UserNameInput extends StatelessWidget {
 }
 
 class _EmailInput extends StatelessWidget {
-  _EmailInput(this.controller);
+  const _EmailInput(this.controller);
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -256,7 +251,7 @@ class _EmailInput extends StatelessWidget {
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 borderSide: BorderSide(color: AppColors.red)),
-            errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+            errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
             errorText:
                 state.email.invalid ? 'Vui lòng nhập đúng định dạng!' : null,
@@ -268,7 +263,7 @@ class _EmailInput extends StatelessWidget {
 }
 
 class _PasswordInput extends StatelessWidget {
-  _PasswordInput(this.controller);
+  const _PasswordInput(this.controller);
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -285,6 +280,7 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (value) =>
               context.read<RegisterBloc>().add(RegisterPasswordChanged(value)),
           controller: controller,
+          obscureText: true,
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -303,7 +299,7 @@ class _PasswordInput extends StatelessWidget {
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 borderSide: BorderSide(color: AppColors.red)),
-            errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+            errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
             focusColor: AppColors.appGreen1,
             errorText: state.password.invalid
                 ? 'Mật khẩu ít nhất 8 chữ số bao gồm số , chữ cái thường , chữ cái in hoa và kí tự đặc biệt'
@@ -316,54 +312,58 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _RegisterButton extends StatelessWidget {
+  final FormzStatus status;
+  const _RegisterButton(this.status);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RegisterBloc, RegisterState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
-        return ElevatedButton(
-          key: const Key('RegisterForm_continue_raisedButton'),
-          child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.06,
-              child: const Text('Đăng ký tài khoản',
-                  style: TextStyle(color: Colors.white))),
-          onPressed: state.status.isValidated
-              ? () async {
-                  try {
-                    context.read<RegisterBloc>().add(RegisterSubmitted());
-                    if (state.status.isSubmissionSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text("Đăng ký tài khoản thành công"),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                              "Tên tài khoản hoặc email đã được đăng ký. Vui lòng kiểm tra thông tin!"),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  } catch (e) {
+    return BlocListener<RegisterBloc, RegisterState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      listener: (context, state) {
+        // do stuff here based on BlocA's state
+      },
+      child: ElevatedButton(
+        key: const Key('RegisterForm_continue_raisedButton'),
+        child: Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.06,
+            child: const Text('Đăng ký tài khoản',
+                style: TextStyle(color: Colors.white))),
+        onPressed: status.isValidated
+            ? () async {
+                try {
+                  context.read<RegisterBloc>().add(RegisterSubmitted());
+                  if (status.isSubmissionSuccess) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text(
-                            "Đăng ký không thành công . Vui lòng thủ lại!"),
+                        content: const Text("Đăng ký tài khoản thành công"),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            "Tên tài khoản hoặc email đã được đăng ký. Vui lòng kiểm tra thông tin!"),
                         backgroundColor: Colors.red,
                       ),
                     );
-                    print(e.toString());
                   }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          "Đăng ký không thành công . Vui lòng thủ lại!"),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  print(e.toString());
                 }
-              : null,
-        );
-      },
+              }
+            : null,
+      ),
     );
   }
 }

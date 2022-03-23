@@ -2,19 +2,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:io';
 
-class DetailMapLandPlanning extends StatefulWidget {
+import 'land_planning_details_information.dart';
+
+class LandPlanningDetailMapScreen extends StatefulWidget {
   final LandPlanning landPlanning;
-  const DetailMapLandPlanning({required this.landPlanning});
+  const LandPlanningDetailMapScreen({required this.landPlanning});
 
   @override
-  _DetailMapLandPlanningState createState() => _DetailMapLandPlanningState();
+  _LandPlanningDetailMapScreenState createState() =>
+      _LandPlanningDetailMapScreenState();
 }
 
-class _DetailMapLandPlanningState extends State<DetailMapLandPlanning> {
+class _LandPlanningDetailMapScreenState
+    extends State<LandPlanningDetailMapScreen> {
   late WebViewController _controller;
-  double _mapOpacity = 1;
+  final double _mapOpacity = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +27,12 @@ class _DetailMapLandPlanningState extends State<DetailMapLandPlanning> {
           actions: [
             IconButton(
               onPressed: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => DetailLandPlanning(landPlanning: widget.landPlanning,)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LandPlanningDetailInfoScreen(
+                              landPlanning: widget.landPlanning,
+                            )));
               },
               icon: const Icon(
                 Icons.article,

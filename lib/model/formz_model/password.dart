@@ -10,15 +10,16 @@ class Password extends FormzInput<String, PasswordValidationError> {
   @override
   PasswordValidationError? validator(String value) {
     if (value.isNotEmpty != true) PasswordValidationError.empty;
-    if (!ValidatorsTransformer.isValidPassword(value))
+    if (!ValidatorsTransformer.isValidPassword(value)) {
       return PasswordValidationError.invalid;
+    }
     return null;
   }
 
   bool validateStructure(String value) {
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regExp = new RegExp(pattern);
+    RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(value);
   }
 }

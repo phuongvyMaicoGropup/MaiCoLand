@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/login_bloc/login.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-import 'package:maico_land/presentation/screens/auth_screen/register_screen.dart';
-import 'package:maico_land/presentation/styles/app_colors.dart';
+import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/presentation/styles/theme.dart';
 import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
 
@@ -38,7 +37,9 @@ class _LoginFormState extends State<LoginForm> {
     return BlocListener<LoginBloc, LoginState>(listener: (context, state) {
       if (state is LoginFailure) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Đăng nhập thất bại'), backgroundColor: Colors.red));
+            content:
+                Text('Tên đăng nhập hoặc mật khẩu sai . Vui lòng thử lại !'),
+            backgroundColor: AppColors.appErrorRed));
       }
       if (state is LoginSuccess) {
         Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
@@ -48,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
         return SingleChildScrollView(
           child: Center(
             child: Padding(
-                padding: EdgeInsets.only(right: 20.0, left: 20.0),
+                padding: const EdgeInsets.only(right: 20.0, left: 20.0),
                 child: Form(
                   child: Column(
                     children: [
@@ -59,12 +60,16 @@ class _LoginFormState extends State<LoginForm> {
                           height: MediaQuery.of(context).size.height * 0.2),
                       const SizedBox(height: 10),
                       WidgetInputTextField(
+                        inputType: TextInputType.name,
                         icon: EvaIcons.people,
+                        visiblePassword: false,
                         labelText: "Tên đăng nhập",
                         inputController: _usernameController,
                       ),
                       const SizedBox(height: 10),
                       WidgetInputTextField(
+                        inputType: TextInputType.visiblePassword,
+                        visiblePassword: true,
                         icon: EvaIcons.eyeOutline,
                         labelText: "Mật khẩu",
                         inputController: _passwordController,
@@ -73,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
                       Align(
                           alignment: Alignment.centerRight,
                           child: InkWell(
-                              child: Text('Quên mật khẩu!',
+                              child: const Text('Quên mật khẩu!',
                                   style: AppTextTheme.minorTextBlack),
                               onTap: () {})),
                       Padding(
@@ -87,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
                                           CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: [
+                                      children: const [
                                         Center(
                                             child: SizedBox(
                                                 height: 25,
@@ -103,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
                                                   .size
                                                   .width *
                                               0.9,
-                                          child: Text("Đăng nhập")),
+                                          child: const Text("Đăng nhập")),
                                       onPressed: () {
                                         _onLoginButtonPressed();
                                       },
@@ -118,16 +123,19 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       Container(
                           alignment: Alignment.center,
-                          child: Row(children: [
-                            Text("Chưa có tài khoản ? "),
-                            SizedBox(width: 5),
-                            GestureDetector(
-                                child: Text("Đăng ký ngay"),
-                                onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, "/register", (route) => false);
-                                }),
-                          ]))
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("Chưa có tài khoản ? ",
+                                    style: textMinorBlack),
+                                GestureDetector(
+                                    child: const Text("Đăng ký ngay",
+                                        style: textMinorItalicGreen),
+                                    onTap: () {
+                                      Navigator.pushNamedAndRemoveUntil(context,
+                                          "/register", (route) => false);
+                                    }),
+                              ]))
                     ],
                   ),
                 )),

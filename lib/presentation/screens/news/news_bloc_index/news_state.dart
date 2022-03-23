@@ -16,7 +16,7 @@ class NewsLoading extends NewsState {}
 class NewsLoaded extends NewsState {
   final List<News> news;
 
-  NewsLoaded(
+  const NewsLoaded(
     this.news,
   );
 

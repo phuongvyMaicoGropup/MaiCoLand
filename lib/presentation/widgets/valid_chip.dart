@@ -17,7 +17,7 @@ class ValidChip extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text("Còn hiệu lực", style: textMinorGreen))
+            child: const Text("Còn hiệu lực", style: textMinorGreen))
         : Container(
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
@@ -27,6 +27,6 @@ class ValidChip extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text("Còn hiệu lực", style: textMinorRed));
+            child: const Text("Còn hiệu lực", style: textMinorRed));
   }
 }

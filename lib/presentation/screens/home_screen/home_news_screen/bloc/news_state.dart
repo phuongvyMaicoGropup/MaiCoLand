@@ -13,7 +13,7 @@ class NewsLoading extends HomeNewsState {}
 class NewsLoaded extends HomeNewsState {
   final List<News> news;
 
-  NewsLoaded(
+  const NewsLoaded(
     this.news,
   );
 

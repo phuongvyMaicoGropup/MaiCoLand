@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/address_bloc/address.dart';
 import 'package:maico_land/model/entities/address.dart';
-import 'package:maico_land/model/entities/address_data.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:dvhcvn/dvhcvn.dart' as dvhcvn;
-import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:provider/provider.dart';
 
 class CreateOption {
   final String title;
@@ -16,9 +13,14 @@ class CreateOption {
   CreateOption(this.title, this.description, this.icon);
 }
 
-class CreateOptionScreen extends StatelessWidget {
+class CreateOptionScreen extends StatefulWidget {
   CreateOptionScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CreateOptionScreen> createState() => _CreateOptionScreenState();
+}
+
+class _CreateOptionScreenState extends State<CreateOptionScreen> {
   List<CreateOption> createOptions = [
     CreateOption(
       "Đăng tin tức",
@@ -27,10 +29,12 @@ class CreateOptionScreen extends StatelessWidget {
     ),
     CreateOption(
       "Đăng bản đồ quy hoạch",
-      "Đăng bản đồ quy hoạch sử dụng đất/ dự án  ",
+      "Đăng bản đồ quy hoạch sử dụng đất/ dự án ",
       Icons.map_outlined,
     )
   ];
+  String newsType = 'Thị trường';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,7 +46,8 @@ class CreateOptionScreen extends StatelessWidget {
             body: ListView(
               children: [
                 TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed("/news/add"),
+                  onPressed: () => selectNewsType(context),
+                  // Navigator.of(context).pushNamed("/news/add"),
                   child: OptionCard(
                     item: CreateOption(
                       "Đăng tin tức",
@@ -70,6 +75,75 @@ class CreateOptionScreen extends StatelessWidget {
             )));
   }
 
+  selectNewsType(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return Dialog(
+            child: Padding(
+              child: ListView(shrinkWrap: true, children: [
+                Center(
+                  child: Text("Chọn đăng loại tin tức", style: minorText),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.only(bottom: 13),
+                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.gray.withOpacity(0.1),
+                    border: Border.all(
+                        color: AppColors.gray.withOpacity(0.5),
+                        width: 1.0,
+                        style: BorderStyle.solid), //Border.all
+                    /*** The BorderRadius widget  is here ***/
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(2),
+                    ), //BorderRadius.
+                  ),
+                  child: DropdownButton<String>(
+                    value: newsType,
+                    icon: const Icon(Icons.arrow_downward),
+                    elevation: 16,
+                    style: const TextStyle(color: AppColors.appGreen2),
+                    isExpanded: true,
+                    underline: Container(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        newsType = newValue!;
+                      });
+                    },
+                    items: <String>['Thị trường', 'Chính sách', 'Quy hoạch']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(onPressed: () {}, child: const Text("Huỷ")),
+                    TextButton(
+                        onPressed: () {
+                          int type = 0;
+                          if (newsType == "Chính sách")
+                            type = 1;
+                          else if (newsType == "Quy hoạch") type = 2;
+                          Navigator.of(context)
+                              .pushNamed('/news/add', arguments: type);
+                        },
+                        child: const Text("Tiếp tục")),
+                  ],
+                )
+              ]),
+              padding: const EdgeInsets.all(8.0),
+            ),
+          );
+        });
+  }
+
   selectAddress(BuildContext context) {
     showDialog(
         context: context,
@@ -90,15 +164,6 @@ class CreateOptionScreen extends StatelessWidget {
           );
         });
   }
-
-  // Level1? selectLevel1;
-  // Widget level() {
-  //   return ListView.builder(itemBuilder: (context, index) {
-  //     return TextButton(
-  //         onPressed: () {},
-  //         child: ListTile(title: Text(dvhcvn.level1s[index].name)));
-  //   });
-  // }
 }
 
 class OptionCard extends StatelessWidget {
@@ -117,7 +182,7 @@ class OptionCard extends StatelessWidget {
               child: Container(
                   clipBehavior: Clip.hardEdge,
                   padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: AppColors.appGreen2, shape: BoxShape.circle),
                   child: Icon(item.icon, size: 30, color: Colors.white))),
           const SizedBox(width: 10),
@@ -127,7 +192,7 @@ class OptionCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(item.title, style: mediumText),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(item.description, style: descriptionText)
                   ]))
         ],
@@ -150,11 +215,11 @@ class SelectAddress extends StatelessWidget {
             children: [
               Center(
                   child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text("Thêm bản đồ mới", style: mediumText))),
+                      margin: const EdgeInsets.all(10),
+                      child: const Text("Thêm bản đồ mới", style: mediumText))),
               Container(
                 width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(bottom: 13),
+                margin: const EdgeInsets.only(bottom: 13),
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 decoration: BoxDecoration(
                   color: AppColors.gray.withOpacity(0.1),
@@ -176,6 +241,7 @@ class SelectAddress extends StatelessWidget {
                   icon: const Icon(Icons.arrow_downward, size: 18),
                   // elevation: 16,
                   style: const TextStyle(color: Colors.black),
+                  isExpanded: true,
 
                   underline: Container(),
                   onChanged: (dvhcvn.Level1? newValue) {
@@ -195,7 +261,7 @@ class SelectAddress extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 decoration: BoxDecoration(
                   color: AppColors.gray.withOpacity(0.1),
@@ -212,6 +278,7 @@ class SelectAddress extends StatelessWidget {
                   hint: Text(state.level2.name != ""
                       ? state.level2.name
                       : "- Quận huyện -"),
+                  isExpanded: true,
                   value: dropdownValue2,
                   icon: const Icon(Icons.arrow_downward, size: 18),
                   elevation: 16,
@@ -241,7 +308,7 @@ class SelectAddress extends StatelessWidget {
                       width: 1.0,
                       style: BorderStyle.solid), //Border.all
                   /*** The BorderRadius widget  is here ***/
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(2),
                   ), //BorderRadius.
                 ),
@@ -250,6 +317,7 @@ class SelectAddress extends StatelessWidget {
                       ? state.level3.name
                       : "- Phường xã -"),
                   value: dropdownValue3,
+                  isExpanded: true,
                   icon: const Icon(Icons.arrow_downward, size: 18),
                   elevation: 16,
                   style: const TextStyle(color: Colors.deepPurple),
@@ -272,7 +340,7 @@ class SelectAddress extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(onPressed: () {}, child: Text("Huỷ")),
+                  TextButton(onPressed: () {}, child: const Text("Huỷ")),
                   TextButton(
                       onPressed: (state.level1.id != "" &&
                               state.level2.id != "" &&
@@ -285,7 +353,7 @@ class SelectAddress extends StatelessWidget {
                                       state.level2.id, state.level3.id));
                             }
                           : null,
-                      child: Text("Tiếp tục")),
+                      child: const Text("Tiếp tục")),
                 ],
               )
             ]);

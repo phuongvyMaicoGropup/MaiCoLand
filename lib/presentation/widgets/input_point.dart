@@ -22,15 +22,15 @@ class InputPoint extends StatelessWidget {
   final String errorMessage;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label, style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
-        SizedBox(height: 10),
+        Text(label, style: const TextStyle(fontSize: 10, color: AppColors.appGreen1)),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
               width: width * 0.45,
               child: TextFormField(
                 maxLines: maxLines,
@@ -62,7 +62,7 @@ class InputPoint extends StatelessWidget {
                     errorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(color: AppColors.red)),
-                    errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+                    errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
                     focusColor: AppColors.appGreen1,
                     contentPadding: const EdgeInsets.only(
                       top: 10.0,
@@ -77,7 +77,7 @@ class InputPoint extends StatelessWidget {
                 },
               ),
             ),
-            Container(
+            SizedBox(
               width: width * 0.45,
               child: TextFormField(
                 maxLines: maxLines,
@@ -109,7 +109,7 @@ class InputPoint extends StatelessWidget {
                     errorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(color: AppColors.red)),
-                    errorStyle: TextStyle(fontSize: 10, color: AppColors.red),
+                    errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
                     focusColor: AppColors.appGreen1,
                     contentPadding: const EdgeInsets.only(
                       top: 10.0,

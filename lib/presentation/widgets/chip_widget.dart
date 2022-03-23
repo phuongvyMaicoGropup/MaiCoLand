@@ -9,7 +9,7 @@ class ChipWidget extends StatelessWidget {
     return Chip(
   backgroundColor: color,
   label:  Text(content),
-  labelStyle: TextStyle (color : Colors.white),
+  labelStyle: const TextStyle (color : Colors.white),
   onDeleted : (){
     
   }

@@ -33,9 +33,10 @@ class WidgetSkeleton extends StatefulWidget {
   final double? height;
   final double? width;
 
-  WidgetSkeleton({Key? key, this.height = 20, this.width = 200})
+  const WidgetSkeleton({Key? key, this.height = 20, this.width = 200})
       : super(key: key);
 
+  @override
   createState() => WidgetSkeletonState();
 }
 
@@ -48,8 +49,8 @@ class WidgetSkeletonState extends State<WidgetSkeleton>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(duration: Duration(milliseconds: 200), vsync: this);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
     gradientPosition = Tween<double>(
       begin: -5,
@@ -80,11 +81,11 @@ class WidgetSkeletonState extends State<WidgetSkeleton>
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           gradient: LinearGradient(
               begin: Alignment(gradientPosition.value, 0),
-              end: Alignment(-1, 0),
+              end: const Alignment(-1, 0),
               colors: [
-                Colors.grey.withOpacity(0.7),
-                Colors.grey.withOpacity(0.8),
-                Colors.grey.withOpacity(0.8),
+                Colors.black.withOpacity(0.1),
+                Colors.black.withOpacity(0.2),
+                Colors.black.withOpacity(0.1),
               ])),
     );
   }

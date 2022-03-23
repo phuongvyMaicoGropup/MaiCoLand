@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
@@ -10,9 +9,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationBloc authBloc;
 
   LoginBloc({required this.userRepo, required this.authBloc})
-      : assert(userRepo != null),
-        assert(authBloc != null),
-        super(LoginInitial()) {
+      : super(LoginInitial()) {
     on<LoginButtonPressed>(_mapLoginButtonPressedToState);
   }
   Future<void> _mapLoginButtonPressedToState(
@@ -26,6 +23,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           event.username, event.password, event.rememberMe);
       authBloc.add(LoggedIn(token: token));
       emit(LoginSuccess());
+      // if (token == "") {
+      //   emit(LoginFailure(error: "Not a valid account"));
+      // } else {
+
+      // }
     } catch (e) {
       emit(LoginFailure(error: e.toString()));
     }

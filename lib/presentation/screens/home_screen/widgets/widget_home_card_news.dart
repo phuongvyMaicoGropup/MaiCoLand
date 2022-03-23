@@ -47,7 +47,7 @@ class WidgetHomeCardNews extends StatelessWidget {
                       //   topLeft: Radius.circular(5),
                       //   topRight: Radius.circular(5),
                       // ),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage('assets/logo.png'),
                         fit: BoxFit.fitWidth,
                       ),

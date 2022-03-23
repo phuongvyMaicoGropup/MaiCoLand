@@ -38,7 +38,7 @@ class _WidgetHomeCategoriesState extends State<WidgetHomeCategories> {
   }
 
   _buildListCategory() {
-    return Container(
+    return SizedBox(
       height: 60,
       child: Padding(
         padding: const EdgeInsets.only(right: 20),
@@ -52,7 +52,7 @@ class _WidgetHomeCategoriesState extends State<WidgetHomeCategories> {
           separatorBuilder: (context, index) {
             return const SizedBox(width: 30);
           },
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemCount: items.length,
         ),
       ),

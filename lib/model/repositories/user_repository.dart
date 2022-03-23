@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:maico_land/helpers/jwt_parse.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/user.dart';
-import 'package:maico_land/model/responses/user_reponse.dart';
 
 class UserRepository {
   final DioProvider dio_provider = DioProvider();
@@ -13,8 +11,9 @@ class UserRepository {
     var value = await dio_provider.storage.read(key: "token");
     if (value != null) {
       return Future<String>.value(value);
-    } else
+    } else {
       return Future<String>.value("");
+    }
   }
 
   Future<void> persisteToken(String token) async {
@@ -28,17 +27,15 @@ class UserRepository {
 
   Future<String> login(
       String username, String password, bool rememberMe) async {
-        print(password);
-        print(username);
-
     Response response = await dio_provider.dio.post(dio_provider.loginApi,
         data: {
           'userName': username,
           'password': password,
           'rememberMe': rememberMe
         });
-    print(response.statusCode);
-    print(response.statusMessage);
+    if (response.statusCode != 200) {
+      return Future<String>.value("");
+    }
     return Future<String>.value(response.data["token"]);
   }
 

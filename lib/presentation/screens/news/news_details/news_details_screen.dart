@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/news.dart';
-import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 
 class NewsDetailsScreen extends StatelessWidget {
@@ -56,7 +53,7 @@ class NewsDetailsScreen extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             child: Text(
               news.title,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppColors.appGreen1,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,

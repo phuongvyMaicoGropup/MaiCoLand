@@ -12,7 +12,7 @@ class LandPlanningLoading extends HomeLandPlanningState {}
 class LandPlanningLoaded extends HomeLandPlanningState {
   final List<LandPlanning> land;
 
-  LandPlanningLoaded(
+  const LandPlanningLoaded(
     this.land,
   );
 

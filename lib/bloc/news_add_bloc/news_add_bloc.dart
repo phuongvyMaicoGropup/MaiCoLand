@@ -1,16 +1,12 @@
-import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/news_request.dart';
-import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/formz_model/models.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-import 'package:http/http.dart' as http;
 part 'news_add_event.dart';
 part 'news_add_state.dart';
 
@@ -83,7 +79,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
             await _dioProvider.uploadFile(state.image, "image/png", "news");
 
         var newsRequest = NewsRequest(state.title.value, state.content.value,
-            state.hashTag.split('/').toList(), imagePath);
+            state.hashTag.split('/').toList(), imagePath, event.type);
 
         var result = await _newsRepo.create(newsRequest);
         if (result == true) {

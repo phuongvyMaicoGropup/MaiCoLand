@@ -1,14 +1,13 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth_state.dart';
 import 'package:maico_land/model/entities/user.dart';
-import 'package:maico_land/model/responses/user_reponse.dart';
 import 'package:maico_land/presentation/screens/home_screen/bloc/home_event.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
-import 'package:maico_land/presentation/widgets/land_planning_skeleton.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 import 'bloc/home_bloc.dart';
@@ -91,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (state is HomeLoading) {
       return Expanded(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
               WidgetSkeleton(
@@ -146,10 +145,24 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     } else if (state is HomeNotLoaded) {
-      return const Expanded(
+      return Expanded(
         child: Center(
-          child: Text('Cannot load data'),
-        ),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              GestureDetector(
+                onTap: () {
+                  BlocProvider.of<HomeBloc>(context).add(RefreshHome());
+                  BlocProvider.of<HomeBloc>(context).add(LoadHome());
+                },
+                child: const Icon(EvaIcons.wifiOffOutline,
+                    color: AppColors.appGreen1, size: 50),
+              ),
+              const SizedBox(height: 20),
+              const Text("Mất kết nối",
+                  style: TextStyle(color: AppColors.appGreen1, fontSize: 20)),
+            ])),
       );
     } else {
       return const Expanded(

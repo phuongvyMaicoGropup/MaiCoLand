@@ -13,5 +13,5 @@ class InitialNews extends NewsEvent {}
 class LoadMoreNews extends NewsEvent {
   final List<News> news; 
 
-  LoadMoreNews(this.news);
+  const LoadMoreNews(this.news);
 }

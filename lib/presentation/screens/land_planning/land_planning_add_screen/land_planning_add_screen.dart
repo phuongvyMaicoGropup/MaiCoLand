@@ -1,11 +1,5 @@
-import 'dart:io';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:intl/intl.dart';
-import 'package:maico_land/bloc/land_planning_add_bloc/land_planning_add_bloc.dart';
 import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
@@ -14,11 +8,7 @@ import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
-import 'package:maico_land/presentation/widgets/input_text.dart';
-import 'package:maico_land/presentation/widgets/label_widget.dart';
-import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
-import 'package:uuid/uuid.dart';
 
 class LandPlanningAddScreen extends StatefulWidget {
   const LandPlanningAddScreen({required this.address, Key? key})
@@ -62,10 +52,11 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2060),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
       });
+    }
   }
 
   @override
@@ -159,7 +150,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                     controllerY: rightBottomyController,
                     validator: r".",
                     errorMessage: "Vui lòng nhập toạ độ "),
-                Text("File ",
+                const Text("File ",
                     style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
                 TextButton(
                     onPressed: () async {
@@ -167,7 +158,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                       print(filePdfPath);
                     },
                     child: Text(filePdfPath.split('/').last)),
-                Text("Thông tin chi tiết ",
+                const Text("Thông tin chi tiết ",
                     style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
                 TextButton(
                   onPressed: () async {
@@ -184,7 +175,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                   },
                   child: Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child:
                           Text(DateFormat('dd/MM/yyyy').format(selectedDate))),
                 ),
@@ -211,19 +202,19 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
               selectedDate,
               GeoPoint(
                 double.parse(leftTopxController.text),
-                double.parse(leftTopxController.text),
+                double.parse(leftTopyController.text),
               ),
               GeoPoint(
-                double.parse(leftTopxController.text),
-                double.parse(leftTopxController.text),
+                double.parse(rightTopxController.text),
+                double.parse(rightTopyController.text),
               ),
               GeoPoint(
-                double.parse(leftTopxController.text),
-                double.parse(leftTopxController.text),
+                double.parse(leftBottomxController.text),
+                double.parse(leftBottomxController.text),
               ),
               GeoPoint(
-                double.parse(leftTopxController.text),
-                double.parse(leftTopxController.text),
+                double.parse(rightBottomxController.text),
+                double.parse(rightBottomyController.text),
               ),
               widget.address,
             );

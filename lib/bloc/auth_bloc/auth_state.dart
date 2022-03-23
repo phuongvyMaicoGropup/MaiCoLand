@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:maico_land/model/entities/user.dart';
-import 'package:maico_land/model/responses/user_reponse.dart';
 
 abstract class AuthenticationState extends Equatable {
   @override
@@ -14,6 +13,7 @@ class AuthenticationAuthenticated extends AuthenticationState {
   final User userReponse;
 
   AuthenticationAuthenticated(this.userReponse); 
+  @override
   List<Object?> get props => [userReponse];
 
 }

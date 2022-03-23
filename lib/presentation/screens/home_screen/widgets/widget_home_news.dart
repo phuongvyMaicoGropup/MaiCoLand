@@ -40,22 +40,23 @@ class WidgetHomeNews extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 5),
-                Container(height: 200.0, child: _buildListNews()),
+                SizedBox(height: 200.0, child: _buildListNews()),
               ],
             ),
           );
         } else if (state is NewsNotLoaded) {
-          return Container(child: Text("Không load được"));
-        } else
-          return Container(child: CircularProgressIndicator());
+          return Container(child: const Text("Không load được"));
+        } else {
+          return Container(child: const CircularProgressIndicator());
+        }
       },
     );
   }
 
   _buildListNews() {
-    return items.length == 0
+    return items.isEmpty
         ? ListView.builder(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: 5,
@@ -86,11 +87,11 @@ class WidgetHomeNews extends StatelessWidget {
               color: Colors.black.withOpacity(0.02),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
           WidgetSkeleton(height: 105, width: 170),
           SizedBox(height: 8),
           WidgetSkeleton(width: 130, height: 20),
