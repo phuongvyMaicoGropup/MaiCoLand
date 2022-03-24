@@ -16,8 +16,6 @@ class UserRepository {
     }
   }
 
-
-
   Future<void> persisteToken(String token) async {
     await dio_provider.storage.write(key: "token", value: token);
   }
@@ -77,6 +75,20 @@ class UserRepository {
       photoURL: user['photoURL'],
     );
     return userReponse;
+  }
+
+  Future<User> getUserById(String id) async {
+    try {
+      Response response = await dio_provider.dio.get(
+          dio_provider.baseUrl + "api/user/" + id,
+          queryParameters: {"id": id});
+      print(response.data);
+
+      return Future<User>.value(User.fromMap(response.data));
+    } catch (e) {
+      print(e);
+      return Future<User>.value(null);
+    }
   }
   // Future<bool > updateAvatar()
 }

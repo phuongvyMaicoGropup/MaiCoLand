@@ -18,6 +18,7 @@ class DioProvider {
   get createLandPlaningApi => baseUrl + "api/landplanning/create";
   get searchLandPlanning => baseUrl + "api/landplanning/search";
   get searchNews => baseUrl + "api/news/search";
+  // get getUserInfo => baseUrl + "api/user/";
   
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
