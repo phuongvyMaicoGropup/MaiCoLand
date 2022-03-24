@@ -36,227 +36,207 @@ class _LandPlanningDetailMapScreenState
 
   Future<void> _onLoadHtmlStringExample(
       WebViewController controller, BuildContext context) async {
-    String fileText = '''
-    <!DOCTYPE html>
+    String file = '''
+<!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset="utf-8" />
-	<title>Add a raster image to a map layer</title>
-	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-	<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
-	<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.js"
-		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-		}
+    <meta charset="utf-8" />
 
-		#map {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width: 100%;
-			object-fit: cover;
-		}
-
-		#map>img {
-			transform: scale(1.6);
-		}
-
-		.map-overlay {
-			font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-			position: absolute;
-			width: 75%;
-			bottom: 0;
-			right: 0;
-			padding: 10px;
-		}
-
-
-		.map-overlay input {
-			background-color: transparent;
-			display: inline-block;
-			width: 100%;
-			position: relative;
-			margin: 0;
-			cursor: ew-resize;
-		}
-
-		#menu {
-			position: absolute;
-			padding : 10px ; 
-			right : 0 ; 
-			top : 0 ;
-		}
-		input {
-			display: none;
-		}
-
-		label {
-			cursor: pointer;
-			margin: 4px 4px;
-		}
-
-		label:before {
-			content: '';
-			display: inline-block;
-			height: 15px;
-			width: 15px;
-			background: #59CA59;
-			border-radius: 50%;
-			z-index: 2;
-			transition: box-shadow .4s ease,
-				background .3s ease;
-		}
-
-		input:checked+label:before {
-			box-shadow: inset 0px 1px 0 1px rgba(89, 202, 89, 1);
-			background: #fff;
-		}
-    .calculation-box {
-height: 75px;
-width: 150px;
-position: absolute;
-bottom: 40px;
-left: 10px; 
-background-color: rgba(255, 255, 255, 0.9);
-padding: 15px;
-text-align: center;
-}
-	</style>
+    <title>Add a raster image to a map layer</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        #map>img {
+            transform: scale(1.6);
+        }
+        
+        .map-overlay {
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            position: absolute;
+            width: 75%;
+            bottom: 0;
+            right: 0;
+            padding: 10px;
+        }
+        
+        .map-overlay input {
+            background-color: transparent;
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            margin: 0;
+            cursor: ew-resize;
+        }
+        
+        #menu {
+            position: absolute;
+            padding: 10px;
+            right: 0;
+            top: 0;
+        }
+        
+        input {
+            display: none;
+        }
+        
+        label {
+            cursor: pointer;
+            margin: 4px 4px;
+        }
+        
+        label:before {
+            content: '';
+            display: inline-block;
+            height: 15px;
+            width: 15px;
+            background: #59CA59;
+            border-radius: 50%;
+            z-index: 2;
+            transition: box-shadow .4s ease, background .3s ease;
+        }
+        
+        input:checked+label:before {
+            box-shadow: inset 0px 1px 0 1px rgba(89, 202, 89, 1);
+            background: #fff;
+        }
+    </style>
 </head>
-<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
-<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css" type="text/css">
+
 <body>
-	<div id="map"></div>
-  <div class="calculation-box">
-<p>Nhấn vào bản đồ để chọn điểm</p>
-<div id="calculated-area"></div>
-</div>
-	<div class="map-overlay top">
-		<input id="slider" type="range" min="0" max="100" value="100">
-	</div>
-	<div id="menu">
-		<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
-		<!-- See a list of Mapbox-hosted public styles at -->
-		<!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-		<input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
-		<label for="outdoors-v11"></label>
-		<label for="satellite-v9"></label>
-		<input id="light-v10" type="radio" name="rtoggle" value="light">
-		<label for="light-v10"></label>
-		<input id="dark-v10" type="radio" name="rtoggle" value="dark">
-		<label for="dark-v10"></label>
-		<input id="streets-v11" type="radio" name="rtoggle" value="streets">
-		<label for="streets-v11"></label>
-		
-	</div>
-	<script>
-		// TO MAKE THE MAP APPEAR YOU MUST
-		// ADD YOUR ACCESS TOKEN FROM
-		// https://account.mapbox.com
+    <style>
+        .calculation-box {
+            height: 75px;
+            width: 150px;
+            position: absolute;
+            bottom: 40px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        p {
+            font-family: 'Open Sans';
+            margin: 0;
+            font-size: 13px;
+        }
+    </style>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css" type="text/css">
+    <div id="map"></div>
+    <div class="calculation-box">
+        <p>Ấn vào để chọn điểm </p>
+        <div id="calculated-area"></div>
+    </div>
+    <div class="map-overlay top">
+        <input id="slider" type="range" min="0" max="100" value="100">
+    </div>
+    <div id="menu">
+        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+        <!-- See a list of Mapbox-hosted public styles at -->
+        <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+        <label for="outdoors-v11"></label>
+        <label for="satellite-v9"></label>
+        <input id="light-v10" type="radio" name="rtoggle" value="light">
+        <label for="light-v10"></label>
+        <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+        <label for="dark-v10"></label>
+        <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+        <label for="streets-v11"></label>
 
-		mapboxgl.accessToken =
-			'pk.eyJ1IjoiYW5kcmVhdHJhbjIwMDIiLCJhIjoiY2t4aXZndmk0NTFodTJwbXVlbXJpNnM0dyJ9.fOnQcO_C_2T8wlNCzIWzwQ'
-    
-		var map = new mapboxgl.Map({
-			container: 'map',
-			zoom: 15,
-			center:[${widget.landPlanning.rightBottom.longitude}, ${widget.landPlanning.rightBottom.latitude}],
-			// style: 'mapbox://styles/andreatran2002/ckxuiyic394hv16ryg9jx3jb7',
-			style: 'mapbox://styles/mapbox/outdoors-v11'
-		})
-    const draw = new MapboxDraw({
-displayControlsDefault: false,
-// Select which mapbox-gl-draw control buttons to add to the map.
-controls: {
-polygon: true,
-trash: true
-},
-// Set mapbox-gl-draw to draw by default.
-// The user does not have to click the polygon control button first.
-defaultMode: 'draw_polygon'
-});
-map.addControl(draw);
- 
-map.on('draw.create', updateArea);
-map.on('draw.delete', updateArea);
-map.on('draw.update', updateArea);
- 
-function updateArea(e) {
-const data = draw.getAll();
-const answer = document.getElementById('calculated-area');
-if (data.features.length > 0) {
-const area = turf.area(data);
-// Restrict the area to 2 decimal points.
-const rounded_area = Math.round(area * 100) / 100;
-answer.innerHTML = `<p><strong>\${rounded_area}</strong></p><p>square meters</p>`;
-} else {
-answer.innerHTML = '';
-if (e.type !== 'draw.delete')
-alert('Click the map to draw a polygon.');
-}
-}
-		// disable map rotation using right click + drag
-		map.dragRotate.disable()
-		const slider = document.getElementById('slider');
-		// disable map rotation using touch rotation 7
-		map.touchZoomRotate.disableRotation()
-		const layerList = document.getElementById('menu');
-		const inputs = layerList.getElementsByTagName('input');
+    </div>
+    <script>
+        // TO MAKE THE MAP APPEAR YOU MUST
+        // ADD YOUR ACCESS TOKEN FROM
+        // https://account.mapbox.com
 
-		map.on('load', () => {
-			addMaineLayer();
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoiYW5kcmVhdHJhbjIwMDIiLCJhIjoiY2t4aXZndmk0NTFodTJwbXVlbXJpNnM0dyJ9.fOnQcO_C_2T8wlNCzIWzwQ'
 
-			slider.addEventListener('input', (e) => {
-				// Adjust the layers opacity. layer here is arbitrary - this could
-				// be another layer name found in your style or a custom layer
-				// added on the fly using `addSource`.
-				map.setPaintProperty(
-					'map-layer',
-					'raster-opacity',
-					parseInt(e.target.value, 10) / 100
-				);
-				map.setPaintProperty(
-					'map-layer-update',
-					'raster-opacity',
-					parseInt(e.target.value, 10) / 100
-				);
+        var map = new mapboxgl.Map({
+                container: 'map',
+                zoom: 9,
+                center:[${widget.landPlanning.rightBottom.longitude}, ${widget.landPlanning.rightBottom.latitude}],
 
-			});
-			function switchLayer(layer) {
-				// addMaineLayer fn will be called once on layer switched
-				map.once("styledata", addMaineLayer);
-				const layerId = layer.target.id;
-				map.setStyle("mapbox://styles/mapbox/" + layerId);
-				slider.value = 100
+                // style: 'mapbox://styles/andreatran2002/ckxuiyic394hv16ryg9jx3jb7',
+                style: 'mapbox://styles/mapbox/outdoors-v11'
+            })
+            // disable map rotation using right click + drag
+        map.dragRotate.disable()
+        const slider = document.getElementById('slider');
+        // disable map rotation using touch rotation 7
+        map.touchZoomRotate.disableRotation()
+        const layerList = document.getElementById('menu');
+        const inputs = layerList.getElementsByTagName('input');
 
-			}
+        map.on('load', () => {
+            addMaineLayer();
 
-			// set toggle base style events
-			for (let i = 0; i < inputs.length; i++) {
-				inputs[i].onclick = switchLayer;
-			}
-		});
-		function addLayerBefore(addLayerFn, layer, beforeId) {
-			// check beforeId defined and exists on the map
-			const beforeLayer = Boolean(beforeId) && map.getLayer(beforeId);
-			if (beforeLayer && beforeId === beforeLayer.id) addLayerFn(layer, beforeId);
-			else {
-				console.warn(
-					`Not found layer with id '\${beforeId}'.\nLayer '\${layer.id}' added without before.`
-				);
-				addLayerFn(layer);
-			}
-		}
+            slider.addEventListener('input', (e) => {
+                // Adjust the layers opacity. layer here is arbitrary - this could
+                // be another layer name found in your style or a custom layer
+                // added on the fly using `addSource`.
+                map.setPaintProperty(
+                    'map-layer',
+                    'raster-opacity',
+                    parseInt(e.target.value, 10) / 100
+                );
+                map.setPaintProperty(
+                    'map-layer-update',
+                    'raster-opacity',
+                    parseInt(e.target.value, 10) / 100
+                );
 
-		function addMaineLayer() {
+            });
 
-			map.addSource('map', {
+            function switchLayer(layer) {
+                // addMaineLayer fn will be called once on layer switched
+                map.once("styledata", addMaineLayer);
+                const layerId = layer.target.id;
+                map.setStyle("mapbox://styles/mapbox/" + layerId);
+                slider.value = 100
+
+            }
+
+            // set toggle base style events
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].onclick = switchLayer;
+            }
+        });
+
+        function addLayerBefore(addLayerFn, layer, beforeId) {
+            // check beforeId defined and exists on the map
+            const beforeLayer = Boolean(beforeId) && map.getLayer(beforeId);
+            if (beforeLayer && beforeId === beforeLayer.id) addLayerFn(layer, beforeId);
+            else {
+                console.warn(
+                    `Not found layer with id '\${beforeId}'.\nLayer '\${layer.id}' added without before.`
+                );
+                addLayerFn(layer);
+            }
+        }
+
+        function addMaineLayer() {
+
+            map.addSource('map', {
 				type: 'image',
 					url: '${widget.landPlanning.imageUrl}',
 					coordinates: [
@@ -266,37 +246,68 @@ alert('Click the map to draw a polygon.');
 						[${widget.landPlanning.leftBottom.longitude}, ${widget.landPlanning.leftBottom.latitude}],
 					],
 			})
-			// map.addLayer({
-			// 	id: 'map-layer',
-			// 	type: 'raster',
-			// 	source: 'map',
-			// })
+                // map.addLayer({
+                // 	id: 'map-layer',
+                // 	type: 'raster',
+                // 	source: 'map',
+                // })
 
-			// define the function to add layer
-			const addLayer = (layer, beforeId) => map.addLayer(layer, beforeId);
+            // define the function to add layer
+            const addLayer = (layer, beforeId) => map.addLayer(layer, beforeId);
 
-			addLayerBefore(
-				addLayer,
-				{
-					id: "map-layer-update",
-					type: "raster",
-					source: "map",
-				}
-				, "map-layer"
-			);
-		}
-const cors = require('cors')({origin: true});
-	</script>
+            addLayerBefore(
+                addLayer, {
+                    id: "map-layer-update",
+                    type: "raster",
+                    source: "map",
+                }, "map-layer"
+            );
+            const draw = new MapboxDraw({
+                displayControlsDefault: false,
+                // Select which mapbox-gl-draw control buttons to add to the map.
+                controls: {
+                    polygon: true,
+                    trash: true
+                },
+                // Set mapbox-gl-draw to draw by default.
+                // The user does not have to click the polygon control button first.
+                defaultMode: 'draw_polygon'
+            });
+            map.addControl(draw);
+
+            map.on('draw.create', updateArea);
+            map.on('draw.delete', updateArea);
+            map.on('draw.update', updateArea);
+
+            function updateArea(e) {
+                const data = draw.getAll();
+                const answer = document.getElementById('calculated-area');
+                if (data.features.length > 0) {
+                    const area = turf.area(data);
+                    // Restrict the area to 2 decimal points.
+                    const rounded_area = Math.round(area * 100) / 100;
+                    answer.innerHTML = `<p>Diện tích : <strong>\${rounded_area}</strong> m²</p>`;
+                } else {
+                    answer.innerHTML = '';
+                    if (e.type !== 'draw.delete')
+                        alert('Click the map to draw a polygon.');
+                }
+            }
+        }
+        const cors = require('cors')({
+            origin: true
+        });
+    </script>
 </body>
 
 </html>
-    ''';
-    await controller.loadHtmlString(fileText);
+''';
+
+    await controller.loadHtmlString(file);
   }
 
   var loadingPercentage = 0;
 
-  final double _mapOpacity = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -367,6 +378,7 @@ const cors = require('cors')({origin: true});
             LinearProgressIndicator(
               value: loadingPercentage / 100.0,
             ),
+         
         ],
       ),
 

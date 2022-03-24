@@ -2,26 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/helpers/pick_file.dart';
+import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/account/widgets/widgets.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/presentation/widgets/text_icon.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({required this.userRepo, Key? key}) : super(key: key);
 
   final UserRepository userRepo;
 
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  final _dioProvider = DioProvider();
   Future updateAvatar(BuildContext context) async {
     try {
       PickFile fileService = PickFile();
-      String file = await fileService.pickImage(context);
-      print(file);
-      // String url = await Storage.storageImage(context,File(file));
-      // print(url);
+      String filePath = await fileService.pickImage(context);
+
+      String url =
+          await _dioProvider.uploadFile(filePath, "image/png", "avatar");
+      print(url);
       // await _userRepo.changeAvatar(url);
-      //                BlocProvider.of<AccountBloc>(context).add(AccountLoad());
+      // BlocProvider.of<AccountBloc>(context).add(AccountLoad());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
           content: const Text("Cập nhập ảnh đại diện thành công!")));

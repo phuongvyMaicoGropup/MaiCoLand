@@ -80,6 +80,21 @@ class LandPlanningRepository {
     return Future<List<LandPlanning>>.value(result);
   }
 
+  Future<bool> likeLand(String landId) async {
+    try {
+      var userId = await _userRepo.getUserId();
+      Response response = await _dioProvider.dio.get(
+          _dioProvider.baseUrl + "api/landplanning/${landId}/like",
+          queryParameters: {'landId': landId, 'userId': userId});
+
+      print(response.data);
+      return Future<bool>.value(true);
+    } catch (e) {
+      print(e);
+      return Future<bool>.value(false);
+    }
+  }
+
   Future<List<LandPlanning>> getLandPlanningPagination(
       int pageNumber,
       int pageSize,

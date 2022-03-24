@@ -1,8 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
 import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/styles/app_themes.dart';
 import 'package:maico_land/presentation/widgets/pdf_file_view.dart';
@@ -35,18 +37,29 @@ class _LandPlanningDetailInfoScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Thông tin quy hoạch"),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
+          centerTitle: true,
+          title: const Text("Thông tin quy hoạch"),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+            ),
           ),
-        ),
-      ),
+          actions: [
+            IconButton(
+                icon: const Icon(EvaIcons.heart, color: AppColors.white),
+                onPressed: () async {
+                  var result =
+                      await RepositoryProvider.of<LandPlanningRepository>(
+                              context)
+                          .likeLand(widget.landPlanning.id);
+                  print(result);
+                }),
+            const SizedBox(width: 10)
+          ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListView(
@@ -124,7 +137,7 @@ class _LandPlanningDetailInfoScreenState
               Text("Diện tích: ", style: textMinorGreen.copyWith(fontSize: 14)),
               Text("${widget.landPlanning.landArea} km²  ")
             ]),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               child: Text(
                 widget.landPlanning.content,

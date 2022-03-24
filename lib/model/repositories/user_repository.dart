@@ -16,6 +16,8 @@ class UserRepository {
     }
   }
 
+
+
   Future<void> persisteToken(String token) async {
     await dio_provider.storage.write(key: "token", value: token);
   }
@@ -74,16 +76,7 @@ class UserRepository {
       phoneNumber: user['phoneNumber'],
       photoURL: user['photoURL'],
     );
-    // UserReponse userReponse = UserReponse(
-    //   username: 'username',
-
-    //   email: 'email',
-    //   id: 'id',
-    //   firstName: 'firstName',
-    //   lastName: 'lastName',
-    //   phoneNumber: 'phoneNumber',
-    //   photoURL: 'photoURL',
-    // );
     return userReponse;
   }
+  // Future<bool > updateAvatar()
 }
