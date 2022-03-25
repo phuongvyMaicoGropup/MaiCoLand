@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
@@ -22,7 +21,21 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     on<NewsAddImageChanged>(_onImageChanged);
     on<NewsAddHashTagChanged>(_onHashTagChanged);
     on<NewsAddSubmitted>(_onSubmitted);
+    on<NewsAddInitial>(_onInitial);
   }
+  void _onInitial(
+    NewsAddInitial event,
+    Emitter<NewsAddState> emit,
+  ) {
+    emit(state.copyWith(
+      title: const Title.pure(),
+      content: const Content.pure(),
+      image: "",
+      hashTag: "",
+      status: FormzStatus.pure,
+    ));
+  }
+
   void _onTitleChanged(
     NewsAddTitleChanged event,
     Emitter<NewsAddState> emit,
@@ -87,8 +100,10 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
         } else {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }
+        state.copyWith(image: "");
       } catch (e) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
+        state.copyWith(image: "");
       }
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
     }

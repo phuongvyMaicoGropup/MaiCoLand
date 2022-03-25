@@ -38,3 +38,5 @@ class NewsAddSubmitted extends NewsAddEvent {
   final int type;
   NewsAddSubmitted(this.type);
 }
+
+class NewsAddInitial extends NewsAddEvent {}

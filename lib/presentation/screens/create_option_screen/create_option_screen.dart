@@ -106,9 +106,10 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                     style: const TextStyle(color: AppColors.appGreen2),
                     isExpanded: true,
                     underline: Container(),
-                    onChanged: (String? newValue) {
+                    onChanged: (String? value) {
                       setState(() {
-                        newsType = newValue!;
+                        print(value);
+                        newsType = value!;
                       });
                     },
                     items: <String>['Thị trường', 'Chính sách', 'Quy hoạch']

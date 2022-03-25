@@ -20,7 +20,7 @@ class TypeNewsChip extends StatelessWidget {
                 width: 1,
               ),
             ),
-            child: const Text("Thị trường", style: whiteText));
+            child: Text("Thị trường", style: whiteText.copyWith(fontSize: 10)));
       case 1:
         return Container(
             padding: const EdgeInsets.all(3),

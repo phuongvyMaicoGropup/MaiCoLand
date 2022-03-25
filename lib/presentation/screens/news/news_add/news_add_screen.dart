@@ -66,7 +66,6 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
 
   Widget _HashTagInput(context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.hashTag != current.hashTag,
       builder: (context, state) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TextField(
@@ -160,7 +159,6 @@ class _HashTagInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
-      // buildWhen: (previous, current) => previous.hashTag != current.hashTag,
       builder: (context, state) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text("HashTag",
@@ -214,12 +212,12 @@ class _HashTagInput extends StatelessWidget {
 }
 
 class _ImageInput extends StatelessWidget {
-  String? imagePath;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.image != current.image,
       builder: (context, state) {
+        print(state.image);
+        print(state.content);
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
               child: Row(
@@ -239,8 +237,7 @@ class _ImageInput extends StatelessWidget {
               )
             ],
           )),
-          state.image !=
-                  "https://firebasestorage.googleapis.com/v0/b/maico-8490f.appspot.com/o/images%2Fnews_default_image.png?alt=media&token=c18a786d-edc2-42f7-bf06-878906c85320"
+          state.image != ""
               ? Container(
                   margin: const EdgeInsets.symmetric(vertical: 20),
                   width: MediaQuery.of(context).size.width,
@@ -318,7 +315,6 @@ class _ContentInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.content != current.content,
       builder: (context, state) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TextFormField(
@@ -373,7 +369,6 @@ class _NewsAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
-      buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return ElevatedButton(
           key: const Key('NewsAddForm_continue_raisedButton'),
@@ -401,6 +396,7 @@ class _NewsAddButton extends StatelessWidget {
                     );
                     print(e.toString());
                   }
+                  context.read<NewsAddBloc>().add(NewsAddInitial());
                 }
               : null,
         );

@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-class News {
+class News extends Equatable {
   const News(
       {required this.id,
       required this.title,
@@ -118,4 +119,18 @@ class News {
   String toJson() => json.encode(toMap());
 
   factory News.fromJson(String source) => News.fromMap(json.decode(source));
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        title,
+        content,
+        imageUrl,
+        likes,
+        createDate,
+        createdBy,
+        updateDate,
+        type
+      ];
 }
