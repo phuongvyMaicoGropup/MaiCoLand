@@ -53,7 +53,8 @@ class _LandPlanningDetailInfoScreenState
                 icon: const Icon(EvaIcons.heart, color: AppColors.white),
                 onPressed: () async {
                   var result =
-                      RepositoryProvider.of<LandPlanningRepository>(context)
+                      await RepositoryProvider.of<LandPlanningRepository>(
+                              context)
                           .likeLand(widget.landPlanning.id);
                   print(result);
                 }),

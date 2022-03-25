@@ -26,6 +26,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
   final _hashTag = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    print(imagePath);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -383,6 +384,7 @@ class _NewsAddButton extends StatelessWidget {
                     context.read<NewsAddBloc>().add(NewsAddSubmitted(type));
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil("/", (route) => false);
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: const Text("Đăng bài thành công"),

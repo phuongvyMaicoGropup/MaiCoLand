@@ -82,7 +82,7 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
           return Dialog(
             child: Padding(
               child: ListView(shrinkWrap: true, children: [
-                Center(
+                const Center(
                   child: Text("Chọn đăng loại tin tức", style: minorText),
                 ),
                 Container(
@@ -90,7 +90,6 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                   margin: const EdgeInsets.only(bottom: 13),
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   decoration: BoxDecoration(
-                    color: AppColors.gray.withOpacity(0.1),
                     border: Border.all(
                         color: AppColors.gray.withOpacity(0.5),
                         width: 1.0,
@@ -124,7 +123,11 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton(onPressed: () {}, child: const Text("Huỷ")),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("Huỷ")),
                     TextButton(
                         onPressed: () {
                           int type = 0;
@@ -148,11 +151,6 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
     showDialog(
         context: context,
         builder: (_) {
-          // final data = AddressData.of(context, listen: false);
-          // dvhcvn.Entity entity = data.level3;
-          // entity ??= data.level2;
-          // entity ??= data.level1;
-
           return Dialog(
             child: Padding(
               child: BlocBuilder<AddressBloc, AddressState>(
@@ -340,7 +338,11 @@ class SelectAddress extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(onPressed: () {}, child: const Text("Huỷ")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Huỷ")),
                   TextButton(
                       onPressed: (state.level1.id != "" &&
                               state.level2.id != "" &&

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:formz/formz.dart';
 import 'package:maico_land/bloc/register_bloc/register_bloc.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
@@ -50,11 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 15),
             _PasswordInput(passwordController),
             const SizedBox(height: 15),
-            Builder(builder: (context) {
-              final state = context.watch<RegisterBloc>().state;
-
-              return _RegisterButton(state.status);
-            }),
+            _RegisterButton(),
             const SizedBox(height: 10),
             Container(
                 alignment: Alignment.topRight,
@@ -312,58 +309,68 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _RegisterButton extends StatelessWidget {
-  final FormzStatus status;
-  const _RegisterButton(this.status);
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(
       listenWhen: (previous, current) {
-        return previous != current;
+        return previous.status != current.status;
       },
       listener: (context, state) {
+        if (state.status == FormzStatus.submissionSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text("Đăng ký tài khoản thành công"),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+            ),
+          );
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/login", (route) => false);
+        } else if (state.status == FormzStatus.submissionFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                  "Tên tài khoản hoặc email đã được đăng ký. Vui lòng kiểm tra thông tin!"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
         // do stuff here based on BlocA's state
       },
-      child: ElevatedButton(
-        key: const Key('RegisterForm_continue_raisedButton'),
-        child: Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.06,
-            child: const Text('Đăng ký tài khoản',
-                style: TextStyle(color: Colors.white))),
-        onPressed: status.isValidated
-            ? () async {
-                try {
-                  context.read<RegisterBloc>().add(RegisterSubmitted());
-                  if (status.isSubmissionSuccess) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text("Đăng ký tài khoản thành công"),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                            "Tên tài khoản hoặc email đã được đăng ký. Vui lòng kiểm tra thông tin!"),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                          "Đăng ký không thành công . Vui lòng thủ lại!"),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                  print(e.toString());
-                }
-              }
-            : null,
-      ),
+      child: BlocBuilder<RegisterBloc, RegisterState>(
+          buildWhen: (previous, current) => previous.status != current.status,
+          builder: (context, state) {
+            if (state.status == FormzStatus.submissionInProgress) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (state.status.isValidated) {
+              return ElevatedButton(
+                key: const Key('RegisterForm_continue_raisedButton'),
+                child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: const Text('Đăng ký tài khoản',
+                        style: TextStyle(color: Colors.white))),
+                onPressed: state.status.isValidated
+                    ? () async {
+                        try {
+                          context.read<RegisterBloc>().add(RegisterSubmitted());
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  "Đăng ký không thành công . Vui lòng thủ lại!"),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          print(e.toString());
+                        }
+                      }
+                    : null,
+              );
+            }
+            return Container();
+          }),
     );
   }
 }

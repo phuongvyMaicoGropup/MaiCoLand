@@ -32,8 +32,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeResponse response = HomeResponse(
           news: homeRepository.news,
           landPlannings: homeRepository.landPlannings);
-      newsBloc.add(HomeDisplayNews(homeRepository.news));
-      landBloc.add(HomeDisplayLandPlanning(homeRepository.landPlannings));
+      // newsBloc.add(HomeDisplayNews(homeRepository.news));
+      // landBloc.add(HomeDisplayLandPlanning(homeRepository.landPlannings));
       emit(HomeLoaded(response: response));
     } catch (e) {
       emit(HomeNotLoaded("Lỗi nè " + e.toString()));

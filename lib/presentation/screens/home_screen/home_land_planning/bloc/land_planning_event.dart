@@ -9,15 +9,4 @@ abstract class HomeLandPlanningEvent extends Equatable {
 
 
 class HomeDisplayLandPlanning extends HomeLandPlanningEvent {
-  final List<LandPlanning> land;
-
-  const HomeDisplayLandPlanning(this.land);
-
-  @override
-  List<Object> get props => [land];
-
-  @override
-  String toString() {
-    return 'Dispaly LandPlanning : {LandPlanning: $land}';
-  }
 }

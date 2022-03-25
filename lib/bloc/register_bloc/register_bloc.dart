@@ -114,19 +114,21 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
         // String result = "true";
-        String result = await _userRepo.register(
+        bool result = await _userRepo.register(
           firstName: state.firstName.value,
           lastName: state.lastName.value,
           email: state.email.value,
           password: state.password.value,
           username: state.username.value,
         );
-        if (result == "true") {
+        if (result == true) {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
         } else {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }
-      } catch (_) {
+      } catch (e) {
+        print("lõi");
+        print(e);
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
     }

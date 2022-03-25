@@ -27,34 +27,47 @@ class UserRepository {
 
   Future<String> login(
       String username, String password, bool rememberMe) async {
-    Response response = await dio_provider.dio.post(dio_provider.loginApi,
-        data: {
-          'userName': username,
-          'password': password,
-          'rememberMe': rememberMe
-        });
-    if (response.statusCode != 200) {
+    try {
+      Response response = await dio_provider.dio.post(dio_provider.loginApi,
+          data: {
+            'userName': username,
+            'password': password,
+            'rememberMe': rememberMe
+          });
+
+      return Future<String>.value(response.data["token"]);
+    } catch (e) {
+      print("Loix login");
+      print(e);
       return Future<String>.value("");
     }
-    return Future<String>.value(response.data["token"]);
   }
 
-  Future<String> register(
+  Future<bool> register(
       {required String firstName,
       required String lastName,
       required String username,
       required String email,
       required String password}) async {
-    Response response =
-        await dio_provider.dio.get(dio_provider.registerApi, queryParameters: {
-      "firstName": firstName,
-      "lastName": lastName,
-      "userName": username,
-      "email": email,
-      "password": password,
-      "rememberMe": true
-    });
-    return Future<String>.value(response.data.toString());
+    try {
+      print(email + firstName + lastName + username + password);
+      Response response =
+          await dio_provider.dio.post(dio_provider.registerApi, data: {
+        "firstName": firstName,
+        "lastName": lastName,
+        "userName": username,
+        "email": email,
+        "password": password,
+        "rememberMe": true
+      });
+      print("Đăng ký");
+      print(response.data);
+      return Future<bool>.value(true);
+    } catch (e) {
+      print("Looix cuar register repo");
+      print(e);
+      return Future<bool>.value(false);
+    }
   }
 
   Future<String> getUserId() async {
@@ -77,11 +90,11 @@ class UserRepository {
     return userReponse;
   }
 
-  Future<User> getUserById(String id) async {
+  Future<User?> getUserById(String id) async {
     try {
       Response response = await dio_provider.dio.get(
-          dio_provider.baseUrl + "api/user/" + id,
-          queryParameters: {"id": id});
+        dio_provider.baseUrl + "api/user/" + id,
+      );
       print(response.data);
 
       return Future<User>.value(User.fromMap(response.data));

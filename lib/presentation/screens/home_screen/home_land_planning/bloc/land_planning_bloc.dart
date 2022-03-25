@@ -5,14 +5,17 @@ import 'package:maico_land/model/repositories/Land_repository.dart';
 part 'land_planning_event.dart';
 part 'land_planning_state.dart';
 
-class HomeLandPlanningBloc extends Bloc<HomeLandPlanningEvent, HomeLandPlanningState> {
+class HomeLandPlanningBloc
+    extends Bloc<HomeLandPlanningEvent, HomeLandPlanningState> {
   final LandPlanningRepository landRepo = LandPlanningRepository();
 
   HomeLandPlanningBloc() : super(LandPlanningLoading()) {
     on<HomeDisplayLandPlanning>(_mapDisplayLandPlanningToState);
   }
 
-  void _mapDisplayLandPlanningToState(HomeDisplayLandPlanning event, emit) async {
-    emit(LandPlanningLoaded(event.land));
+  void _mapDisplayLandPlanningToState(
+      HomeDisplayLandPlanning event, emit) async {
+    List<LandPlanning> lands = await landRepo.getHomeLandPlanning();
+    emit(LandPlanningLoaded(lands));
   }
 }

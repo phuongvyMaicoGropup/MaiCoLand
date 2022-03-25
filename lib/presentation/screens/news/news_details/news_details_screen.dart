@@ -31,7 +31,7 @@ class NewsDetailsScreen extends StatelessWidget {
             }),
         const SizedBox(width: 10)
       ]),
-      body: FutureBuilder<User>(
+      body: FutureBuilder<User?>(
           future: userRepo.getUserById(news.createdBy),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {

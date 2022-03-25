@@ -27,149 +27,146 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
         child: Scaffold(
             backgroundColor: AppColors.white,
-            body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-              return Center(
-                  child: Container(
-                width: MediaQuery.of(context).size.width * 0.97,
-                color: AppColors.white,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Builder(builder: (context) {
-                      final authState =
-                          context.watch<AuthenticationBloc>().state;
-                      if (authState is AuthenticationAuthenticated) {
-                        User user = authState.userReponse;
-                        return WidgetHomeToolbar(user: user);
-                      }
-                      return Container();
-                    }),
-                    _buildContent(state)
-                  ],
-                ),
-              ));
-            })));
+            body: Center(
+                child: Container(
+              width: MediaQuery.of(context).size.width * 0.97,
+              color: AppColors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Builder(builder: (context) {
+                    final authState = context.watch<AuthenticationBloc>().state;
+                    if (authState is AuthenticationAuthenticated) {
+                      User user = authState.userReponse;
+                      return WidgetHomeToolbar(user: user);
+                    }
+                    return Container();
+                  }),
+                  _buildContent()
+                ],
+              ),
+            ))));
   }
 
-  Widget _buildContent(HomeState state) {
-    if (state is HomeLoaded) {
-      return Expanded(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            BlocProvider.of<HomeBloc>(context).add(RefreshHome());
-            BlocProvider.of<HomeBloc>(context).add(LoadHome());
-          },
-          child: ListView(
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            children: <Widget>[
-              const WidgetHomeBanner(),
-              const SizedBox(
-                height: 10,
-              ),
-              Builder(builder: (context) {
-                final homeState = context.watch<HomeBloc>().state;
-                if (homeState is HomeLoaded) {
-                  BlocProvider.of<HomeLandPlanningBloc>(context).add(
-                      HomeDisplayLandPlanning(
-                          homeState.response.landPlannings));
-                  BlocProvider.of<HomeNewsBloc>(context)
-                      .add(HomeDisplayNews(homeState.response.news));
-                }
-                return Column(children: [
-                  // WidgetHomeLandPlanning(),
-                  const SizedBox(height: 10),
-                  WidgetHomeNews(),
-                  WidgetHomeLandPlanning(),
-                ]);
-              })
-            ],
-          ),
+  Widget _buildContent() {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          BlocProvider.of<HomeNewsBloc>(context).add(HomeDisplayNews());
+          BlocProvider.of<HomeLandPlanningBloc>(context)
+              .add(HomeDisplayLandPlanning());
+        },
+        child: ListView(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          children: <Widget>[
+            const WidgetHomeBanner(),
+            const SizedBox(
+              height: 10,
+            ),
+            Builder(builder: (context) {
+              return Column(children: [
+                const SizedBox(height: 10),
+                Builder(builder: (context) {
+                  BlocProvider.of<HomeNewsBloc>(context).add(HomeDisplayNews());
+                  return WidgetHomeNews();
+                }),
+                Builder(builder: (context) {
+                  BlocProvider.of<HomeLandPlanningBloc>(context)
+                      .add(HomeDisplayLandPlanning());
+                  return WidgetHomeLandPlanning();
+                }),
+              ]);
+            })
+          ],
         ),
-      );
-    } else if (state is HomeLoading) {
-      return Expanded(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              WidgetSkeleton(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height * 0.23),
-              const SizedBox(height: 10),
-              WidgetSkeleton(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height * 0.002),
-              const SizedBox(height: 10),
-              Row(children: [
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: MediaQuery.of(context).size.height * 0.03),
-              ]),
-              const SizedBox(height: 20),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.height * 0.18),
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.height * 0.18),
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.18),
-              ]),
-              const SizedBox(height: 10),
-              WidgetSkeleton(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height * 0.002),
-              const SizedBox(height: 10),
-              Row(children: [
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: MediaQuery.of(context).size.height * 0.03),
-              ]),
-              const SizedBox(height: 20),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.height * 0.18),
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.height * 0.18),
-                WidgetSkeleton(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.18),
-              ]),
-            ],
-          ),
-        ),
-      );
-    } else if (state is HomeNotLoaded) {
-      return Expanded(
-        child: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-              GestureDetector(
-                onTap: () {
-                  BlocProvider.of<HomeBloc>(context).add(RefreshHome());
-                  BlocProvider.of<HomeBloc>(context).add(LoadHome());
-                },
-                child: const Icon(EvaIcons.wifiOffOutline,
-                    color: AppColors.appGreen1, size: 50),
-              ),
-              const SizedBox(height: 20),
-              const Text("Mất kết nối",
-                  style: TextStyle(color: AppColors.appGreen1, fontSize: 20)),
-            ])),
-      );
-    } else {
-      return const Expanded(
-        child: Center(
-          child: Text('Unknown state'),
-        ),
-      );
-    }
+      ),
+    );
+    // if (state is HomeLoaded) {
+
+    // } else if (state is HomeLoading) {
+    //   return Expanded(
+    //     child: SingleChildScrollView(
+    //       padding: const EdgeInsets.all(10),
+    //       child: Column(
+    //         children: <Widget>[
+    //           WidgetSkeleton(
+    //               width: MediaQuery.of(context).size.width * 0.9,
+    //               height: MediaQuery.of(context).size.height * 0.23),
+    //           const SizedBox(height: 10),
+    //           WidgetSkeleton(
+    //               width: MediaQuery.of(context).size.width * 0.9,
+    //               height: MediaQuery.of(context).size.height * 0.002),
+    //           const SizedBox(height: 10),
+    //           Row(children: [
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.3,
+    //                 height: MediaQuery.of(context).size.height * 0.03),
+    //           ]),
+    //           const SizedBox(height: 20),
+    //           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.4,
+    //                 height: MediaQuery.of(context).size.height * 0.18),
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.4,
+    //                 height: MediaQuery.of(context).size.height * 0.18),
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.1,
+    //                 height: MediaQuery.of(context).size.height * 0.18),
+    //           ]),
+    //           const SizedBox(height: 10),
+    //           WidgetSkeleton(
+    //               width: MediaQuery.of(context).size.width * 0.9,
+    //               height: MediaQuery.of(context).size.height * 0.002),
+    //           const SizedBox(height: 10),
+    //           Row(children: [
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.6,
+    //                 height: MediaQuery.of(context).size.height * 0.03),
+    //           ]),
+    //           const SizedBox(height: 20),
+    //           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.4,
+    //                 height: MediaQuery.of(context).size.height * 0.18),
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.4,
+    //                 height: MediaQuery.of(context).size.height * 0.18),
+    //             WidgetSkeleton(
+    //                 width: MediaQuery.of(context).size.width * 0.1,
+    //                 height: MediaQuery.of(context).size.height * 0.18),
+    //           ]),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+    // } else if (state is HomeNotLoaded) {
+    //   return Expanded(
+    //     child: Center(
+    //         child: Column(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: [
+    //           GestureDetector(
+    //             onTap: () {
+    //               BlocProvider.of<HomeBloc>(context).add(RefreshHome());
+    //               BlocProvider.of<HomeBloc>(context).add(LoadHome());
+    //             },
+    //             child: const Icon(EvaIcons.wifiOffOutline,
+    //                 color: AppColors.appGreen1, size: 50),
+    //           ),
+    //           const SizedBox(height: 20),
+    //           const Text("Mất kết nối",
+    //               style: TextStyle(color: AppColors.appGreen1, fontSize: 20)),
+    //         ])),
+    //   );
+    // } else {
+    //   return const Expanded(
+    //     child: Center(
+    //       child: Text('Unknown state'),
+    //     ),
+    //   );
+    // }
   }
 }

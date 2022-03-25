@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/bloc/login_bloc/login.dart';
@@ -17,18 +16,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     emit(LoginLoading());
-
     try {
       final token = await userRepo.login(
           event.username, event.password, event.rememberMe);
-      authBloc.add(LoggedIn(token: token));
-      emit(LoginSuccess());
-      // if (token == "") {
-      //   emit(LoginFailure(error: "Not a valid account"));
-      // } else {
 
-      // }
+      if (token == "") {
+        emit(LoginFailure(error: "Not a valid account"));
+      } else {
+        authBloc.add(LoggedIn(token: token));
+        emit(LoginSuccess());
+      }
     } catch (e) {
+      print(e);
       emit(LoginFailure(error: e.toString()));
     }
   }

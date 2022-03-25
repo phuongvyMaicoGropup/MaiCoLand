@@ -378,7 +378,6 @@ class _LandPlanningDetailMapScreenState
             LinearProgressIndicator(
               value: loadingPercentage / 100.0,
             ),
-         
         ],
       ),
 

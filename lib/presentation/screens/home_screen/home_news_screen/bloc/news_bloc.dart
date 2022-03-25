@@ -13,6 +13,7 @@ class HomeNewsBloc extends Bloc<HomeNewsEvent, HomeNewsState> {
   }
 
   void _mapDisplayNewsToState(HomeDisplayNews event, emit) async {
-    emit(NewsLoaded(event.news));
+    List<News> newsList = await newsRepo.getHomeNews();
+    emit(NewsLoaded(newsList));
   }
 }
