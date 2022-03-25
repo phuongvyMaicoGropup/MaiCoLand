@@ -21,16 +21,30 @@ class NewsDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Tin tức chi tiết"), actions: [
-        IconButton(
-            icon: const Icon(EvaIcons.heart, color: AppColors.white),
-            onPressed: () async {
-              var result = RepositoryProvider.of<NewsRepository>(context)
-                  .likeNews(news.id);
-              print(result);
-            }),
-        const SizedBox(width: 10)
-      ]),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          RepositoryProvider.of<NewsRepository>(context).saveNews(news);
+        },
+        child: ClipOval(
+          child: Container(
+              color: AppColors.appGreen1,
+              padding: const EdgeInsets.all(5),
+              child: Icon(Icons.save_outlined, color: AppColors.white)),
+        ),
+      ),
+      appBar: AppBar(
+        title: Text("Tin tức chi tiết"),
+        actions: [
+          // IconButton(
+          //     icon: const Icon(EvaIcons.heart, color: AppColors.white),
+          //     onPressed: () async {
+          //       var result = RepositoryProvider.of<NewsRepository>(context)
+          //           .likeNews(news.id);
+          //       print(result);
+          //     }),
+          // const SizedBox(width: 10)
+        ],
+      ),
       body: FutureBuilder<User?>(
           future: userRepo.getUserById(news.createdBy),
           builder: (context, snapshot) {

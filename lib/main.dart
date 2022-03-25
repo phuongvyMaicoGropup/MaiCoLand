@@ -5,9 +5,11 @@ import 'package:maico_land/bloc/address_bloc/address.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/bloc/news_bloc/news_bloc.dart';
 import 'package:maico_land/bloc/register_bloc/register_bloc.dart';
+import 'package:maico_land/model/local/pef.dart';
 import 'package:maico_land/model/repositories/home_repository.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
+import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/my_app.dart';
 import 'package:maico_land/presentation/screens/home_screen/bloc/home_event.dart';
@@ -36,6 +38,8 @@ void main() {
             create: (context) => NewsRepository()),
         RepositoryProvider<UserRepository>(
             create: (context) => UserRepository()),
+        RepositoryProvider<SessionRepository>(
+            create: (context) => SessionRepository(pref: LocalPref())),
       ],
       child: MultiBlocProvider(
           providers: [
