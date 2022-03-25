@@ -1,13 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:maico_land/model/api/request/news_request.dart';
 import 'package:maico_land/model/entities/news.dart';
+import 'package:maico_land/model/local/pef.dart';
+import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import '/model/api/dio_provider.dart';
 
 class NewsRepository {
   final DioProvider _dioProvider = DioProvider();
   final UserRepository _userRepo = UserRepository();
-
+  final SessionRepository _sessionRepo = SessionRepository(pref: LocalPref());
   Future<bool> create(NewsRequest news) async {
     try {
       String userId = await _userRepo.getUserId();
@@ -81,5 +83,10 @@ class NewsRepository {
       print(e);
       return Future<bool>.value(false);
     }
+  }
+
+  Future saveNews(News news) async {
+    _sessionRepo.cacheNews(news);
+    _sessionRepo.getNews();
   }
 }
