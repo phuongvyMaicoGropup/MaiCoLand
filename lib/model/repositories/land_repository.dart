@@ -1,13 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
+import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/model/local/pref.dart';
+import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class LandPlanningRepository {
   final DioProvider _dioProvider = DioProvider();
   final UserRepository _userRepo = UserRepository();
+  final _sessionRepo = SessionRepository(pref: LocalPref());
 
   Future<bool> create(LandPlanningRequest item) async {
     try {
@@ -121,5 +125,13 @@ class LandPlanningRepository {
     }
 
     return Future<List<LandPlanning>>.value(result);
+  }
+
+  Future saveLand(DataLocalInfo data) async {
+    _sessionRepo.cacheLand(data);
+  }
+
+  Future<List<LandPlanning>?> getSavedLand() async {
+    return await _sessionRepo.getSavedLand();
   }
 }

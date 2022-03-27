@@ -46,6 +46,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LandPlanningScreen());
       case '/news/save':
         return MaterialPageRoute(builder: (_) => const NewsSaveScreen());
+      case '/landplanning/save':
+        return MaterialPageRoute(builder: (_) => const NewsSaveScreen());
       case '/landplanning/details':
         var land = routeSettings.arguments as LandPlanning;
         final controller = Completer<WebViewController>();

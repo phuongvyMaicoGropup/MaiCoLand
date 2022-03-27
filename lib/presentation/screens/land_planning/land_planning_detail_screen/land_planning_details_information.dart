@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
 import 'package:maico_land/helpers/pick_file.dart';
+import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
@@ -51,7 +52,20 @@ class _LandPlanningDetailInfoScreenState
           actions: [
             IconButton(
                 icon: const Icon(Icons.save, color: AppColors.white),
-                onPressed: () async {}),
+                onPressed: () async {
+                  RepositoryProvider.of<LandPlanningRepository>(context)
+                      .saveLand(DataLocalInfo(
+                          widget.landPlanning.id, widget.landPlanning.title));
+                  const snackBar = SnackBar(
+                    dismissDirection: DismissDirection.up,
+                    backgroundColor: AppColors.appGreen1,
+                    content: Text('Đã lưu', style: whiteText),
+                  );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }),
             const SizedBox(width: 10)
           ]),
       body: Padding(
