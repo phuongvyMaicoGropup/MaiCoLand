@@ -17,7 +17,6 @@ class SessionRepository {
     List<String>? list = [];
     try {
       list = await pref.getList(DATA_CONST.CACHE_NEWS);
-      print(list);
       list?.add(news.toJson());
       var l = list?.toSet();
       return pref.saveList(DATA_CONST.CACHE_NEWS, l!.toList());
@@ -30,7 +29,6 @@ class SessionRepository {
     List<String>? list = [];
     try {
       list = await pref.getList(DATA_CONST.CACHE_LANDPLANNING);
-      print(list);
       list?.add(land.toJson());
       var l = list?.toSet();
       return pref.saveList(DATA_CONST.CACHE_LANDPLANNING, l!.toList());
@@ -57,28 +55,17 @@ class SessionRepository {
   //   return BookTimeSlot.fromJson(json.decode(jsonData));
   // }
 
-  Future<List<News>?> getNews() async {
+  Future<List<DataLocalInfo>?> getNews() async {
     List<String>? jsonData = await pref.getList(DATA_CONST.CACHE_NEWS);
     if (jsonData == null) {
       return Future.value(null);
     }
-    List<News>? listNews = [];
-    Response response;
+    List<DataLocalInfo>? list = [];
     for (var i in jsonData) {
-      i = DataLocalInfo.fromJson(i).id;
-      try {
-        response = await _dioProvider.dio.get(
-          _dioProvider.baseUrl + "api/news/" + i,
-        );
-        print(response.data);
-
-        listNews.add(News.fromMap(response.data));
-      } catch (e) {
-        print(e);
-        return listNews;
-      }
+      list.add(DataLocalInfo.fromJson(i));
     }
-    return listNews;
+
+    return list;
   }
 
   Future<List<LandPlanning>?> getSavedLand() async {
@@ -94,11 +81,9 @@ class SessionRepository {
         response = await _dioProvider.dio.get(
           _dioProvider.baseUrl + "api/landplanning/" + i,
         );
-        print(response.data);
 
         listLand.add(LandPlanning.fromMap(response.data));
       } catch (e) {
-        print(e);
         return listLand;
       }
     }

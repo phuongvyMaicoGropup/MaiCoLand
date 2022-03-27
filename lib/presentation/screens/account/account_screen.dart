@@ -85,13 +85,15 @@ class _AccountScreenState extends State<AccountScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                            onTap: () => updateAvatar(context),
-                            child: AccountAvatarWidget(
-                                photoURL: user.photoURL.toString(),
-                                width: MediaQuery.of(context).size.width * 0.18,
-                                height:
-                                    MediaQuery.of(context).size.width * 0.18)),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromRGBO(16, 138, 45, 1),
+                          ),
+                          child: Text(user.userName[0].toUpperCase(),
+                              style: headingTextWhite),
+                        ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.05),
                         Column(
@@ -141,6 +143,25 @@ class _AccountScreenState extends State<AccountScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Các tin đã lưu", style: whiteText),
+                            Icon(Icons.arrow_right_sharp,
+                                color: AppColors.white)
+                          ]),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.appGreen2.withOpacity(0.7),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/landplanning/save");
+                      },
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Tin quy hoạch lưu trữ", style: whiteText),
                             Icon(Icons.arrow_right_sharp,
                                 color: AppColors.white)
                           ]),

@@ -21,7 +21,18 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
       height: 70,
       child: Row(
         children: <Widget>[
-          _buildAvatar(user.photoURL.toString()),
+          Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromRGBO(16, 138, 45, 1),
+              ),
+              child:
+                  Text(user.userName[0].toLowerCase(), style: headingTextWhite),
+            ),
+          ),
           _buildNames(user.userName),
           _buildActions(),
         ],
@@ -54,7 +65,7 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
             child: Row(
               children: const <Widget>[
                 Text(
-                  'Chưa xác thực',
+                  'Xin chào',
                   style: TextStyle(color: AppColors.black),
                 )
               ],

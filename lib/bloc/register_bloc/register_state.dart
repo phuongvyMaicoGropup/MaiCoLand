@@ -8,6 +8,7 @@ class RegisterState extends Equatable {
     this.status = FormzStatus.pure,
     this.firstName = const FirstName.pure(),
     this.lastName = const LastName.pure(),
+    this.phone = const Phone.pure(),
   });
 
   final Email email;
@@ -16,10 +17,11 @@ class RegisterState extends Equatable {
   final FormzStatus status;
   final FirstName firstName;
   final LastName lastName;
+  final Phone phone;
 
   @override
   List<Object> get props =>
-      [email, password, status, username, firstName, lastName];
+      [email, password, status, username, firstName, lastName, phone];
 
   RegisterState copyWith({
     Email? email,
@@ -29,6 +31,7 @@ class RegisterState extends Equatable {
     FirstName? firstName,
     LastName? lastName,
     String? error,
+    Phone? phone,
   }) {
     return RegisterState(
       email: email ?? this.email,
@@ -37,6 +40,7 @@ class RegisterState extends Equatable {
       status: status ?? this.status,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
+      phone: phone ?? this.phone,
     );
   }
 }

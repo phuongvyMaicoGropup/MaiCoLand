@@ -79,72 +79,7 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
     showDialog(
         context: context,
         builder: (_) {
-          return Dialog(
-            child: Padding(
-              child: ListView(shrinkWrap: true, children: [
-                const Center(
-                  child: Text("Chọn đăng loại tin tức", style: minorText),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(bottom: 13),
-                  padding: const EdgeInsets.only(left: 8, right: 8),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: AppColors.gray.withOpacity(0.5),
-                        width: 1.0,
-                        style: BorderStyle.solid), //Border.all
-                    /*** The BorderRadius widget  is here ***/
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(2),
-                    ), //BorderRadius.
-                  ),
-                  child: DropdownButton<String>(
-                    value: newsType,
-                    icon: const Icon(Icons.arrow_downward),
-                    elevation: 16,
-                    style: const TextStyle(color: AppColors.appGreen2),
-                    isExpanded: true,
-                    underline: Container(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        print(value);
-                        newsType = value!;
-                      });
-                    },
-                    items: <String>['Thị trường', 'Chính sách', 'Quy hoạch']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text("Huỷ")),
-                    TextButton(
-                        onPressed: () {
-                          int type = 0;
-                          if (newsType == "Chính sách")
-                            type = 1;
-                          else if (newsType == "Quy hoạch") type = 2;
-                          Navigator.of(context)
-                              .pushNamed('/news/add', arguments: type);
-                        },
-                        child: const Text("Tiếp tục")),
-                  ],
-                )
-              ]),
-              padding: const EdgeInsets.all(8.0),
-            ),
-          );
+          return Dialog(child: SelectNewsType());
         });
   }
 
@@ -197,6 +132,83 @@ class OptionCard extends StatelessWidget {
         ],
       ),
     ));
+  }
+}
+
+class SelectNewsType extends StatefulWidget {
+  SelectNewsType({Key? key}) : super(key: key);
+
+  @override
+  State<SelectNewsType> createState() => _SelectNewsTypeState();
+}
+
+class _SelectNewsTypeState extends State<SelectNewsType> {
+  String newsType = "Thị trường";
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      child: ListView(shrinkWrap: true, children: [
+        const Center(
+          child: Text("Chọn đăng loại tin tức", style: minorText),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(bottom: 13),
+          padding: const EdgeInsets.only(left: 8, right: 8),
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: AppColors.gray.withOpacity(0.5),
+                width: 1.0,
+                style: BorderStyle.solid), //Border.all
+            /*** The BorderRadius widget  is here ***/
+            borderRadius: const BorderRadius.all(
+              Radius.circular(2),
+            ), //BorderRadius.
+          ),
+          child: DropdownButton<String>(
+            value: newsType,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: AppColors.appGreen2),
+            isExpanded: true,
+            underline: Container(),
+            onChanged: (String? value) {
+              setState(() {
+                newsType = value!;
+              });
+            },
+            items: <String>['Thị trường', 'Chính sách', 'Quy hoạch']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Huỷ")),
+            TextButton(
+                onPressed: () {
+                  int type = 0;
+                  if (newsType == "Chính sách")
+                    type = 1;
+                  else if (newsType == "Quy hoạch") type = 2;
+                  Navigator.of(context).pushNamed('/news/add', arguments: type);
+                },
+                child: const Text("Tiếp tục")),
+          ],
+        )
+      ]),
+      padding: const EdgeInsets.all(8.0),
+    );
   }
 }
 

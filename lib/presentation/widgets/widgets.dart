@@ -4,6 +4,6 @@ export 'chip_widget.dart';
 export 'svg_image.dart';
 export 'heading_text_widget.dart';
 export 'input_text.dart';
-
+export 'saved_data_card.dart';
 export 'widget_skeleton.dart';
 export 'input_point.dart';
