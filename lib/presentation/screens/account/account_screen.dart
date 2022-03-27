@@ -116,6 +116,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ])
                       ]),
+
                   // buildTextField(
                   //     "Tên đăng nhập ", user.userName.toString(), true),
                   // buildTextField(
@@ -127,6 +128,24 @@ class _AccountScreenState extends State<AccountScreen> {
                   const SizedBox(
                     height: 35,
                   ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.appGreen2.withOpacity(0.7),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/news/save");
+                      },
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Các tin đã lưu", style: whiteText),
+                            Icon(Icons.arrow_right_sharp,
+                                color: AppColors.white)
+                          ]),
+                    ),
+                  )
                 ]),
               ],
             ),

@@ -15,6 +15,7 @@ import 'package:maico_land/presentation/screens/land_planning/land_planning_scre
 import 'package:maico_land/presentation/screens/news/news_add/news_add_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_details/news_details_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_screen.dart';
+import 'package:maico_land/presentation/screens/save_screen/news_save_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AppRouter {
@@ -43,10 +44,12 @@ class AppRouter {
             builder: (_) => LandPlanningAddScreen(address: address));
       case '/landplanning':
         return MaterialPageRoute(builder: (_) => const LandPlanningScreen());
+      case '/news/save':
+        return MaterialPageRoute(builder: (_) => const NewsSaveScreen());
       case '/landplanning/details':
         var land = routeSettings.arguments as LandPlanning;
-        final controller = Completer<WebViewController>();  
-        
+        final controller = Completer<WebViewController>();
+
         // return MaterialPageRoute(
         // builder: (_) => LandPlanningDetailScreen(land: land));
         return MaterialPageRoute(

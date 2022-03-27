@@ -91,13 +91,13 @@ class News extends Equatable {
       'id': id,
       'title': title,
       'content': content,
-      'hashTags': hashTags,
+      'hashTags': hashTags.toString(),
       'imageUrl': imageUrl,
-      'likes': likes,
-      'createDate': createDate.millisecondsSinceEpoch,
+      'likes': likes.toString(),
+      'createDate': createDate.toString(),
       'createdBy': createdBy,
-      'updateDate': updateDate.millisecondsSinceEpoch,
-      'type': type,
+      'updateDate': updateDate.toString(),
+      'type': type.toString(),
     };
   }
 
@@ -107,7 +107,7 @@ class News extends Equatable {
         id: map['id'] ?? '',
         title: map['title'] ?? '',
         content: map['content'] ?? '',
-        hashTags: List<String>.from(map['hashTags']),
+        hashTags: List<String>.from(['hashTags']),
         imageUrl: map['imageUrl'] ?? '',
         likes: List<String>.from(map['likes']),
         createDate: DateTime.parse(map['createDate']),

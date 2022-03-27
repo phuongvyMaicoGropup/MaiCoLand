@@ -87,8 +87,7 @@ class _NewsScreenState extends State<NewsScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    // Navigator.of(context).pushNamed("/news/search");
-                    // showSearch(context: context, delegate: NewsSearch(items), );
+                    _updateSearchTerm(searchController.text);
                   },
                   icon: const Icon(Icons.search))
             ],

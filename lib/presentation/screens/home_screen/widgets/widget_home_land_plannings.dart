@@ -56,7 +56,7 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const HeadingTextWidget(text: "Tin tức"),
+                    const HeadingTextWidget(text: "Bản đồ quy hoạch"),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, "/news");

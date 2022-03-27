@@ -50,14 +50,8 @@ class _LandPlanningDetailInfoScreenState
           ),
           actions: [
             IconButton(
-                icon: const Icon(EvaIcons.heart, color: AppColors.white),
-                onPressed: () async {
-                  var result =
-                      await RepositoryProvider.of<LandPlanningRepository>(
-                              context)
-                          .likeLand(widget.landPlanning.id);
-                  print(result);
-                }),
+                icon: const Icon(Icons.save, color: AppColors.white),
+                onPressed: () async {}),
             const SizedBox(width: 10)
           ]),
       body: Padding(

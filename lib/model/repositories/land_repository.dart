@@ -74,7 +74,6 @@ class LandPlanningRepository {
     LandPlanning land;
     for (int i = 0; i < json.length; i++) {
       land = LandPlanning.fromMap(json[i]);
-      print(land.imageUrl);
       result.add(land);
     }
     return Future<List<LandPlanning>>.value(result);
@@ -87,7 +86,6 @@ class LandPlanningRepository {
           _dioProvider.baseUrl + "api/landplanning/${landId}/like",
           queryParameters: {'landId': landId, 'userId': userId});
 
-      print(response.data);
       return Future<bool>.value(true);
     } catch (e) {
       print(e);
@@ -115,7 +113,6 @@ class LandPlanningRepository {
           });
     }
     var json = response.data;
-    print(json[0]['hashTags']);
     // var a = parsed[0]['hashTags'].toList();
     List<LandPlanning> result = [];
     for (int i = 0; i < json.length; i++) {

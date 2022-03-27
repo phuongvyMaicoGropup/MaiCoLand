@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:maico_land/model/api/request/news_request.dart';
+import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/news.dart';
-import 'package:maico_land/model/local/pef.dart';
+import 'package:maico_land/model/local/pref.dart';
 import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import '/model/api/dio_provider.dart';
@@ -85,8 +86,12 @@ class NewsRepository {
     }
   }
 
-  Future saveNews(News news) async {
-    _sessionRepo.cacheNews(news);
-    _sessionRepo.getNews();
+  Future saveNews(DataLocalInfo data) async {
+    _sessionRepo.cacheNews(data);
+    // _sessionRepo.getNews();
+  }
+
+  Future<List<News>?> getNews() async {
+    return await _sessionRepo.getNews();
   }
 }

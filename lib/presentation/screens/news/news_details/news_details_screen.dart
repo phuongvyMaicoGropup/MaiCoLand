@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
+import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
@@ -23,27 +24,27 @@ class NewsDetailsScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: GestureDetector(
         onTap: () {
-          RepositoryProvider.of<NewsRepository>(context).saveNews(news);
+          RepositoryProvider.of<NewsRepository>(context)
+              .saveNews(DataLocalInfo(news.title, news.id));
+          const snackBar = SnackBar(
+            dismissDirection: DismissDirection.up,
+            backgroundColor: AppColors.appGreen1,
+            content: Text('Đã lưu', style: whiteText),
+          );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         child: ClipOval(
           child: Container(
               color: AppColors.appGreen1,
               padding: const EdgeInsets.all(5),
-              child: Icon(Icons.save_outlined, color: AppColors.white)),
+              child: const Icon(Icons.save_outlined, color: AppColors.white)),
         ),
       ),
       appBar: AppBar(
         title: Text("Tin tức chi tiết"),
-        actions: [
-          // IconButton(
-          //     icon: const Icon(EvaIcons.heart, color: AppColors.white),
-          //     onPressed: () async {
-          //       var result = RepositoryProvider.of<NewsRepository>(context)
-          //           .likeNews(news.id);
-          //       print(result);
-          //     }),
-          // const SizedBox(width: 10)
-        ],
       ),
       body: FutureBuilder<User?>(
           future: userRepo.getUserById(news.createdBy),
@@ -153,14 +154,14 @@ class NewsDetailsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Container(child: Text(news.content)),
-                  const Divider(
-                    height: 25,
-                    thickness: 1,
-                  ),
+                  // const Divider(
+                  //   height: 25,
+                  //   thickness: 1,
+                  // ),
                 ],
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           }),
     );
