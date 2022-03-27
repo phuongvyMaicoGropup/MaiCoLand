@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:maico_land/bloc/news_add_bloc/news_add_bloc.dart';
 import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
+import 'package:maico_land/presentation/styles/app_themes.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class NewsAddScreen extends StatefulWidget {
@@ -26,19 +27,17 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
   final _hashTag = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    print(widget.type);
-    print("type");
-    // print(imagePath);
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "Đăng tin",
+            "Tạo tin đăng",
             style: TextStyle(
-              color: Colors.white,
-              fontFamily: "Montserrat",
-              fontWeight: FontWeight.bold,
-            ),
+                color: Colors.white,
+                fontFamily: "Montserrat",
+                fontWeight: FontWeight.bold,
+                fontSize: 18),
           ),
         ),
         body: _buildContent());
@@ -92,8 +91,6 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                   borderSide: BorderSide(color: AppColors.red)),
               errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
               focusColor: AppColors.appGreen1,
-              errorText:
-                  state.title.invalid ? 'Vui lòng nhập trên 10 kí tự !' : null,
               contentPadding: const EdgeInsets.only(
                 top: 10.0,
                 left: 10.0,
@@ -110,6 +107,7 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                     context
                         .read<NewsAddBloc>()
                         .add(NewsAddHashTagChanged(hashTagsChange));
+
                     _hashTag.text = "";
                   }
                 },
@@ -218,40 +216,69 @@ class _ImageInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
       builder: (context, state) {
-        print(state.image);
-        print(state.content);
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-              child: Row(
-            children: [
-              const Text("Ảnh minh hoạ",
-                  style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
-              IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                onPressed: () async {
-                  var file = await PickFile().pickImage(context);
-
-                  context.read<NewsAddBloc>().add(NewsAddImageChanged(file));
-                },
-              )
-            ],
-          )),
-          state.image != ""
-              ? Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.file(File(state.image), fit: BoxFit.cover)
-
-                  // child: ,
+        return Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            state.image.value != ""
+                ? Stack(
+                    children: [
+                      Positioned(
+                          child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 30),
+                              width: MediaQuery.of(context).size.width,
+                              child: Image.file(File(state.image.value),
+                                  fit: BoxFit.cover))),
+                      Positioned(
+                          top: 25,
+                          right: 10,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black.withOpacity(0.2),
+                            child: IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () {
+                                context
+                                    .read<NewsAddBloc>()
+                                    .add(NewsAddImageChanged(""));
+                              },
+                            ),
+                          ))
+                    ],
                   )
-              : WidgetSkeleton(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                ),
-        ]);
+                : GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      decoration: boxBorderGray,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                                onPressed: () async {
+                                  var file =
+                                      await PickFile().pickImage(context);
+
+                                  context
+                                      .read<NewsAddBloc>()
+                                      .add(NewsAddImageChanged(file));
+                                },
+                                icon: const Icon(
+                                  Icons.add_to_photos,
+                                  color: AppColors.appGreen1,
+                                  size: 35,
+                                )),
+                            const Text(
+                              "Ảnh minh họa",
+                              style: textMediumGreen,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+          ]),
+        );
       },
     );
   }
@@ -370,6 +397,7 @@ class _NewsAddButton extends StatelessWidget {
   final int type;
   @override
   Widget build(BuildContext context) {
+
     return BlocListener<NewsAddBloc, NewsAddState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {

@@ -18,13 +18,26 @@ class PickFile {
     if (result == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Hình ảnh không hợp lệ vui lòng nhập lại!"),
+          content: Text("Hình ảnh không hợp lệ vui lòng chọn ảnh khác!"),
         ),
       );
-      return Future<String>.value(null);
+      return Future<String>.value("");
+    }
+
+    final bytes = result.files.single.size;
+    final kb = bytes / 1024;
+    final mb = kb / 1024;
+    if (mb > 5.5) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Hình ảnh có kích thước quá lớn vui chọn ảnh khác!"),
+        ),
+      );
+      return Future<String>.value("");
     }
 
     final path = result.files.single.path!;
+
     return Future<String>.value(path);
   }
 

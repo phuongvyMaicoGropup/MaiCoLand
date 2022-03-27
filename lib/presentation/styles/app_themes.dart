@@ -108,3 +108,11 @@ const textMinorItalicGreen = TextStyle(
     fontSize: 12,
     color: AppColors.appGreen1,
     fontStyle: FontStyle.italic);
+
+BoxDecoration boxBorderGray = BoxDecoration(
+  borderRadius: BorderRadius.circular(10),
+  color: Colors.grey.withOpacity(0.15),
+  boxShadow: const [
+    BoxShadow(color: Colors.white, spreadRadius: 1),
+  ],
+);
