@@ -14,7 +14,6 @@ class NewsRepository {
   Future<bool> create(NewsRequest news) async {
     try {
       String userId = await _userRepo.getUserId();
-      print(userId);
       Response newsResponse =
           await _dioProvider.dio.post(_dioProvider.createNewsApi,
               data: {
@@ -30,11 +29,6 @@ class NewsRepository {
     } catch (e) {
       return Future<bool>.value(false);
     }
-
-    // if (newsResponse.statusCode == 200) {
-    // } else {
-    //   return Future<bool>.value(false);
-    // }
   }
 
   Future<List<News>> getHomeNews() async {
