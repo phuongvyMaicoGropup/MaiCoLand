@@ -27,7 +27,6 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
   final _hashTag = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -397,7 +396,6 @@ class _NewsAddButton extends StatelessWidget {
   final int type;
   @override
   Widget build(BuildContext context) {
-
     return BlocListener<NewsAddBloc, NewsAddState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {
@@ -414,25 +412,29 @@ class _NewsAddButton extends StatelessWidget {
       },
       child: BlocBuilder<NewsAddBloc, NewsAddState>(
         builder: (context, state) {
-          return ElevatedButton(
-            key: const Key('NewsAddForm_continue_raisedButton'),
-            child: const Text('Lưu', style: TextStyle(color: Colors.white)),
-            onPressed: state.status.isValidated
-                ? () async {
-                    try {
-                      context.read<NewsAddBloc>().add(NewsAddSubmitted(type));
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              "Lỗi đăng bài. Vui lòng khởi động lại phần mềm!"),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                      print(e.toString());
+          print("_NewsAddButton" + state.status.toString());
+          return SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              key: const Key('NewsAddForm_continue_raisedButton'),
+              child: const Text('Lưu', style: TextStyle(color: Colors.white)),
+              onPressed: state.status.isValidated
+                  ? () async {
+                      try {
+                        context.read<NewsAddBloc>().add(NewsAddSubmitted(type));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                "Lỗi đăng bài. Vui lòng khởi động lại phần mềm!"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        print(e.toString());
+                      }
                     }
-                  }
-                : null,
+                  : null,
+            ),
           );
         },
       ),
