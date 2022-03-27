@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:maico_land/model/formz_model/models.dart';
+import 'package:maico_land/model/formz_model/phone.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 
 part 'register_event.dart';
@@ -18,6 +19,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterSubmitted>(_onSubmitted);
     on<RegisterFirstNameChanged>(_onFirstNameChanged);
     on<RegisterLastNameChanged>(_onLastNameChanged);
+    on<RegisterPhoneChanged>(_onPhoneChanged);
   }
   void _onEmailChanged(
     RegisterEmailChanged event,
@@ -84,7 +86,26 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.password,
         state.email,
         state.lastName,
-        state.username
+        state.username,
+        state.phone
+      ]),
+    ));
+  }
+
+  void _onPhoneChanged(
+    RegisterPhoneChanged event,
+    Emitter<RegisterState> emit,
+  ) {
+    final phone = Phone.dirty(event.phone.toString());
+    emit(state.copyWith(
+      phone: phone,
+      status: Formz.validate([
+        phone,
+        state.firstName,
+        state.password,
+        state.email,
+        state.lastName,
+        state.username,
       ]),
     ));
   }
@@ -101,7 +122,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.email,
         state.username,
         state.lastName,
-        state.firstName
+        state.firstName,
+        state.phone,
       ]),
     ));
   }
@@ -120,6 +142,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           email: state.email.value,
           password: state.password.value,
           username: state.username.value,
+          phoneNumber: state.phone.value,
         );
         if (result == true) {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
@@ -127,8 +150,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }
       } catch (e) {
-        print("lõi");
-        print(e);
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
     }

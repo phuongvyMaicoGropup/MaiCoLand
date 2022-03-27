@@ -48,6 +48,7 @@ class UserRepository {
       required String lastName,
       required String username,
       required String email,
+      required String phoneNumber,
       required String password}) async {
     try {
       print(email + firstName + lastName + username + password);
@@ -56,6 +57,7 @@ class UserRepository {
         "firstName": firstName,
         "lastName": lastName,
         "userName": username,
+        "phoneNumber": phoneNumber,
         "email": email,
         "password": password,
         "rememberMe": true

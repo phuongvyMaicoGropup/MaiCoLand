@@ -55,7 +55,7 @@ class _LandPlanningDetailInfoScreenState
                 onPressed: () async {
                   RepositoryProvider.of<LandPlanningRepository>(context)
                       .saveLand(DataLocalInfo(
-                          widget.landPlanning.id, widget.landPlanning.title));
+                          widget.landPlanning.title, widget.landPlanning.id));
                   const snackBar = SnackBar(
                     dismissDirection: DismissDirection.up,
                     backgroundColor: AppColors.appGreen1,

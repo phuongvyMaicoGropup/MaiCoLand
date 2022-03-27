@@ -91,7 +91,7 @@ class NewsRepository {
     // _sessionRepo.getNews();
   }
 
-  Future<List<News>?> getNews() async {
+  Future<List<DataLocalInfo>?> getNews() async {
     return await _sessionRepo.getNews();
   }
 }

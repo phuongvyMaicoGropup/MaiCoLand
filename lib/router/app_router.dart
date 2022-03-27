@@ -9,12 +9,12 @@ import 'package:maico_land/presentation/screens/auth_screen/login_screen.dart';
 import 'package:maico_land/presentation/screens/auth_screen/register_screen.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_add_screen/land_planning_add_screen.dart';
-import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_detail_screen.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_screen/land_planning_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_add/news_add_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_details/news_details_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_screen.dart';
+import 'package:maico_land/presentation/screens/save_screen/land_saved_screen.dart';
 import 'package:maico_land/presentation/screens/save_screen/news_save_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -47,7 +47,7 @@ class AppRouter {
       case '/news/save':
         return MaterialPageRoute(builder: (_) => const NewsSaveScreen());
       case '/landplanning/save':
-        return MaterialPageRoute(builder: (_) => const NewsSaveScreen());
+        return MaterialPageRoute(builder: (_) => const LandSavedScreen());
       case '/landplanning/details':
         var land = routeSettings.arguments as LandPlanning;
         final controller = Completer<WebViewController>();
