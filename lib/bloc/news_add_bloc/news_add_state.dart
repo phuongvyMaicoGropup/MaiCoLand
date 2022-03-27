@@ -4,14 +4,14 @@ class NewsAddState extends Equatable {
   const NewsAddState({
     this.title = const Title.pure(),
     this.content = const Content.pure(),
-    this.image = "",
+    this.image = const PathImage.pure(),
     this.hashTag = "",
     this.status = FormzStatus.pure,
   });
 
   final Title title;
   final Content content;
-  final String image;
+  final PathImage image;
   // final File? pdfContent ;
   final String hashTag;
   final FormzStatus status;
@@ -22,7 +22,7 @@ class NewsAddState extends Equatable {
   NewsAddState copyWith({
     Title? title,
     Content? content,
-    String? image,
+    PathImage? image,
     String? hashTag,
     FormzStatus? status,
   }) {

@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/news_request.dart';
 import 'package:maico_land/model/formz_model/models.dart';
+import 'package:maico_land/model/formz_model/path_image.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 part 'news_add_event.dart';
@@ -30,7 +31,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     emit(state.copyWith(
       title: const Title.pure(),
       content: const Content.pure(),
-      image: "",
+      image: const PathImage.pure(),
       hashTag: "",
       status: FormzStatus.pure,
     ));
@@ -43,8 +44,9 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     final title = Title.dirty(event.title.toString());
     emit(state.copyWith(
       title: title,
-      status: Formz.validate([state.content, title]),
+      status: Formz.validate([state.content, title, state.image]),
     ));
+    Future.delayed(Duration(milliseconds: 500));
   }
 
   void _onContentChanged(
@@ -54,20 +56,28 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     final content = Content.dirty(event.content.toString());
     emit(state.copyWith(
       content: content,
-      status: Formz.validate([content, state.title]),
+      status: Formz.validate([content, state.title, state.image]),
     ));
+    print("_onContentChanged" +
+        Formz.validate([state.content, state.title, state.image]).toString());
   }
 
   void _onImageChanged(
     NewsAddImageChanged event,
     Emitter<NewsAddState> emit,
   ) {
-    print("tesst image");
-    print(event.image);
     emit(state.copyWith(
-      image: event.image,
-      status: Formz.validate([state.content, state.title]),
+      image: PathImage.dirty(event.image),
+      status: Formz.validate([state.content, state.title, state.image]),
     ));
+
+    ///Khá vô lí nhưng không lặp lại như này lại không update bên UI
+    emit(state.copyWith(
+      image: PathImage.dirty(event.image),
+      status: Formz.validate([state.content, state.title, state.image]),
+    ));
+    print("_onImageChanged" +
+        Formz.validate([state.content, state.title, state.image]).toString());
   }
 
   void _onHashTagChanged(
@@ -78,7 +88,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     print(event.hashTag);
     emit(state.copyWith(
       hashTag: event.hashTag,
-      status: Formz.validate([state.content, state.title]),
+      status: Formz.validate([state.content, state.title, state.image]),
     ));
   }
 
@@ -86,10 +96,10 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     NewsAddSubmitted event,
     Emitter<NewsAddState> emit,
   ) async {
-    if (state.status.isValidated) {
+    if (state.status.isValid) {
       try {
-        var imagePath =
-            await _dioProvider.uploadFile(state.image, "image/png", "news");
+        var imagePath = await _dioProvider.uploadFile(
+            state.image.value, "image/png", "news");
 
         var newsRequest = NewsRequest(state.title.value, state.content.value,
             state.hashTag.split('/').toList(), imagePath, event.type);
@@ -100,10 +110,10 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
         } else {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }
-        state.copyWith(image: "");
+        state.copyWith(image: const PathImage.pure());
       } catch (e) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
-        state.copyWith(image: "");
+        state.copyWith(image: const PathImage.pure());
       }
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
     }
