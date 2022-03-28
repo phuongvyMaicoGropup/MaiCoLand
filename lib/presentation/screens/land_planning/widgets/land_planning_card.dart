@@ -21,7 +21,7 @@ class LandPlanningCard extends StatelessWidget {
       onTap: () => openShowDetails(context, land),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.18,
+        height: MediaQuery.of(context).size.height * 0.15,
         // padding: const EdgeInsets.only(top: 8),
         margin: const EdgeInsets.only(bottom: 10, right: 4, left: 4),
         decoration: const BoxDecoration(color: Colors.white,
@@ -101,15 +101,6 @@ class LandPlanningCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Positioned(
-                  bottom: 5,
-                  right: 10,
-                  child: Row(children: [
-                    Text(land.likes.length.toString(),
-                        style: TextStyle(fontSize: 12, color: AppColors.gray)),
-                    Icon(EvaIcons.heart,
-                        color: Colors.grey.withOpacity(0.7), size: 17)
-                  ])),
             ]),
           ],
         ),

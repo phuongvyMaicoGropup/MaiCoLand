@@ -27,7 +27,7 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                     const HeadingTextWidget(text: "Bản đồ quy hoạch"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/news");
+                        Navigator.pushNamed(context, "/landplanning");
                       },
                       child: Text(
                         "Xem thêm",
@@ -59,7 +59,7 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                     const HeadingTextWidget(text: "Bản đồ quy hoạch"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/news");
+                        Navigator.pushNamed(context, "/landplanning");
                       },
                       child: Text(
                         "Xem thêm",

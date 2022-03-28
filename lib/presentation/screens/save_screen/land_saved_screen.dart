@@ -24,46 +24,49 @@ class _LandSavedScreenState extends State<LandSavedScreen> {
             future: RepositoryProvider.of<LandPlanningRepository>(context)
                 .getSavedLand(),
             builder: (context, snapshot) {
-              List<DataLocalInfo>? children = [];
+              List<DataLocalInfo>? children;
               if (snapshot.hasData) {
                 children = snapshot.data;
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: children!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var item = children![index];
-                    return GestureDetector(
-                      onTap: () async {
-                        print("Saved News wathc");
-                        LandPlanning n =
-                            await RepositoryProvider.of<LandPlanningRepository>(
-                                    context)
-                                .getLandById(item.id);
+                if (children != []) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: children!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var item = children![index];
+                      return GestureDetector(
+                        onTap: () async {
+                          print("Saved News wathc");
+                          LandPlanning n = await RepositoryProvider.of<
+                                  LandPlanningRepository>(context)
+                              .getLandById(item.id);
 
-                        Navigator.of(context)
-                            .pushNamed("/landplanning/details", arguments: n);
-                      },
-                      child: Stack(children: [
-                        SavedDataCard(
-                          title: item.name,
-                        ),
-                        Positioned(
-                            right: 0,
-                            top: 0,
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    RepositoryProvider.of<SessionRepository>(
-                                            context)
-                                        .removeLand(item);
-                                    print("Removed Saved News");
-                                  });
-                                },
-                                icon: const Icon(Icons.cancel))),
-                      ]),
-                    );
-                  },
-                );
+                          Navigator.of(context)
+                              .pushNamed("/landplanning/details", arguments: n);
+                        },
+                        child: Stack(children: [
+                          SavedDataCard(
+                            title: item.name,
+                          ),
+                          Positioned(
+                              right: 0,
+                              top: 0,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      RepositoryProvider.of<SessionRepository>(
+                                              context)
+                                          .removeLand(item);
+                                      print("Removed Saved News");
+                                    });
+                                  },
+                                  icon: const Icon(Icons.cancel))),
+                        ]),
+                      );
+                    },
+                  );
+                } else {
+                  return Center(child: Icon(Icons.hourglass_empty));
+                }
               } else if (snapshot.hasError) {
                 return Text("Đã xảy ra lỗi ");
               } else {
