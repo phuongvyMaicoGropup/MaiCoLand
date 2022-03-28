@@ -58,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocProvider.of<HomeNewsBloc>(context).add(LoadHomeNews());
 
           BlocProvider.of<HomeLandPlanningBloc>(context)
-              .add(HomeDisplayLandPlanning());
+              .add(RefreshHomeLandPlanning());
+          BlocProvider.of<HomeLandPlanningBloc>(context)
+              .add(LoadHomeLandPlanning());
         },
         child: ListView(
           shrinkWrap: true,
@@ -72,11 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Column(children: [
                 const SizedBox(height: 10),
                 WidgetHomeNews(),
-                Builder(builder: (context) {
-                  BlocProvider.of<HomeLandPlanningBloc>(context)
-                      .add(HomeDisplayLandPlanning());
-                  return WidgetHomeLandPlanning();
-                }),
+                WidgetHomeLandPlanning(),
               ]);
             })
           ],

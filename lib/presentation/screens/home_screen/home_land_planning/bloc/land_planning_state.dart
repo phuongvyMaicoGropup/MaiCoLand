@@ -7,12 +7,12 @@ abstract class HomeLandPlanningState extends Equatable {
   List<Object> get props => [];
 }
 
-class LandPlanningLoading extends HomeLandPlanningState {}
+class HomeLandPlanningLoading extends HomeLandPlanningState {}
 
-class LandPlanningLoaded extends HomeLandPlanningState {
+class HomeLandPlanningLoaded extends HomeLandPlanningState {
   final List<LandPlanning> land;
 
-  const LandPlanningLoaded(
+  const HomeLandPlanningLoaded(
     this.land,
   );
 
@@ -22,10 +22,10 @@ class LandPlanningLoaded extends HomeLandPlanningState {
   @override
   String toString() => 'LandPlanningLoaded(LandPlanning: $LandPlanning)';
 
-  LandPlanningLoaded copyWith({
+  HomeLandPlanningLoaded copyWith({
     List<LandPlanning>? land,
   }) {
-    return LandPlanningLoaded(
+    return HomeLandPlanningLoaded(
       land ?? this.land,
     );
   }

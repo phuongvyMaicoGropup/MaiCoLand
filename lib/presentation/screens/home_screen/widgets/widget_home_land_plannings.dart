@@ -12,7 +12,7 @@ class WidgetHomeLandPlanning extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeLandPlanningBloc, HomeLandPlanningState>(
       builder: (context, state) {
-        if (state is LandPlanningLoaded) {
+        if (state is HomeLandPlanningLoaded) {
           items = state.land;
 
           return Padding(

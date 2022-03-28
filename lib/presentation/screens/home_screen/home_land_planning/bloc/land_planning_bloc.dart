@@ -9,13 +9,15 @@ class HomeLandPlanningBloc
     extends Bloc<HomeLandPlanningEvent, HomeLandPlanningState> {
   final LandPlanningRepository landRepo = LandPlanningRepository();
 
-  HomeLandPlanningBloc() : super(LandPlanningLoading()) {
-    on<HomeDisplayLandPlanning>(_mapDisplayLandPlanningToState);
+  HomeLandPlanningBloc() : super(HomeLandPlanningLoading()) {
+    on<LoadHomeLandPlanning>(_mapLoadHomeLandPlanningToState);
+    on<RefreshHomeLandPlanning>((event, emit) {
+      emit(HomeLandPlanningLoading());
+    });
   }
 
-  void _mapDisplayLandPlanningToState(
-      HomeDisplayLandPlanning event, emit) async {
+  void _mapLoadHomeLandPlanningToState(LoadHomeLandPlanning event, emit) async {
     List<LandPlanning> lands = await landRepo.getHomeLandPlanning();
-    emit(LandPlanningLoaded(lands));
+    emit(HomeLandPlanningLoaded(lands));
   }
 }
