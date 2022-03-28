@@ -25,24 +25,24 @@ class TypeNewsChip extends StatelessWidget {
         return Container(
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
-              color: AppColors.indianRed,
+              color: Colors.redAccent,
               border: Border.all(
-                color: AppColors.indianRed,
+                color: Colors.redAccent,
                 width: 1,
               ),
             ),
-            child: const Text("Chính sách", style: whiteText));
+            child: Text("Chính sách", style: whiteText.copyWith(fontSize: 10)));
       case 2:
         return Container(
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
-              color: AppColors.yellow,
+              color: AppColors.darkBlue,
               border: Border.all(
-                color: AppColors.yellow,
+                color: AppColors.darkBlue,
                 width: 1,
               ),
             ),
-            child: const Text("Quy hoạch", style: whiteText));
+            child: Text("Quy hoạch", style: whiteText.copyWith(fontSize: 10)));
     }
     return Container();
   }

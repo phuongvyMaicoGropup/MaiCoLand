@@ -12,6 +12,8 @@ import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
+import 'package:maico_land/presentation/widgets/avatar_widget.dart';
+import 'package:maico_land/presentation/widgets/widget_skeleton.dart';
 
 class NewsDetailsScreen extends StatelessWidget {
   NewsDetailsScreen({required this.news, Key? key}) : super(key: key);
@@ -66,6 +68,8 @@ class NewsDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    WidgetSkeleton(
+                        height: MediaQuery.of(context).size.height * 0.4)
                   ]),
                   const SizedBox(height: 10),
                   Align(
@@ -101,24 +105,9 @@ class NewsDetailsScreen extends StatelessWidget {
                     children: [
                       Flexible(
                         flex: 3,
-                        child: Container(
-                          width: 55,
-                          height: 55,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 4,
-                                  color: Theme.of(context)
-                                      .scaffoldBackgroundColor),
-                              shape: BoxShape.circle,
-                              image: author.photoURL.toString() != ""
-                                  ? DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          author.photoURL.toString()))
-                                  : const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          "assets/default_avatar.png"))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: AvatarWidget(name: author.userName),
                         ),
                       ),
                       const SizedBox(
@@ -126,28 +115,30 @@ class NewsDetailsScreen extends StatelessWidget {
                       ),
                       Flexible(
                         flex: 7,
-                        child: Column(children: [
-                          Text(
-                            author.email.toString(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            author.phoneNumber.toString(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ]),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                author.email.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                author.phoneNumber.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ]),
                       ),
                       //
                     ],
