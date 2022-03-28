@@ -20,9 +20,9 @@ class LandPlanningAddScreen extends StatefulWidget {
 }
 
 class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
-  String imagePath = "Chưa cập nhập thông tin";
+  String imagePath = "";
   final _landPlanningRepo = LandPlanningRepository();
-  String filePdfPath = "Chưa cập nhập thông tin ";
+  String filePdfPath = "";
   final _dioProvider = DioProvider();
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
@@ -85,6 +85,13 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 5, left: 5, bottom: 20),
+                  child: const Text(
+                    'Thông tin quy hoạch',
+                    style: textMediumGreen,
+                  ),
+                ),
                 InputText(
                     controller: titleController,
                     width: MediaQuery.of(context).size.width,
@@ -115,6 +122,13 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                     validator: r".",
                     errorMessage: "Vui lòng không để trống"),
                 const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.only(top: 5, left: 5, bottom: 20),
+                  child: const Text(
+                    'Tọa độ hiển thị',
+                    style: textMediumGreen,
+                  ),
+                ),
                 InputPoint(
                     width: MediaQuery.of(context).size.width,
                     label: "Toạ độ trái (trên) ",
@@ -130,7 +144,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                     maxLines: 1,
                     controllerX: rightTopxController,
                     controllerY: rightTopyController,
-                    validator: r".",
+                    validator: r'(^\d*\.?\d*)',
                     errorMessage: "Vui lòng nhập toạ độ "),
                 const SizedBox(height: 10),
                 InputPoint(
@@ -150,22 +164,40 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                     controllerY: rightBottomyController,
                     validator: r".",
                     errorMessage: "Vui lòng nhập toạ độ "),
+                const SizedBox(height: 10),
                 const Text("File ",
                     style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
                 TextButton(
                     onPressed: () async {
                       filePdfPath = await PickFile().pickFilePdf(context);
                       print(filePdfPath);
+                      setState(() {});
                     },
-                    child: Text(filePdfPath.split('/').last)),
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(Icons.picture_as_pdf),
+                        const SizedBox(width: 10),
+                        Text((filePdfPath != ""
+                            ? filePdfPath.split('/').last
+                            : "Đính kèm file PDF"))
+                      ],
+                    )),
                 const Text("Thông tin chi tiết ",
                     style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
                 TextButton(
                   onPressed: () async {
                     imagePath = await PickFile().pickImage(context);
-                    print(imagePath);
+                    setState(() {});
                   },
-                  child: Text(imagePath.split('/').last),
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(Icons.image),
+                      const SizedBox(width: 10),
+                      Text(imagePath != ""
+                          ? imagePath.split('/').last
+                          : "Đính kèm ảnh")
+                    ],
+                  ),
                 ),
                 const Text("Ngày kết thúc  ",
                     style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
@@ -174,10 +206,15 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                     _selectDate(context);
                   },
                   child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.all(8),
-                      child:
-                          Text(DateFormat('dd/MM/yyyy').format(selectedDate))),
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(Icons.calendar_month),
+                        const SizedBox(width: 10),
+                        Text(DateFormat('dd/MM/yyyy').format(selectedDate))
+                      ],
+                    ),
+                  ),
                 ),
                 SubmitedButton()
               ],
@@ -186,72 +223,113 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
     );
   }
 
-  Widget SubmitedButton() {
-    return ElevatedButton(
-        child: const Text('Lưu', style: TextStyle(color: Colors.white)),
-        key: const Key('LandPlanningAddForm_submitField'),
-        onPressed: () async {
-          print(widget.address);
-          try {
-            var landPlanningRequest = LandPlanningRequest(
-              titleController.text,
-              contentController.text,
-              imagePath,
-              double.parse(landAreaController.text),
-              filePdfPath,
-              selectedDate,
-              GeoPoint(
-                double.parse(leftTopxController.text),
-                double.parse(leftTopyController.text),
-              ),
-              GeoPoint(
-                double.parse(rightTopxController.text),
-                double.parse(rightTopyController.text),
-              ),
-              GeoPoint(
-                double.parse(leftBottomxController.text),
-                double.parse(leftBottomyController.text),
-              ),
-              GeoPoint(
-                double.parse(rightBottomxController.text),
-                double.parse(rightBottomyController.text),
-              ),
-              widget.address,
-            );
-            print(landPlanningRequest);
+  bool validateForm() {
+    if (RegExp(r"[\s\S]{10,}").hasMatch(titleController.text) &&
+        RegExp(r"[\s\S]{20,}").hasMatch(contentController.text) &&
+        checkDoubleValue(landAreaController.text) &&
+        checkDoubleValue(leftTopxController.text) &&
+        checkDoubleValue(leftTopyController.text) &&
+        checkDoubleValue(leftBottomxController.text) &&
+        checkDoubleValue(leftTopyController.text) &&
+        checkDoubleValue(rightBottomxController.text) &&
+        checkDoubleValue(rightBottomyController.text) &&
+        checkDoubleValue(rightTopxController.text) &&
+        checkDoubleValue(rightTopyController.text) &&
+        imagePath.isNotEmpty &&
+        filePdfPath.isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
 
-            var result = await _landPlanningRepo.create(landPlanningRequest);
-            if (result == true) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text("Tạo bản đồ thành công"),
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                ),
-              );
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil("/", (route) => false);
+  bool checkDoubleValue(String d) {
+    try {
+      double.parse(d);
+    } catch (e) {
+      print(d);
+      return false;
+    }
+    return true;
+  }
+
+  Widget SubmitedButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+          child: const Text('Lưu', style: TextStyle(color: Colors.white)),
+          key: const Key('LandPlanningAddForm_submitField'),
+          onPressed: () async {
+            print(widget.address);
+            if (validateForm()) {
+              try {
+                var landPlanningRequest = LandPlanningRequest(
+                  titleController.text,
+                  contentController.text,
+                  imagePath,
+                  double.parse(landAreaController.text),
+                  filePdfPath,
+                  selectedDate,
+                  GeoPoint(
+                    double.parse(leftTopxController.text),
+                    double.parse(leftTopyController.text),
+                  ),
+                  GeoPoint(
+                    double.parse(rightTopxController.text),
+                    double.parse(rightTopyController.text),
+                  ),
+                  GeoPoint(
+                    double.parse(leftBottomxController.text),
+                    double.parse(leftBottomyController.text),
+                  ),
+                  GeoPoint(
+                    double.parse(rightBottomxController.text),
+                    double.parse(rightBottomyController.text),
+                  ),
+                  widget.address,
+                );
+                print(landPlanningRequest);
+
+                var result =
+                    await _landPlanningRepo.create(landPlanningRequest);
+                if (result == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text("Tạo bản đồ thành công"),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  );
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/", (route) => false);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                          "Đã xảy ra lỗi khi tạo bản đồ . Vui lòng thử lại sau"),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                    ),
+                  );
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/", (route) => false);
+                }
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        "Lỗi đăng bài. Vui lòng khởi động lại phần mềm!${e.toString()}"),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text(
-                      "Đã xảy ra lỗi khi tạo bản đồ . Vui lòng thử lại sau"),
-                  backgroundColor: Theme.of(context).colorScheme.error,
+                const SnackBar(
+                  content: Text(
+                      "Vui lòng nhập đầy đủ các trường và đính kèm các file!"),
+                  backgroundColor: Colors.red,
                 ),
               );
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil("/", (route) => false);
             }
-          } catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Lỗi đăng bài. Vui lòng khởi động lại phần mềm!"),
-                backgroundColor: Colors.red,
-              ),
-            );
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil("/", (route) => false);
-            print(e.toString());
-          }
-        });
+          }),
+    );
   }
 }

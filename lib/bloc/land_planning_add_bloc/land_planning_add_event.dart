@@ -1,10 +1,9 @@
 part of 'land_planning_add_bloc.dart';
 
-abstract class LandPlanningAddEvent extends Equatable{
+abstract class LandPlanningAddEvent extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [];
-
 }
 
 // class LandPlanningAddTitleChanged extends LandPlanningAddEvent{
@@ -76,8 +75,8 @@ abstract class LandPlanningAddEvent extends Equatable{
 //    LandPlanningAddSubmitted();
 // }
 
-class LandPlanningAddSubmitted extends LandPlanningAddEvent{
-    final LandPlanningRequest land; 
+class LandPlanningAddSubmitted extends LandPlanningAddEvent {
+  final LandPlanningRequest land;
 
-   LandPlanningAddSubmitted(this.land);
+  LandPlanningAddSubmitted(this.land);
 }
