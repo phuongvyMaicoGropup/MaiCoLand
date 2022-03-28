@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:maico_land/helpers/dvhcvn_service.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
+import 'package:maico_land/presentation/widgets/valid_chip.dart';
+import 'package:maico_land/presentation/widgets/widget_skeleton.dart';
 
 class WidgetHomeCardLandPlanning extends StatelessWidget {
   const WidgetHomeCardLandPlanning({Key? key, required this.landPlanning})
@@ -18,83 +21,102 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
       },
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 4, bottom: 4, right: 20),
-            child: Container(
-              width: 180,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    offset: const Offset(2, 2),
-                    blurRadius: 2,
+          WidgetSkeleton(),
+          Container(
+            width: 180,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.4),
+                  offset: const Offset(2, 2),
+                  blurRadius: 2,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 100,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        offset: const Offset(0, 2),
+                        blurRadius: 2,
+                      ),
+                    ],
+                    // borderRadius: const BorderRadius.only(
+                    //   topLeft: Radius.circular(5),
+                    //   topRight: Radius.circular(5),
+                    // ),
+                    image: DecorationImage(
+                      image: NetworkImage(landPlanning.imageUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ],
-                // borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          offset: const Offset(0, 2),
-                          blurRadius: 2,
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          landPlanning.title,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style:
+                              Theme.of(context).textTheme.bodyText2?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Montserrat",
+                                    fontSize: 16,
+                                  ),
+                        ),
+                        const SizedBox(height: 5),
+
+                        // Text(DateTime.now()  landPlanning.expirationDate ? "Tình trạng:  Còn hiệu lực": "Tình trạng: Mất hiệu lực", style : TextStyle(fontSize: 12,color : Theme.of(context).colorScheme.primary)),
+                        // Text(
+                        //   landPlanning.content,
+                        //   overflow: TextOverflow.ellipsis,
+                        //   maxLines: 2,
+                        //   style:
+                        //       Theme.of(context).textTheme.bodyText2?.copyWith(
+                        //             fontWeight: FontWeight.w500,
+                        //             fontFamily: "Montserrat",
+                        //             fontSize: 12,
+                        //           ),
+                        // ),
+                        Text(
+                          DvhcvnService.getAddressFromId(
+                              landPlanning.address.idLevel1,
+                              landPlanning.address.idLevel2,
+                              landPlanning.address.idLevel3),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style:
+                              Theme.of(context).textTheme.bodyText2?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Montserrat",
+                                    fontSize: 12,
+                                  ),
+                        ),
+                        const SizedBox(height: 5),
+
+                        ValidChip(
+                          expirationDate: landPlanning.expirationDate,
                         ),
                       ],
-                      // borderRadius: const BorderRadius.only(
-                      //   topLeft: Radius.circular(5),
-                      //   topRight: Radius.circular(5),
-                      // ),
-                      image: DecorationImage(
-                        image: NetworkImage(landPlanning.imageUrl),
-                        fit: BoxFit.cover,
-                      ),
                     ),
                   ),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            landPlanning.title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText2?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      fontSize: 16,
-                                    ),
-                          ),
-                          // Text(DateTime.now()  landPlanning.expirationDate ? "Tình trạng:  Còn hiệu lực": "Tình trạng: Mất hiệu lực", style : TextStyle(fontSize: 12,color : Theme.of(context).colorScheme.primary)),
-                          Text(
-                            landPlanning.content,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style:
-                                Theme.of(context).textTheme.bodyText2?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "Montserrat",
-                                      fontSize: 12,
-                                    ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Positioned(
-            left: 20,
-            top: 10,
+            left: 0,
+            top: 0,
             child: Container(
               padding: const EdgeInsets.only(
                 top: 2,
@@ -119,11 +141,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    daysBetween(landPlanning.createDate, DateTime.now()) > 0
-                        ? daysBetween(landPlanning.createDate, DateTime.now())
-                                .toString() +
-                            " ngày trước"
-                        : "Hôm nay",
+                    landPlanning.landArea.toString() + " km²",
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                           color: Colors.white,
                           fontFamily: "Montserrat",

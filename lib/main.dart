@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:maico_land/bloc/address_bloc/address.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/bloc/news_bloc/news_bloc.dart';
@@ -22,13 +23,14 @@ import 'presentation/screens/home_screen/bloc/home_bloc.dart';
 import 'presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 
-void main() {
+Future<void> main() async {
   final UserRepository userRepo = UserRepository();
   final AppRouter router = AppRouter();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.appGreen2,
     systemNavigationBarColor: Colors.transparent,
   ));
+
   runApp(
     MultiRepositoryProvider(
       providers: [

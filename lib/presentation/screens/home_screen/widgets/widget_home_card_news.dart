@@ -29,6 +29,7 @@ class WidgetHomeCardNews extends StatelessWidget {
                     blurRadius: 2,
                   ),
                 ],
+                borderRadius: const BorderRadius.all(Radius.circular(6.0)),
                 // borderRadius: BorderRadius.circular(5),
               ),
               child: Column(
@@ -43,10 +44,6 @@ class WidgetHomeCardNews extends StatelessWidget {
                           blurRadius: 2,
                         ),
                       ],
-                      // borderRadius: const BorderRadius.only(
-                      //   topLeft: Radius.circular(5),
-                      //   topRight: Radius.circular(5),
-                      // ),
                       image: const DecorationImage(
                         image: AssetImage('assets/logo.png'),
                         fit: BoxFit.fitWidth,

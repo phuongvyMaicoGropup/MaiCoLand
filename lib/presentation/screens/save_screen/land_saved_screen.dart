@@ -16,7 +16,7 @@ class _LandSavedScreenState extends State<LandSavedScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("Các tin tức đã lưu")),
+        appBar: AppBar(title: Text("Các tin quy hoạch đã lưu")),
         body: FutureBuilder<List<LandPlanning>?>(
             future: RepositoryProvider.of<LandPlanningRepository>(context)
                 .getSavedLand(),
