@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
+import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class LandSavedScreen extends StatefulWidget {
   const LandSavedScreen({Key? key}) : super(key: key);
@@ -17,11 +20,11 @@ class _LandSavedScreenState extends State<LandSavedScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: Text("Các tin quy hoạch đã lưu")),
-        body: FutureBuilder<List<LandPlanning>?>(
+        body: FutureBuilder<List<DataLocalInfo>?>(
             future: RepositoryProvider.of<LandPlanningRepository>(context)
                 .getSavedLand(),
             builder: (context, snapshot) {
-              List<LandPlanning>? children = [];
+              List<DataLocalInfo>? children = [];
               if (snapshot.hasData) {
                 children = snapshot.data;
                 return ListView.builder(
@@ -29,8 +32,35 @@ class _LandSavedScreenState extends State<LandSavedScreen> {
                   itemCount: children!.length,
                   itemBuilder: (BuildContext context, int index) {
                     var item = children![index];
-                    return LandPlanningCard(
-                      land: item,
+                    return GestureDetector(
+                      onTap: () async {
+                        print("Saved News wathc");
+                        LandPlanning n =
+                            await RepositoryProvider.of<LandPlanningRepository>(
+                                    context)
+                                .getLandById(item.id);
+
+                        Navigator.of(context)
+                            .pushNamed("/landplanning/details", arguments: n);
+                      },
+                      child: Stack(children: [
+                        SavedDataCard(
+                          title: item.name,
+                        ),
+                        Positioned(
+                            right: 0,
+                            top: 0,
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    RepositoryProvider.of<SessionRepository>(
+                                            context)
+                                        .removeLand(item);
+                                    print("Removed Saved News");
+                                  });
+                                },
+                                icon: const Icon(Icons.cancel))),
+                      ]),
                     );
                   },
                 );

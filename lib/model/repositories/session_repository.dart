@@ -93,26 +93,23 @@ class SessionRepository {
     return list;
   }
 
-  Future<List<LandPlanning>?> getSavedLand() async {
-    List<String>? jsonData = await pref.getList(DATA_CONST.CACHE_LANDPLANNING);
-    if (jsonData == null) {
-      return Future.value(null);
-    }
-    List<LandPlanning>? listLand = [];
-    Response response;
-    for (var i in jsonData) {
-      i = DataLocalInfo.fromJson(i).id;
-      try {
-        response = await _dioProvider.dio.get(
-          _dioProvider.baseUrl + "api/landplanning/" + i,
-        );
-
-        listLand.add(LandPlanning.fromMap(response.data));
-      } catch (e) {
-        return listLand;
+  Future<List<DataLocalInfo>?> getSavedLand() async {
+    List<DataLocalInfo> list = [];
+    try {
+      List<String>? jsonData =
+          await pref.getList(DATA_CONST.CACHE_LANDPLANNING);
+      if (jsonData == null) {
+        return Future.value(null);
       }
+      List<DataLocalInfo>? list = [];
+      for (var i in jsonData) {
+        list.add(DataLocalInfo.fromJson(i));
+      }
+
+      return list;
+    } catch (e) {
+      return list;
     }
-    return listLand;
   }
 
   // Future<TimeSlot> getSelectedTimeSlot() async {

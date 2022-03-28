@@ -67,6 +67,20 @@ class LandPlanningRepository {
     }
   }
 
+  Future<LandPlanning> getLandById(String id) async {
+    try {
+      Response response = await _dioProvider.dio.get(
+        _dioProvider.baseUrl + "api/landplanning/" + id,
+      );
+      print(response.data);
+
+      return Future<LandPlanning>.value(LandPlanning.fromMap(response.data));
+    } catch (e) {
+      print(e);
+      return Future<LandPlanning>.value(null);
+    }
+  }
+
   Future<List<LandPlanning>> getHomeLandPlanning() async {
     Response response = await _dioProvider.dio.get(
         _dioProvider.getLandPlanningPagination,
@@ -131,7 +145,7 @@ class LandPlanningRepository {
     _sessionRepo.cacheLand(data);
   }
 
-  Future<List<LandPlanning>?> getSavedLand() async {
+  Future<List<DataLocalInfo>?> getSavedLand() async {
     return await _sessionRepo.getSavedLand();
   }
 }
