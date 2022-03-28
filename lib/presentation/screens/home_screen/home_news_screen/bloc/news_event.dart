@@ -7,6 +7,8 @@ abstract class HomeNewsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class HomeDisplayNews extends HomeNewsEvent {
-  
-}
+class InitialHomeNewsEvent extends HomeNewsEvent {}
+
+class LoadHomeNews extends HomeNewsEvent {}
+
+class RefreshHomeNews extends HomeNewsEvent {}

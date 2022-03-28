@@ -12,7 +12,7 @@ class WidgetHomeNews extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeNewsBloc, HomeNewsState>(
       builder: (context, state) {
-        if (state is NewsLoaded) {
+        if (state is HomeNewsLoaded) {
           items = state.news;
 
           return Padding(

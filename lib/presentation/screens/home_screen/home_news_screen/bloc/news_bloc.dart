@@ -8,12 +8,15 @@ part 'news_state.dart';
 class HomeNewsBloc extends Bloc<HomeNewsEvent, HomeNewsState> {
   final NewsRepository newsRepo = NewsRepository();
 
-  HomeNewsBloc() : super(NewsLoading()) {
-    on<HomeDisplayNews>(_mapDisplayNewsToState);
+  HomeNewsBloc() : super(HomeNewsLoading()) {
+    on<LoadHomeNews>(_mapLoadHomeNewsToState);
+    on<RefreshHomeNews>((event, emit) {
+      emit(HomeNewsLoading());
+    });
   }
 
-  void _mapDisplayNewsToState(HomeDisplayNews event, emit) async {
+  void _mapLoadHomeNewsToState(LoadHomeNews event, emit) async {
     List<News> newsList = await newsRepo.getHomeNews();
-    emit(NewsLoaded(newsList));
+    emit(HomeNewsLoaded(newsList));
   }
 }

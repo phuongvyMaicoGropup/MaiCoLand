@@ -24,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<HomeNewsBloc>(context).add(LoadHomeNews());
+
     return SafeArea(
         child: Scaffold(
             backgroundColor: AppColors.white,
@@ -52,7 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Expanded(
       child: RefreshIndicator(
         onRefresh: () async {
-          BlocProvider.of<HomeNewsBloc>(context).add(HomeDisplayNews());
+          BlocProvider.of<HomeNewsBloc>(context).add(RefreshHomeNews());
+          BlocProvider.of<HomeNewsBloc>(context).add(LoadHomeNews());
+
           BlocProvider.of<HomeLandPlanningBloc>(context)
               .add(HomeDisplayLandPlanning());
         },
@@ -67,10 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Builder(builder: (context) {
               return Column(children: [
                 const SizedBox(height: 10),
-                Builder(builder: (context) {
-                  BlocProvider.of<HomeNewsBloc>(context).add(HomeDisplayNews());
-                  return WidgetHomeNews();
-                }),
+                WidgetHomeNews(),
                 Builder(builder: (context) {
                   BlocProvider.of<HomeLandPlanningBloc>(context)
                       .add(HomeDisplayLandPlanning());

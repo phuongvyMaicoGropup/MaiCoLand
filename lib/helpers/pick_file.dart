@@ -10,54 +10,63 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class PickFile {
   Future<String> pickImage(BuildContext context) async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ['png', 'jpg'],
-    );
-    if (result == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Hình ảnh không hợp lệ vui lòng chọn ảnh khác!"),
-        ),
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: ['png', 'jpg'],
       );
-      return Future<String>.value("");
+      if (result == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Hình ảnh không hợp lệ vui lòng chọn ảnh khác!"),
+          ),
+        );
+        return Future<String>.value("");
+      }
+
+      final bytes = result.files.single.size;
+      final kb = bytes / 1024;
+      final mb = kb / 1024;
+      if (mb > 5.5) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Hình ảnh có kích thước quá lớn vui chọn ảnh khác!"),
+          ),
+        );
+        return Future<String>.value("");
+      }
+
+      final path = result.files.single.path!;
+
+      return Future<String>.value(path);
+    } catch (e) {
+      print(e);
+      return Future<String>.value();
     }
-
-    final bytes = result.files.single.size;
-    final kb = bytes / 1024;
-    final mb = kb / 1024;
-    if (mb > 5.5) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Hình ảnh có kích thước quá lớn vui chọn ảnh khác!"),
-        ),
-      );
-      return Future<String>.value("");
-    }
-
-    final path = result.files.single.path!;
-
-    return Future<String>.value(path);
   }
 
   Future<String> pickFilePdf(BuildContext context) async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-    if (result == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("File không hợp lệ . Vui lòng chọn file khác!"),
-        ),
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
       );
-      return Future<String>.value(null);
-    }
+      if (result == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("File không hợp lệ . Vui lòng chọn file khác!"),
+          ),
+        );
+        return Future<String>.value(null);
+      }
 
-    final path = result.files.single.path!;
-    return Future<String>.value(path);
+      final path = result.files.single.path!;
+      return Future<String>.value(path);
+    } catch (e) {
+      return Future<String>.value();
+    }
   }
 
   static Future<File> createFileOfPdfUrl(String url) async {
