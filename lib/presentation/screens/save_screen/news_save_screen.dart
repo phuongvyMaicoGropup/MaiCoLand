@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
+import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/presentation/screens/news/widgets/news_card.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
@@ -18,7 +19,7 @@ class _NewsSaveScreenState extends State<NewsSaveScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("Các tin tức đã lưu")),
+        appBar: AppBar(title: const Text("Các tin tức đã lưu")),
         body: FutureBuilder<List<DataLocalInfo>?>(
             future: RepositoryProvider.of<NewsRepository>(context).getNews(),
             builder: (context, snapshot) {
@@ -30,7 +31,15 @@ class _NewsSaveScreenState extends State<NewsSaveScreen> {
                   itemCount: children!.length,
                   itemBuilder: (BuildContext context, int index) {
                     var item = children![index];
-                    return Container(
+                    return GestureDetector(
+                      onTap: () async {
+                        print("Saved News wathc");
+                        News n =
+                            await RepositoryProvider.of<NewsRepository>(context)
+                                .getNewsById(item.id);
+                        Navigator.of(context)
+                            .pushNamed("/news/details", arguments: n);
+                      },
                       child: Stack(children: [
                         SavedDataCard(
                           title: item.name,
@@ -39,7 +48,15 @@ class _NewsSaveScreenState extends State<NewsSaveScreen> {
                             right: 0,
                             top: 0,
                             child: IconButton(
-                                onPressed: () {}, icon: Icon(Icons.cancel))),
+                                onPressed: () {
+                                  setState(() {
+                                    RepositoryProvider.of<SessionRepository>(
+                                            context)
+                                        .removeNews(item);
+                                    print("Removed Saved News");
+                                  });
+                                },
+                                icon: const Icon(Icons.cancel))),
                       ]),
                     );
                   },

@@ -88,4 +88,18 @@ class NewsRepository {
   Future<List<DataLocalInfo>?> getNews() async {
     return await _sessionRepo.getNews();
   }
+
+  Future<News> getNewsById(String id) async {
+    try {
+      Response response = await _dioProvider.dio.get(
+        _dioProvider.baseUrl + "api/news/" + id,
+      );
+      print(response.data);
+
+      return Future<News>.value(News.fromMap(response.data));
+    } catch (e) {
+      print(e);
+      return Future<News>.value(null);
+    }
+  }
 }

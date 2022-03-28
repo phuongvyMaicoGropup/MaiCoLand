@@ -38,6 +38,31 @@ class SessionRepository {
     }
   }
 
+  Future<bool> removeLand(DataLocalInfo land) async {
+    List<String>? list = [];
+    try {
+      list = await pref.getList(DATA_CONST.CACHE_LANDPLANNING);
+      list?.remove(land.toJson());
+      var l = list?.toSet();
+      return pref.saveList(DATA_CONST.CACHE_LANDPLANNING, l!.toList());
+    } catch (e) {
+      return await pref
+          .saveList(DATA_CONST.CACHE_LANDPLANNING, [land.toJson()]);
+    }
+  }
+
+  Future<bool> removeNews(DataLocalInfo news) async {
+    List<String>? list = [];
+    try {
+      list = await pref.getList(DATA_CONST.CACHE_NEWS);
+      list?.remove(news.toJson());
+      var l = list?.toSet();
+      return pref.saveList(DATA_CONST.CACHE_NEWS, l!.toList());
+    } catch (e) {
+      return await pref.saveList(DATA_CONST.CACHE_NEWS, [news.toJson()]);
+    }
+  }
+
   // Future<bool> cacheShow(Show show) {
   //   return pref.saveString(DATA_CONST.CACHE_SHOW, json.encode(show.toJson()));
   // }

@@ -8,7 +8,7 @@ class SavedDataCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.14,
+      height: MediaQuery.of(context).size.height * 0.10,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: Colors.white,
