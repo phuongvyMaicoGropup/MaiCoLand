@@ -413,6 +413,9 @@ class _NewsAddButton extends StatelessWidget {
       child: BlocBuilder<NewsAddBloc, NewsAddState>(
         builder: (context, state) {
           print("_NewsAddButton" + state.status.toString());
+          if (state.status == FormzStatus.submissionInProgress) {
+            return Center(child: CircularProgressIndicator());
+          }
           return SizedBox(
             width: double.infinity,
             child: ElevatedButton(
