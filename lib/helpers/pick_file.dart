@@ -59,7 +59,7 @@ class PickFile {
             content: Text("File không hợp lệ . Vui lòng chọn file khác!"),
           ),
         );
-        return Future<String>.value(null);
+        return Future<String>.value("");
       }
 
       final path = result.files.single.path!;

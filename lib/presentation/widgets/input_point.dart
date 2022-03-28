@@ -25,7 +25,8 @@ class InputPoint extends StatelessWidget {
     return SizedBox(
       width: width,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label, style: const TextStyle(fontSize: 10, color: AppColors.appGreen1)),
+        Text(label,
+            style: const TextStyle(fontSize: 10, color: AppColors.appGreen1)),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +63,8 @@ class InputPoint extends StatelessWidget {
                     errorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(color: AppColors.red)),
-                    errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
+                    errorStyle:
+                        const TextStyle(fontSize: 10, color: AppColors.red),
                     focusColor: AppColors.appGreen1,
                     contentPadding: const EdgeInsets.only(
                       top: 10.0,
@@ -109,7 +111,8 @@ class InputPoint extends StatelessWidget {
                     errorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(color: AppColors.red)),
-                    errorStyle: const TextStyle(fontSize: 10, color: AppColors.red),
+                    errorStyle:
+                        const TextStyle(fontSize: 10, color: AppColors.red),
                     focusColor: AppColors.appGreen1,
                     contentPadding: const EdgeInsets.only(
                       top: 10.0,
