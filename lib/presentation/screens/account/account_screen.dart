@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
@@ -6,6 +7,7 @@ import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/account/widgets/widgets.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/presentation/widgets/text_icon.dart';
 
@@ -46,12 +48,12 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              title: const Center(
-                child: Text("Thông tin tài khoản"),
-              ),
-            ),
-            backgroundColor: AppColors.white,
+            // appBar: AppBar(
+            //   title: const Center(
+            //     child: Text("Thông tin tài khoản"),
+            //   ),
+            // ),
+            backgroundColor: AppColors.appGreen1,
             body: Center(
               child: Container(
                 padding: const EdgeInsets.only(left: 16, top: 10, right: 16),
@@ -80,94 +82,101 @@ class _AccountScreenState extends State<AccountScreen> {
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
               children: <Widget>[
-                Column(children: [
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(16, 138, 45, 1),
-                          ),
-                          child: Text(user.userName[0].toUpperCase(),
-                              style: headingTextWhite),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(user.userName.toString(),
-                                  style: headingText),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              TextIcon(Icons.email, user.email.toString()),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              TextIcon(
-                                  Icons.phone,
-                                  user.phoneNumber.toString() == ""
-                                      ? "Chưa cập nhập"
-                                      : user.phoneNumber.toString()),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                            ])
-                      ]),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Thông tin tài khoản", style : headingText.copyWith( fontSize: 27)),
+                      SizedBox(height: 30),
 
-                  // buildTextField(
-                  //     "Tên đăng nhập ", user.userName.toString(), true),
-                  // buildTextField(
-                  //     "Số điện thoại",
-                  //     user.phoneNumber.toString() != ""
-                  //         ? user.phoneNumber.toString()
-                  //         : "Chưa cập nhập",
-                  //     true),
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppColors.appGreen2.withOpacity(0.7),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/news/save");
-                      },
-                      child: Row(
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Các tin đã lưu", style: whiteText),
-                            Icon(Icons.arrow_right_sharp,
-                                color: AppColors.white)
+
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.lightBlueAccent,
+                                    radius: 40,
+                                    child: Text(user.userName[0].toUpperCase(),
+                                        style: headingTextWhite)),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.05),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(user.userName.toString(),
+                                          style: headingText),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      // TextIcon(Icons.email, user.email.toString()),
+                                      const SizedBox(
+                                        height: 1,
+                                      ),
+                                      Text(user.phoneNumber.toString() == ""
+                                          ? "Chưa cập nhập"
+                                          : user.phoneNumber.toString()),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                    ]),
+                              ],
+                            ),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.auto_fix_normal)),
+                            )
                           ]),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppColors.appGreen2.withOpacity(0.7),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/landplanning/save");
-                      },
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Tin quy hoạch lưu trữ", style: whiteText),
-                            Icon(Icons.arrow_right_sharp,
-                                color: AppColors.white)
-                          ]),
-                    ),
-                  )
-                ]),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      const Text("Kho lưu trữ", style: textMinorGrayTitle),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      _buildRow(
+                          Icons.newspaper, const Color(0xFFF08F8F), "Tin tức", "/news/save"),
+                      const SizedBox(height: 10),
+                      _buildRow(Icons.map_outlined, const Color(0xFF6DC882),
+                          "Tin quy hoạch", "/landplanning/save"),
+                      const SizedBox(height: 15),
+                      const Text("Tin của bạn", style: textMinorGrayTitle),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      _buildRow(
+                          Icons.newspaper, const Color(0xFFEEF08F), "Tin tức", "/news/save"),
+                      const SizedBox(height: 10),
+                      _buildRow(Icons.map_outlined, const Color(  0xFFFE91B0),
+                          "Tin quy hoạch", "/landplanning/save"),
+                      const SizedBox(height: 15),
+                      const Text("Tài khoản", style: textMinorGrayTitle),
+                      const SizedBox(height: 10),
+
+                      Container(
+                        padding: EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width,
+
+                          decoration: BoxDecoration(
+                            color : AppColors.appErrorRed.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children:[
+                            Text("Đăng xuất", style : mediumText.copyWith(fontSize: 16, color: AppColors.white)),
+                            const Icon(Icons.arrow_forward_ios_outlined, color: Colors.white,)
+                          ]))
+
+                    ]),
               ],
             ),
           );
@@ -177,35 +186,32 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Widget buildTextField(String labelText, String placeholder, bool canEdit) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(labelText, style: const TextStyle(fontSize: 18)),
-            canEdit
-                ? GestureDetector(
-                    onTap: () {
-                      // Navigator.of(context).pushNamed("/account_settings");
-                    },
-                    child: const Icon(
-                      Icons.edit,
-                      color: Colors.green,
-                    ),
-                  )
-                : Container(),
-          ]),
-          const SizedBox(height: 10),
-          Text(placeholder,
-              style: const TextStyle(fontSize: 16, color: AppColors.appGreen1)),
-          const Divider(
-            thickness: 1,
-          ),
-        ],
-      ),
+  Widget _buildRow(IconData icon, Color? color, String label,String link) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            CircleAvatar(
+              radius: 25,
+              child: Icon(icon, color: Colors.white, size: 28),
+              backgroundColor: color,
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Text(label, style: textMediumBlack.copyWith(fontSize: 20)),
+          ],
+        ),
+        IconButton(
+            onPressed:()=> _maptoNewPage(link),
+            icon: const Icon(Icons.arrow_forward_ios_outlined))
+      ],
     );
+  }
+
+  _maptoNewPage(String link) {
+    Navigator.of(context).pushNamed(link);
+
   }
 }

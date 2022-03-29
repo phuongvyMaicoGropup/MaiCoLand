@@ -39,7 +39,7 @@ const headingText = TextStyle(
 
 const headingTextWhite = TextStyle(
   color: AppColors.white,
-  fontSize: 24,
+  fontSize: 26,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.bold,
 );
@@ -102,6 +102,12 @@ const textMinorRed =
 //   backgroundColor: Colors.white,
 //   minimumSize: Size(240, 80),
 // );
+
+const textMinorGrayTitle = TextStyle(
+  color : Color(0xFF9899A0),
+  fontSize: 14,
+  fontWeight: FontWeight.bold
+);
 
 const textMinorItalicGreen = TextStyle(
     fontWeight: FontWeight.normal,
