@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:maico_land/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:maico_land/bloc/forgot_password/forgot_password_event.dart';
 import 'package:maico_land/bloc/forgot_password/forgot_password_state.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 
-import '../../styles/styles.dart';
-import 'widgets/widget.dart';
 
 class ForgetPassword extends StatefulWidget {
-  ForgetPassword({Key? key}) : super(key: key);
+  const ForgetPassword({Key? key}) : super(key: key);
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -244,7 +241,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               style: TextStyle(color: Colors.white)),
                           key: const Key('Gui_submitField'),
                           onPressed: () {
-                            if (!state.code.value.trim().isEmpty) {
+                            if (state.code.value.trim().isNotEmpty) {
                               context.read<ForgotPasswordBloc>().add(
                                   SubmitCode(codeController.text, context));
                             } else {

@@ -79,7 +79,7 @@ class NewsRepository {
     try {
       var userId = await _userRepo.getUserId();
       Response response = await _dioProvider.dio.get(
-          _dioProvider.baseUrl + "api/news/${newsId}/like",
+          _dioProvider.baseUrl + "api/news/$newsId/like",
           queryParameters: {'newsId': newsId, 'userId': userId});
 
       print(response.data);

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
@@ -23,12 +25,9 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(9.0),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color.fromRGBO(16, 138, 45, 1),
-              ),
+            child: CircleAvatar(
+              backgroundColor:
+                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
               child:
                   Text(user.userName[0].toLowerCase(), style: headingTextWhite),
             ),

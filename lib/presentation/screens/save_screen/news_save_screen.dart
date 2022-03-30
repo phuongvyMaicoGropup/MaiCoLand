@@ -4,7 +4,6 @@ import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/model/repositories/session_repository.dart';
-import 'package:maico_land/presentation/screens/news/widgets/news_card.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class NewsSaveScreen extends StatefulWidget {

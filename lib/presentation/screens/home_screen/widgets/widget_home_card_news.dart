@@ -17,7 +17,7 @@ class WidgetHomeCardNews extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 4, bottom: 4, right: 20),
+            padding: const EdgeInsets.only(bottom: 4, right: 20),
             child: Container(
               width: 180,
               decoration: BoxDecoration(
@@ -44,8 +44,8 @@ class WidgetHomeCardNews extends StatelessWidget {
                           blurRadius: 2,
                         ),
                       ],
-                      image: const DecorationImage(
-                        image: AssetImage('assets/logo.png'),
+                      image: DecorationImage(
+                        image: NetworkImage(news.imageUrl),
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -97,8 +97,8 @@ class WidgetHomeCardNews extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 20,
-            top: 10,
+            left: 0,
+            top: 0,
             child: Container(
               padding: const EdgeInsets.only(
                 top: 2,
@@ -106,15 +106,8 @@ class WidgetHomeCardNews extends StatelessWidget {
                 left: 5,
                 right: 10,
               ),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.red,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    offset: const Offset(2, 2),
-                    blurRadius: 2,
-                  ),
-                ],
               ),
               child: Row(
                 children: <Widget>[

@@ -33,7 +33,7 @@ class RegisterButton extends StatelessWidget {
           buildWhen: (previous, current) => previous.status != current.status,
           builder: (context, state) {
             if (state.status == FormzStatus.submissionInProgress) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             return ElevatedButton(

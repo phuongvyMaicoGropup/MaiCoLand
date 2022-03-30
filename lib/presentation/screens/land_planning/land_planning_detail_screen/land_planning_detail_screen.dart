@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_arcgis/flutter_map_arcgis.dart';
 import 'package:latlong2/latlong.dart';
@@ -24,7 +23,7 @@ class _LandPlanningDetailScreenState extends State<LandPlanningDetailScreen> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Bản đồ quy hoạch'),
+          title: const Text('Bản đồ quy hoạch'),
         ),
         body: Column(
           children: [
@@ -88,89 +87,89 @@ class _LandPlanningDetailScreenState extends State<LandPlanningDetailScreen> {
   }
 }
 
-class OverlayImageLayerOptions extends LayerOptions {
-  final List<OverlayImage> overlayImages;
+// class OverlayImageLayerOptions extends LayerOptions {
+//   final List<OverlayImage> overlayImages;
 
-  OverlayImageLayerOptions({
-    Key? key,
-    this.overlayImages = const [],
-    Stream<Null>? rebuild,
-  }) : super(key: key, rebuild: rebuild);
-}
+//   OverlayImageLayerOptions({
+//     Key? key,
+//     this.overlayImages = const [],
+//     Stream<void>? rebuild,
+//   }) : super(key: key, rebuild: rebuild);
+// }
 
-class OverlayImage {
-  final LatLngBounds bounds;
-  final ImageProvider imageProvider;
-  final double opacity;
-  final bool gaplessPlayback;
+// class OverlayImage {
+//   final LatLngBounds bounds;
+//   final ImageProvider imageProvider;
+//   final double opacity;
+//   final bool gaplessPlayback;
 
-  OverlayImage({
-    required this.bounds,
-    required this.imageProvider,
-    this.opacity = 1.0,
-    this.gaplessPlayback = false,
-  });
-}
+//   OverlayImage({
+//     required this.bounds,
+//     required this.imageProvider,
+//     this.opacity = 1.0,
+//     this.gaplessPlayback = false,
+//   });
+// }
 
-class OverlayImageLayerWidget extends StatelessWidget {
-  final OverlayImageLayerOptions options;
+// class OverlayImageLayerWidget extends StatelessWidget {
+//   final OverlayImageLayerOptions options;
 
-  OverlayImageLayerWidget({Key? key, required this.options}) : super(key: key);
+//   const OverlayImageLayerWidget({Key? key, required this.options}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final mapState = MapState.maybeOf(context)!;
-    return OverlayImageLayer(options, mapState, mapState.onMoved);
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final mapState = MapState.maybeOf(context)!;
+//     return OverlayImageLayer(options, mapState, mapState.onMoved);
+//   }
+// }
 
-class OverlayImageLayer extends StatelessWidget {
-  final OverlayImageLayerOptions overlayImageOpts;
-  final MapState map;
-  final Stream<Null>? stream;
+// class OverlayImageLayer extends StatelessWidget {
+//   final OverlayImageLayerOptions overlayImageOpts;
+//   final MapState map;
+//   final Stream<void>? stream;
 
-  OverlayImageLayer(this.overlayImageOpts, this.map, this.stream)
-      : super(key: overlayImageOpts.key);
+//   OverlayImageLayer(this.overlayImageOpts, this.map, this.stream)
+//       : super(key: overlayImageOpts.key);
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<void>(
-      stream: stream,
-      builder: (BuildContext context, _) {
-        return ClipRect(
-          child: Stack(
-            children: <Widget>[
-              for (var overlayImage in overlayImageOpts.overlayImages)
-                _positionedForOverlay(overlayImage),
-            ],
-          ),
-        );
-      },
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<void>(
+//       stream: stream,
+//       builder: (BuildContext context, _) {
+//         return ClipRect(
+//           child: Stack(
+//             children: <Widget>[
+//               for (var overlayImage in overlayImageOpts.overlayImages)
+//                 _positionedForOverlay(overlayImage),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
 
-  Positioned _positionedForOverlay(OverlayImage overlayImage) {
-    final zoomScale =
-        map.getZoomScale(map.zoom, map.zoom); // TODO replace with 1?
-    final pixelOrigin = map.getPixelOrigin();
-    final upperLeftPixel =
-        map.project(overlayImage.bounds.northWest).multiplyBy(zoomScale) -
-            pixelOrigin;
-    final bottomRightPixel =
-        map.project(overlayImage.bounds.southEast).multiplyBy(zoomScale) -
-            pixelOrigin;
-    return Positioned(
-      left: upperLeftPixel.x.toDouble(),
-      top: upperLeftPixel.y.toDouble(),
-      width: (bottomRightPixel.x - upperLeftPixel.x).toDouble(),
-      height: (bottomRightPixel.y - upperLeftPixel.y).toDouble(),
-      child: Image(
-        image: overlayImage.imageProvider,
-        fit: BoxFit.fill,
-        color: Color.fromRGBO(255, 255, 255, overlayImage.opacity),
-        colorBlendMode: BlendMode.modulate,
-        gaplessPlayback: overlayImage.gaplessPlayback,
-      ),
-    );
-  }
-}
+//   Positioned _positionedForOverlay(OverlayImage overlayImage) {
+//     final zoomScale =
+//         map.getZoomScale(map.zoom, map.zoom); // TODO replace with 1?
+//     final pixelOrigin = map.getPixelOrigin();
+//     final upperLeftPixel =
+//         map.project(overlayImage.bounds.northWest).multiplyBy(zoomScale) -
+//             pixelOrigin;
+//     final bottomRightPixel =
+//         map.project(overlayImage.bounds.southEast).multiplyBy(zoomScale) -
+//             pixelOrigin;
+//     return Positioned(
+//       left: upperLeftPixel.x.toDouble(),
+//       top: upperLeftPixel.y.toDouble(),
+//       width: (bottomRightPixel.x - upperLeftPixel.x).toDouble(),
+//       height: (bottomRightPixel.y - upperLeftPixel.y).toDouble(),
+//       child: Image(
+//         image: overlayImage.imageProvider,
+//         fit: BoxFit.fill,
+//         color: Color.fromRGBO(255, 255, 255, overlayImage.opacity),
+//         colorBlendMode: BlendMode.modulate,
+//         gaplessPlayback: overlayImage.gaplessPlayback,
+//       ),
+//     );
+//   }
+// }

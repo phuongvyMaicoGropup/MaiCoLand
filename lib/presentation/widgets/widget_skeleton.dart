@@ -22,7 +22,7 @@ class WidgetSkeleton extends StatelessWidget {
     return Container(
         height: height,
         width: width,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.04),
             borderRadius: const BorderRadius.all(Radius.circular(8))));

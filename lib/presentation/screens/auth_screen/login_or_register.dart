@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
-import 'package:maico_land/presentation/styles/app_themes.dart';
 
 class LoginOrRegister extends StatelessWidget {
   const LoginOrRegister({Key? key}) : super(key: key);
@@ -39,7 +37,7 @@ class LoginOrRegister extends StatelessWidget {
                             "Hãy đăng nhập hoặc đăng kí để sử dụng dịch vụ của chúng tôi!",
                             style: textMinorGreen),
                         Container(
-                            margin: EdgeInsets.only(top: 20),
+                            margin: const EdgeInsets.only(top: 20),
                             alignment: Alignment.center,
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

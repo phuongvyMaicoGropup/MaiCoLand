@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
-import 'package:formz/formz.dart';
-import 'package:maico_land/bloc/register_bloc/register_bloc.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/widget.dart';
-import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -42,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Positioned(
                     child: Container(
                   height: MediaQuery.of(context).size.height,
-                  color: Color.fromARGB(255, 224, 223, 223),
+                  color: const Color.fromARGB(255, 224, 223, 223),
                 )),
                 Positioned(
                   child: Container(

@@ -1,18 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
-import 'package:maico_land/presentation/styles/app_colors.dart';
-import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/router/app_router.dart';
 
 import 'presentation/screens/account/account_screen.dart';
 import 'presentation/screens/create_option_screen/create_option_screen.dart';
-import 'presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
-import 'presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({required this.appRouter, required this.userRepo, Key? key})
@@ -54,7 +48,7 @@ class _MyAppState extends State<MyApp> {
 
   final List<Widget> _pages = <Widget>[
     const HomeScreen(),
-    CreateOptionScreen(),
+    const CreateOptionScreen(),
     AccountScreen(userRepo: UserRepository()),
     // DetailMapLandPlanning(
     //     landPlanning: LandPlanning(
@@ -118,7 +112,7 @@ class _MyAppState extends State<MyApp> {
             )
           ],
         ),
-        image:  Image(
+        image:  const Image(
           fit: BoxFit.scaleDown,
           // width: MediaQuery.of(context).size.width,
           height: 600,

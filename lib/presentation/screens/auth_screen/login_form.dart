@@ -1,11 +1,8 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/login_bloc/login.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
-import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/presentation/styles/theme.dart';
 import 'package:maico_land/presentation/widgets/widget_input_text_field.dart';
 
@@ -55,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
               Positioned(
                   child: Container(
                 height: MediaQuery.of(context).size.height,
-                color: Color.fromARGB(255, 224, 223, 223),
+                color: const Color.fromARGB(255, 224, 223, 223),
               )),
               Positioned(
                 child: Container(
@@ -136,7 +133,7 @@ class _LoginFormState extends State<LoginForm> {
                             ]),
                           ),
                           Container(
-                              margin: EdgeInsets.only(top: 20),
+                              margin: const EdgeInsets.only(top: 20),
                               alignment: Alignment.center,
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
