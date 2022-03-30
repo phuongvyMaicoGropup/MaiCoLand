@@ -32,37 +32,47 @@ class NewsRepository {
   }
 
   Future<List<News>> getHomeNews() async {
-    Response response = await _dioProvider.dio.get(
-        _dioProvider.getNewsPagination,
-        queryParameters: {'pageNumber': 1, 'pageSize': 5});
+    try{
+      Response response = await _dioProvider.dio.get(
+          _dioProvider.getNewsPagination,
+          queryParameters: {'pageNumber': 1, 'pageSize': 5});
 
-    var json = response.data;
-    List<News> result = [];
-    for (int i = 0; i < json.length; i++) {
-      var news = News.fromMap(json[i]);
-      result.add(news);
+      var json = response.data;
+      List<News> result = [];
+      for (int i = 0; i < json.length; i++) {
+        var news = News.fromMap(json[i]);
+        result.add(news);
+      }
+      return Future<List<News>>.value(result);
+    }catch(e){
+      return Future<List<News>>.value(null);
     }
-    return Future<List<News>>.value(result);
+
   }
 
   Future<List<News>> getNewsPagination(
       int pageNumber, int pageSize, String key) async {
-    Response response;
-    if (key == "") {
-      response = await _dioProvider.dio.get(_dioProvider.getNewsPagination,
-          queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize});
-    } else {
-      response = await _dioProvider.dio
-          .get(_dioProvider.searchNews, queryParameters: {'searchKey': key});
+    try{
+      Response response;
+      if (key == "") {
+        response = await _dioProvider.dio.get(_dioProvider.getNewsPagination,
+            queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize});
+      } else {
+        response = await _dioProvider.dio
+            .get(_dioProvider.searchNews, queryParameters: {'searchKey': key});
+      }
+      var json = response.data;
+      List<News> result = [];
+      for (int i = 0; i < json.length; i++) {
+        var news = News.fromMap(json[i]);
+        result.add(news);
+      }
+      // print(News.fromMap(json[0]));
+      return Future<List<News>>.value(result);
     }
-    var json = response.data;
-    List<News> result = [];
-    for (int i = 0; i < json.length; i++) {
-      var news = News.fromMap(json[i]);
-      result.add(news);
+    catch(e){
+      return Future<List<News>>.value(null);
     }
-    // print(News.fromMap(json[0]));
-    return Future<List<News>>.value(result);
   }
 
   Future<bool> likeNews(String newsId) async {
@@ -100,6 +110,23 @@ class NewsRepository {
     } catch (e) {
       print(e);
       return Future<News>.value(null);
+    }
+  }
+  Future<List<News>> getNewsByAuthorId(String id) async {
+    try {
+      Response response = await _dioProvider.dio.get(
+        _dioProvider.baseUrl + "api/news/author/" + id,
+      );
+      List<News> result = [];
+      for (int i = 0; i < response.data.length; i++) {
+        var news = News.fromMap(response.data[i]);
+        result.add(news);
+      }
+
+      return Future<List<News>>.value(result);
+    } catch (e) {
+      print(e);
+      return Future<List<News>>.value(null);
     }
   }
 }

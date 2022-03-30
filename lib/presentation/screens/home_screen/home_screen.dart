@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<HomeNewsBloc>(context).add(LoadHomeNews());
+    BlocProvider.of<HomeLandPlanningBloc>(context).add(LoadHomeLandPlanning());
 
     return SafeArea(
         child: Scaffold(

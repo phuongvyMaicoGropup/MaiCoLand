@@ -27,6 +27,6 @@ class ValidChip extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Text("Còn hiệu lực", style: textMinorRed));
+            child: const Text("Hết hiệu lực", style: textMinorRed));
   }
 }

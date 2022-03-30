@@ -1,7 +1,9 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/screens/land_planning/land_planning_detail_screen/land_planning_details_screen.dart';
 import 'package:maico_land/presentation/widgets/valid_chip.dart';
 import 'package:maico_land/presentation/widgets/widget_skeleton.dart';
@@ -104,9 +106,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
 
-                        ValidChip(
-                          expirationDate: landPlanning.expirationDate,
-                        ),
+
                       ],
                     ),
                   ),
@@ -114,6 +114,10 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
               ],
             ),
           ),
+           Positioned(
+            bottom: 0,
+            left: 0,
+            child:  ValidChip(expirationDate: landPlanning.expirationDate),),
           Positioned(
             left: 0,
             top: 0,

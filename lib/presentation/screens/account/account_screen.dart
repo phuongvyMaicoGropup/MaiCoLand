@@ -153,10 +153,10 @@ class _AccountScreenState extends State<AccountScreen> {
                         height: 20,
                       ),
                       _buildRow(
-                          Icons.newspaper, const Color(0xFFEEF08F), "Tin tức", "/news/save"),
+                          Icons.newspaper, const Color(0xFFEEF08F), "Tin tức", "/account/post"),
                       const SizedBox(height: 10),
                       _buildRow(Icons.map_outlined, const Color(  0xFFFE91B0),
-                          "Tin quy hoạch", "/landplanning/save"),
+                          "Tin quy hoạch", "/account/landplanning"),
                       const SizedBox(height: 15),
                       const Text("Tài khoản", style: textMinorGrayTitle),
                       const SizedBox(height: 10),
@@ -194,7 +194,7 @@ class _AccountScreenState extends State<AccountScreen> {
           children: [
             CircleAvatar(
               radius: 25,
-              child: Icon(icon, color: Colors.white, size: 28),
+              child: Icon(icon, color: Colors.white, size: 25),
               backgroundColor: color,
             ),
             const SizedBox(

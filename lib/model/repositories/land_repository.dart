@@ -148,4 +148,21 @@ class LandPlanningRepository {
   Future<List<DataLocalInfo>?> getSavedLand() async {
     return await _sessionRepo.getSavedLand();
   }
+  Future<List<LandPlanning>> getNewsByAuthorId(String id) async {
+    try {
+      Response response = await _dioProvider.dio.get(
+        _dioProvider.baseUrl + "api/landplanning/author/" + id,
+      );
+      List<LandPlanning> result = [];
+      for (int i = 0; i < response.data.length; i++) {
+        var land = LandPlanning.fromMap(response.data[i]);
+        result.add(land);
+      }
+
+      return Future<List<LandPlanning>>.value(result);
+    } catch (e) {
+      print(e);
+      return Future<List<LandPlanning>>.value(null);
+    }
+  }
 }

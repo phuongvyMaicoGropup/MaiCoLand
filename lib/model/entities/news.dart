@@ -102,7 +102,6 @@ class News extends Equatable {
   }
 
   factory News.fromMap(Map<String, dynamic> map) {
-    print("hehe");
     return News(
         id: map['id'] ?? '',
         title: map['title'] ?? '',

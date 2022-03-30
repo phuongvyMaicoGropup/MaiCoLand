@@ -73,7 +73,7 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 SizedBox(
-                    height: 200.0,
+                    height: 200,
                     child: ListView.builder(
                         padding: const EdgeInsets.all(8),
                         shrinkWrap: true,
@@ -103,7 +103,7 @@ class WidgetHomeLandPlanning extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                   padding:
-                      const EdgeInsets.only(right: 16.0, top: 8, bottom: 8),
+                      const EdgeInsets.only(right: 16.0,bottom: 8),
                   child: LandPlanningkeleton());
             })
         : ListView.builder(
@@ -112,8 +112,11 @@ class WidgetHomeLandPlanning extends StatelessWidget {
             itemCount: items.length < 6 ? items.length : 5,
             itemBuilder: (BuildContext context, int index) {
               var item = items[index];
-              return WidgetHomeCardLandPlanning(
-                landPlanning: item,
+              return Padding(
+                padding: const EdgeInsets.only(right: 16.0, top: 8, bottom: 8),
+                child: WidgetHomeCardLandPlanning(
+                  landPlanning: item,
+                ),
               );
             },
           );
