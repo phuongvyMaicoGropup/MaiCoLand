@@ -5,6 +5,8 @@ import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
+import 'package:maico_land/presentation/screens/account_post/account_land.dart';
+import 'package:maico_land/presentation/screens/account_post/account_news.dart';
 import 'package:maico_land/presentation/screens/auth_screen/forget_password.dart';
 import 'package:maico_land/presentation/screens/auth_screen/login_or_register.dart';
 import 'package:maico_land/presentation/screens/auth_screen/login_screen.dart';
@@ -44,6 +46,12 @@ class AppRouter {
       case '/news/add':
         int type = routeSettings.arguments as int;
         return MaterialPageRoute(builder: (_) => NewsAddScreen(type: type));
+      case '/account/news':
+        var id = routeSettings.arguments as String;
+        return MaterialPageRoute(builder: (_) => AccountNews(authorId: id));
+      case '/account/landplanning':
+        var id = routeSettings.arguments as String;
+        return MaterialPageRoute(builder: (_) => AccountLand(authorId: id));
       case '/landplanning/add':
         Address address = routeSettings.arguments as Address;
         return MaterialPageRoute(

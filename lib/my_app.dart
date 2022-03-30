@@ -6,6 +6,7 @@ import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
+import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/router/app_router.dart';
 
 import 'presentation/screens/account/account_screen.dart';

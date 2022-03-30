@@ -142,10 +142,10 @@ class _AccountScreenState extends State<AccountScreen> {
                         height: 20,
                       ),
                       _buildRow(
-                          Icons.newspaper, const Color(0xFFF08F8F), "Tin tức", "/news/save"),
+                          Icons.newspaper, const Color(0xFFF08F8F), "Tin tức", "/news/save",""),
                       const SizedBox(height: 10),
                       _buildRow(Icons.map_outlined, const Color(0xFF6DC882),
-                          "Tin quy hoạch", "/landplanning/save"),
+                          "Tin quy hoạch", "/landplanning/save",""),
                       const SizedBox(height: 15),
                       const Text("Tin của bạn", style: textMinorGrayTitle),
 
@@ -153,10 +153,10 @@ class _AccountScreenState extends State<AccountScreen> {
                         height: 20,
                       ),
                       _buildRow(
-                          Icons.newspaper, const Color(0xFFEEF08F), "Tin tức", "/account/post"),
+                          Icons.newspaper, const Color(0xFFEEF08F), "Tin tức", "/account/news",user.id),
                       const SizedBox(height: 10),
                       _buildRow(Icons.map_outlined, const Color(  0xFFFE91B0),
-                          "Tin quy hoạch", "/account/landplanning"),
+                          "Tin quy hoạch", "/account/landplanning", user.id),
                       const SizedBox(height: 15),
                       const Text("Tài khoản", style: textMinorGrayTitle),
                       const SizedBox(height: 10),
@@ -186,7 +186,7 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Widget _buildRow(IconData icon, Color? color, String label,String link) {
+  Widget _buildRow(IconData icon, Color? color, String label,String link, String id) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -204,14 +204,14 @@ class _AccountScreenState extends State<AccountScreen> {
           ],
         ),
         IconButton(
-            onPressed:()=> _maptoNewPage(link),
+            onPressed:()=> _maptoNewPage(link, id),
             icon: const Icon(Icons.arrow_forward_ios_outlined))
       ],
     );
   }
 
-  _maptoNewPage(String link) {
-    Navigator.of(context).pushNamed(link);
+  _maptoNewPage(String link, String id) {
+    Navigator.of(context).pushNamed(link, arguments: id);
 
   }
 }

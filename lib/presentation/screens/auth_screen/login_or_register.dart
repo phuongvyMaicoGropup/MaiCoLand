@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
+import 'package:maico_land/presentation/styles/app_themes.dart';
 
 class LoginOrRegister extends StatelessWidget {
   const LoginOrRegister({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class LoginOrRegister extends StatelessWidget {
             Positioned(
                 child: Container(
               height: MediaQuery.of(context).size.height,
-              color: Color.fromARGB(255, 224, 223, 223),
+              color: const Color.fromARGB(255, 224, 223, 223),
             )),
             Positioned(
               child: Container(

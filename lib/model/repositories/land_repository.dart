@@ -148,7 +148,7 @@ class LandPlanningRepository {
   Future<List<DataLocalInfo>?> getSavedLand() async {
     return await _sessionRepo.getSavedLand();
   }
-  Future<List<LandPlanning>> getNewsByAuthorId(String id) async {
+  Future<List<LandPlanning>> getLandByAuthorId(String id) async {
     try {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/landplanning/author/" + id,
