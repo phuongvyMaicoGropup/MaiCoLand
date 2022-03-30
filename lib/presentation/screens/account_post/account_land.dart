@@ -4,17 +4,8 @@ import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.d
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
 
 class AccountLand extends StatefulWidget {
-<<<<<<< HEAD
-<<<<<<< HEAD
   const AccountLand({required this.authorId, this.showTitle, Key? key})
       : super(key: key);
-=======
-  const AccountLand({required this.authorId, Key? key}) : super(key: key);
->>>>>>> update  news card
-=======
-  const AccountLand({required this.authorId, this.showTitle, Key? key})
-      : super(key: key);
->>>>>>> update tieppp
   final String authorId;
   final bool? showTitle;
   @override
