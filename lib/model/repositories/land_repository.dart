@@ -101,7 +101,7 @@ class LandPlanningRepository {
     try {
       var userId = await _userRepo.getUserId();
       Response response = await _dioProvider.dio.get(
-          _dioProvider.baseUrl + "api/landplanning/${landId}/like",
+          _dioProvider.baseUrl + "api/landplanning/$landId/like",
           queryParameters: {'landId': landId, 'userId': userId});
 
       return Future<bool>.value(true);

@@ -15,7 +15,7 @@ class CreateOption {
 }
 
 class CreateOptionScreen extends StatefulWidget {
-  CreateOptionScreen({Key? key}) : super(key: key);
+  const CreateOptionScreen({Key? key}) : super(key: key);
 
   @override
   State<CreateOptionScreen> createState() => _CreateOptionScreenState();
@@ -68,7 +68,7 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
     showDialog(
         context: context,
         builder: (_) {
-          return Dialog(child: SelectNewsType());
+          return const Dialog(child: SelectNewsType());
         });
   }
 
@@ -122,7 +122,7 @@ class OptionCard extends StatelessWidget {
 }
 
 class SelectNewsType extends StatefulWidget {
-  SelectNewsType({Key? key}) : super(key: key);
+  const SelectNewsType({Key? key}) : super(key: key);
 
   @override
   State<SelectNewsType> createState() => _SelectNewsTypeState();
@@ -135,24 +135,25 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
   Widget build(BuildContext context) {
     return Padding(
       child: ListView(shrinkWrap: true, children: [
-        const Center(
-          child: Text("Chọn loại tin tức", style: textMediumGreen),
+        Center(
+          child: Text("Chọn loại tin tức",
+              style: mediumText.copyWith(
+                  fontSize: 16, color: const Color.fromARGB(255, 70, 126, 83))),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 20),
         Container(
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(bottom: 13),
           padding: const EdgeInsets.only(left: 8, right: 8),
           decoration: BoxDecoration(
+            color: const Color(0xFF6DC882),
             border: Border.all(
-                color: AppColors.gray.withOpacity(0.5),
+                color: const Color(0xFF6DC882),
                 width: 1.0,
                 style: BorderStyle.solid), //Border.all
             /*** The BorderRadius widget  is here ***/
             borderRadius: const BorderRadius.all(
-              Radius.circular(2),
+              Radius.circular(20),
             ), //BorderRadius.
           ),
           child: DropdownButton<String>(
@@ -161,12 +162,16 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
             elevation: 16,
             style: const TextStyle(color: AppColors.black),
             isExpanded: true,
+            iconEnabledColor: Colors.white,
+            dropdownColor: const Color(0xFF6DC882),
             underline: Container(),
+            focusColor: const Color.fromARGB(255, 70, 126, 83),
             onChanged: (String? value) {
               setState(() {
                 newsType = value!;
               });
             },
+            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             items: <String>['Thị trường', 'Chính sách', 'Quy hoạch']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
@@ -190,9 +195,11 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
             TextButton(
                 onPressed: () {
                   int type = 0;
-                  if (newsType == "Chính sách")
+                  if (newsType == "Chính sách") {
                     type = 1;
-                  else if (newsType == "Quy hoạch") type = 2;
+                  } else if (newsType == "Quy hoạch") {
+                    type = 2;
+                  }
                   Navigator.of(context).pushNamed('/news/add', arguments: type);
                 },
                 child: const Text(
@@ -202,7 +209,7 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
           ],
         )
       ]),
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
     );
   }
 }
@@ -222,32 +229,42 @@ class SelectAddress extends StatelessWidget {
               Center(
                   child: Container(
                       margin: const EdgeInsets.all(10),
-                      child: const Text("Thêm bản đồ mới", style: mediumText))),
+                      child: Text("Thêm bản đồ mới",
+                          style: mediumText.copyWith(
+                            fontSize: 16,
+                            color: const Color.fromARGB(255, 70, 126, 83),
+                          )))),
+              const SizedBox(height: 20),
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.only(bottom: 13),
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 decoration: BoxDecoration(
-                  color: AppColors.gray.withOpacity(0.1),
+                  color: const Color(0xFF6DC882),
                   border: Border.all(
-                      color: AppColors.gray.withOpacity(0.5),
+                      color: const Color(0xFF6DC882),
                       width: 1.0,
                       style: BorderStyle.solid), //Border.all
                   /*** The BorderRadius widget  is here ***/
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(2),
+                    Radius.circular(15),
                   ), //BorderRadius.
                 ),
                 child: DropdownButton<dvhcvn.Level1>(
                   alignment: AlignmentDirectional.centerStart,
-                  hint: Text(state.level1.name != ""
-                      ? state.level1.name
-                      : "- Tỉnh thành -"),
+                  hint: Text(
+                      state.level1.name != ""
+                          ? state.level1.name
+                          : "- Tỉnh thành -",
+                      style: const TextStyle(color: Colors.white)),
                   value: dropdownValue1,
-                  icon: const Icon(Icons.arrow_downward, size: 18),
+                  focusColor: const Color.fromARGB(255, 70, 126, 83),
+                  icon: const Icon(Icons.arrow_downward,
+                      size: 18, color: Colors.white),
                   // elevation: 16,
                   style: const TextStyle(color: Colors.black),
                   isExpanded: true,
+                  iconEnabledColor: Colors.white,
 
                   underline: Container(),
                   onChanged: (dvhcvn.Level1? newValue) {
@@ -270,25 +287,28 @@ class SelectAddress extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 10),
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 decoration: BoxDecoration(
-                  color: AppColors.gray.withOpacity(0.1),
+                  color: const Color(0xFF6DC882),
                   border: Border.all(
-                      color: AppColors.gray.withOpacity(0.5),
+                      color: const Color(0xFF6DC882),
                       width: 1.0,
                       style: BorderStyle.solid), //Border.all
                   /*** The BorderRadius widget  is here ***/
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(2),
+                    Radius.circular(15),
                   ), //BorderRadius.
                 ),
                 child: DropdownButton<dvhcvn.Level2>(
-                  hint: Text(state.level2.name != ""
-                      ? state.level2.name
-                      : "- Quận huyện -"),
+                  hint: Text(
+                      state.level2.name != ""
+                          ? state.level2.name
+                          : "- Quận huyện -",
+                      style: const TextStyle(color: Colors.white)),
                   isExpanded: true,
                   value: dropdownValue2,
-                  icon: const Icon(Icons.arrow_downward, size: 18),
+                  icon: const Icon(Icons.arrow_downward,
+                      size: 18, color: Colors.white),
                   elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
+                  style: const TextStyle(color: Colors.black),
                   underline: Container(),
                   onChanged: (dvhcvn.Level2? newValue) {
                     context
@@ -308,25 +328,28 @@ class SelectAddress extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 decoration: BoxDecoration(
-                  color: AppColors.gray.withOpacity(0.1),
+                  color: const Color(0xFF6DC882),
                   border: Border.all(
-                      color: AppColors.gray.withOpacity(0.5),
+                      color: const Color(0xFF6DC882),
                       width: 1.0,
                       style: BorderStyle.solid), //Border.all
                   /*** The BorderRadius widget  is here ***/
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(2),
+                    Radius.circular(15),
                   ), //BorderRadius.
                 ),
                 child: DropdownButton<dvhcvn.Level3>(
-                  hint: Text(state.level3.name != ""
-                      ? state.level3.name
-                      : "- Phường xã -"),
+                  hint: Text(
+                      state.level3.name != ""
+                          ? state.level3.name
+                          : "- Phường xã -",
+                      style: const TextStyle(color: Colors.white)),
                   value: dropdownValue3,
                   isExpanded: true,
-                  icon: const Icon(Icons.arrow_downward, size: 18),
+                  icon: const Icon(Icons.arrow_downward,
+                      size: 18, color: Colors.white),
                   elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
+                  style: const TextStyle(color: Colors.black),
                   underline: Container(),
                   onChanged: (dvhcvn.Level3? newValue) {
                     context

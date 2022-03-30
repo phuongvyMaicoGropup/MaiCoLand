@@ -6,7 +6,6 @@ import 'package:maico_land/model/api/request/land_planning_request.dart';
 import 'package:maico_land/model/entities/GeoPoint.dart';
 import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
-import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
@@ -205,7 +204,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                   onPressed: () async {
                     _selectDate(context);
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       children: <Widget>[

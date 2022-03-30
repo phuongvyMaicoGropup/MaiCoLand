@@ -6,7 +6,6 @@ import 'package:maico_land/bloc/news_add_bloc/news_add_bloc.dart';
 import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/styles/app_themes.dart';
-import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class NewsAddScreen extends StatefulWidget {
   const NewsAddScreen({required this.type, Key? key}) : super(key: key);
@@ -234,7 +233,7 @@ class _ImageInput extends StatelessWidget {
                           child: CircleAvatar(
                             backgroundColor: Colors.black.withOpacity(0.2),
                             child: IconButton(
-                              icon: Icon(Icons.close),
+                              icon: const Icon(Icons.close),
                               onPressed: () {
                                 context
                                     .read<NewsAddBloc>()
@@ -392,7 +391,7 @@ class _ContentInput extends StatelessWidget {
 }
 
 class _NewsAddButton extends StatelessWidget {
-  _NewsAddButton(this.type);
+  const _NewsAddButton(this.type);
   final int type;
   @override
   Widget build(BuildContext context) {
@@ -414,7 +413,7 @@ class _NewsAddButton extends StatelessWidget {
         builder: (context, state) {
           print("_NewsAddButton" + state.status.toString());
           if (state.status == FormzStatus.submissionInProgress) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           return SizedBox(
             width: double.infinity,

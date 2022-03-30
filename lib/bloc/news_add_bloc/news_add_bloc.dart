@@ -46,7 +46,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
       title: title,
       status: Formz.validate([state.content, title, state.image]),
     ));
-    Future.delayed(Duration(milliseconds: 500));
+    Future.delayed(const Duration(milliseconds: 500));
   }
 
   void _onContentChanged(

@@ -38,7 +38,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => RegisterScreen(userRepo: userRepo));
       case '/forgetpassword':
-        return MaterialPageRoute(builder: (_) => ForgetPassword());
+        return MaterialPageRoute(builder: (_) => const ForgetPassword());
       case '/loginorregister':
         return MaterialPageRoute(builder: (_) => const LoginOrRegister());
       case '/news':

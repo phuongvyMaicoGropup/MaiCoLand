@@ -4,7 +4,6 @@ import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/model/repositories/session_repository.dart';
-import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class LandSavedScreen extends StatefulWidget {
@@ -19,7 +18,7 @@ class _LandSavedScreenState extends State<LandSavedScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("Các tin quy hoạch đã lưu")),
+        appBar: AppBar(title: const Text("Các tin quy hoạch đã lưu")),
         body: FutureBuilder<List<DataLocalInfo>?>(
             future: RepositoryProvider.of<LandPlanningRepository>(context)
                 .getSavedLand(),
@@ -65,12 +64,12 @@ class _LandSavedScreenState extends State<LandSavedScreen> {
                     },
                   );
                 } else {
-                  return Center(child: Icon(Icons.hourglass_empty));
+                  return const Center(child: Icon(Icons.hourglass_empty));
                 }
               } else if (snapshot.hasError) {
-                return Text("Đã xảy ra lỗi ");
+                return const Text("Đã xảy ra lỗi ");
               } else {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             }),
       ),

@@ -1,10 +1,6 @@
-import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/data_local_info.dart';
-import 'package:maico_land/model/entities/land_planning.dart';
-import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/local/pref.dart';
 
 class SessionRepository {

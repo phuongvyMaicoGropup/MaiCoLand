@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/forgot_password/forgot_password_event.dart';
 import 'package:maico_land/bloc/forgot_password/forgot_password_state.dart';
 import 'package:maico_land/model/api/firebase_manager/firebase_manager.dart';
-import 'package:maico_land/model/entities/user.dart';
 
 import 'package:maico_land/model/formz_model/code.dart';
 import 'package:maico_land/model/formz_model/password.dart';
@@ -15,7 +14,7 @@ import 'package:maico_land/presentation/styles/styles.dart';
 
 class ForgotPasswordBloc
     extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
-  ForgotPasswordBloc() : super(ForgotPasswordState()) {
+  ForgotPasswordBloc() : super(const ForgotPasswordState()) {
     on<ForgotPasswordPhoneChanged>(_onPhoneChange);
     on<ForgotPasswordCodeChanged>(_onCodeChange);
     on<ForgotPasswordPasswordChanged>(_onPasswordChange);
@@ -139,7 +138,7 @@ class ForgotPasswordBloc
           duration: Duration(milliseconds: 1000),
         ));
         event.context.read<ForgotPasswordBloc>().add(ForgotPasswordInitial());
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 2), () {
           Navigator.popAndPushNamed(event.context, "/login");
         });
       } else {

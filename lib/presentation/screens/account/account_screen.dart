@@ -1,15 +1,10 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:math';
+
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
-import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
-import 'package:maico_land/presentation/screens/account/widgets/widgets.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
-import 'package:maico_land/presentation/styles/styles.dart';
-import 'package:maico_land/presentation/widgets/text_icon.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({required this.userRepo, Key? key}) : super(key: key);
@@ -23,10 +18,8 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   final _dioProvider = DioProvider();
 
-
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
         child: Scaffold(
             // appBar: AppBar(
@@ -67,18 +60,18 @@ class _AccountScreenState extends State<AccountScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Thông tin tài khoản", style : headingText.copyWith( fontSize: 27)),
-                      SizedBox(height: 30),
-
+                      Text("Thông tin tài khoản",
+                          style: headingText.copyWith(fontSize: 27)),
+                      const SizedBox(height: 30),
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-
                             Row(
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: Colors.lightBlueAccent,
+                                    backgroundColor: Colors.primaries[Random()
+                                        .nextInt(Colors.primaries.length)],
                                     radius: 40,
                                     child: Text(user.userName[0].toUpperCase(),
                                         style: headingTextWhite)),
@@ -122,41 +115,42 @@ class _AccountScreenState extends State<AccountScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      _buildRow(
-                          Icons.newspaper, const Color(0xFFF08F8F), "Tin tức", "/news/save",""),
+                      _buildRow(Icons.newspaper, const Color(0xFFF08F8F),
+                          "Tin tức", "/news/save", ""),
                       const SizedBox(height: 10),
                       _buildRow(Icons.map_outlined, const Color(0xFF6DC882),
-                          "Tin quy hoạch", "/landplanning/save",""),
+                          "Tin quy hoạch", "/landplanning/save", ""),
                       const SizedBox(height: 15),
                       const Text("Tin của bạn", style: textMinorGrayTitle),
-
                       const SizedBox(
                         height: 20,
                       ),
-                      _buildRow(
-                          Icons.newspaper, const Color(0xFFEEF08F), "Tin tức", "/account/news",user.id),
+                      _buildRow(Icons.newspaper, const Color(0xFFEEF08F),
+                          "Tin tức", "/account/news", user.id),
                       const SizedBox(height: 10),
-                      _buildRow(Icons.map_outlined, const Color(  0xFFFE91B0),
+                      _buildRow(Icons.map_outlined, const Color(0xFFFE91B0),
                           "Tin quy hoạch", "/account/landplanning", user.id),
                       const SizedBox(height: 15),
                       const Text("Tài khoản", style: textMinorGrayTitle),
                       const SizedBox(height: 10),
-
                       Container(
-                        padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           width: MediaQuery.of(context).size.width,
-
                           decoration: BoxDecoration(
-                            color : AppColors.appErrorRed.withOpacity(0.6),
+                            color: AppColors.appErrorRed.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children:[
-                            Text("Đăng xuất", style : mediumText.copyWith(fontSize: 16, color: AppColors.white)),
-                            const Icon(Icons.arrow_forward_ios_outlined, color: Colors.white,)
-                          ]))
-
+                              children: [
+                                Text("Đăng xuất",
+                                    style: mediumText.copyWith(
+                                        fontSize: 16, color: AppColors.white)),
+                                const Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                  color: Colors.white,
+                                )
+                              ]))
                     ]),
               ],
             ),
@@ -167,25 +161,26 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Widget _buildRow(IconData icon, Color? color, String label,String link, String id) {
+  Widget _buildRow(
+      IconData icon, Color? color, String label, String link, String id) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
             CircleAvatar(
-              radius: 25,
-              child: Icon(icon, color: Colors.white, size: 25),
+              radius: 20,
+              child: Icon(icon, color: Colors.white, size: 20),
               backgroundColor: color,
             ),
             const SizedBox(
               width: 15,
             ),
-            Text(label, style: textMediumBlack.copyWith(fontSize: 20)),
+            Text(label, style: textMediumBlack.copyWith(fontSize: 18)),
           ],
         ),
         IconButton(
-            onPressed:()=> _maptoNewPage(link, id),
+            onPressed: () => _maptoNewPage(link, id),
             icon: const Icon(Icons.arrow_forward_ios_outlined))
       ],
     );
@@ -193,6 +188,5 @@ class _AccountScreenState extends State<AccountScreen> {
 
   _maptoNewPage(String link, String id) {
     Navigator.of(context).pushNamed(link, arguments: id);
-
   }
 }

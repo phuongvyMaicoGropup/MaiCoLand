@@ -6,9 +6,10 @@ class PDFScreen extends StatefulWidget {
   final String path;
   final String title;
 
-  PDFScreen({Key? key, required this.path, required this.title})
+  const PDFScreen({Key? key, required this.path, required this.title})
       : super(key: key);
 
+  @override
   _PDFScreenState createState() => _PDFScreenState();
 }
 
@@ -72,7 +73,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           ),
           errorMessage.isEmpty
               ? !isReady
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : Container()

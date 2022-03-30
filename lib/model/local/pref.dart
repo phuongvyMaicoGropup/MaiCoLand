@@ -33,7 +33,7 @@ class LocalPref extends Pref {
 }
 
 class MemoryPref extends Pref {
-  Map<String, Object> memoryMap = Map<String, Object>();
+  Map<String, Object> memoryMap = <String, Object>{};
 
   @override
   Future<String> getString(String key) {

@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
-import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
-import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
-import 'package:maico_land/presentation/screens/news/widgets/news_card.dart';
 
 class AccountLand extends StatefulWidget {
+<<<<<<< HEAD
   const AccountLand({required this.authorId, this.showTitle, Key? key})
       : super(key: key);
+=======
+  const AccountLand({required this.authorId, Key? key}) : super(key: key);
+>>>>>>> update  news card
   final String authorId;
   final bool? showTitle;
   @override
@@ -50,8 +50,11 @@ class _AccountLandState extends State<AccountLand> {
                               "/landplanning/details",
                               arguments: item);
                         },
-                        child: LandPlanningCard(
-                          land: item,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: LandPlanningCard(
+                            land: item,
+                          ),
                         ));
                   },
                 );
