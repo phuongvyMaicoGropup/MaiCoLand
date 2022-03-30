@@ -72,6 +72,22 @@ class UserRepository {
     }
   }
 
+  Future<bool> changePassword(
+      {required String phoneNumber, required String password}) async {
+    try {
+      Response response = await dio_provider.dio
+          .post(dio_provider.forgotpassswordAcount, data: {
+        "phoneNumber": phoneNumber,
+        "password": password,
+      });
+      return Future<bool>.value(true);
+    } catch (e) {
+      print("Looix cuar register repo");
+      print(e);
+      return Future<bool>.value(false);
+    }
+  }
+
   Future<String> getUserId() async {
     var token = await hasToken();
     return jwt.parseJwt(token)['id'];
