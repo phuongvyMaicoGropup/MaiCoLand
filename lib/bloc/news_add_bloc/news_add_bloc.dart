@@ -76,8 +76,6 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
       image: PathImage.dirty(event.image),
       status: Formz.validate([state.content, state.title, state.image]),
     ));
-    print("_onImageChanged" +
-        Formz.validate([state.content, state.title, state.image]).toString());
   }
 
   void _onHashTagChanged(

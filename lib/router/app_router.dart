@@ -5,6 +5,8 @@ import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
+import 'package:maico_land/presentation/screens/auth_screen/forget_password.dart';
+import 'package:maico_land/presentation/screens/auth_screen/login_or_register.dart';
 import 'package:maico_land/presentation/screens/auth_screen/login_screen.dart';
 import 'package:maico_land/presentation/screens/auth_screen/register_screen.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
@@ -32,6 +34,10 @@ class AppRouter {
       case '/register':
         return MaterialPageRoute(
             builder: (_) => RegisterScreen(userRepo: userRepo));
+      case '/forgetpassword':
+        return MaterialPageRoute(builder: (_) => ForgetPassword());
+      case '/loginorregister':
+        return MaterialPageRoute(builder: (_) => const LoginOrRegister());
       case '/news':
         return MaterialPageRoute(builder: (_) => const NewsScreen());
 

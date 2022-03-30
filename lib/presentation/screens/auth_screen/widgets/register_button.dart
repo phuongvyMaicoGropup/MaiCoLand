@@ -35,34 +35,32 @@ class RegisterButton extends StatelessWidget {
             if (state.status == FormzStatus.submissionInProgress) {
               return Center(child: CircularProgressIndicator());
             }
-            if (state.status.isValidated) {
-              return ElevatedButton(
-                key: const Key('RegisterForm_continue_raisedButton'),
-                child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    child: const Text('Đăng ký tài khoản',
-                        style: TextStyle(color: Colors.white))),
-                onPressed: state.status.isValidated
-                    ? () async {
-                        try {
-                          context.read<RegisterBloc>().add(RegisterSubmitted());
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  "Đăng ký không thành công . Vui lòng thủ lại!"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          print(e.toString());
-                        }
+
+            return ElevatedButton(
+              key: const Key('RegisterForm_continue_raisedButton'),
+              child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  child: const Text('Đăng ký tài khoản',
+                      style: TextStyle(color: Colors.white))),
+              onPressed: state.status.isValidated
+                  ? () async {
+                      try {
+                        context.read<RegisterBloc>().add(RegisterSubmitted());
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                "Đăng ký không thành công . Vui lòng thủ lại!"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        print(e.toString());
                       }
-                    : null,
-              );
-            }
-            return Container();
+                    }
+                  : null,
+            );
           }),
     );
   }
