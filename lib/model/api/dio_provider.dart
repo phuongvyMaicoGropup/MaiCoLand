@@ -20,6 +20,7 @@ class DioProvider {
   get searchNews => baseUrl + "api/news/search";
   get checkPhoneAcount => baseUrl + "api/user/checkphoneaccount";
   // get getUserInfo => baseUrl + "api/user/";
+  get forgotpassswordAcount => baseUrl + "api/user/forgetpassword";
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   final Dio dio = Dio();

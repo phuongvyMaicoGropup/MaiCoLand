@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "824338445149",
+    "project_id": "maico-land",
+    "storage_bucket": "maico-land.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824338445149:android:b6012ec6575cfd531f2eb4",
+        "android_client_info": {
+          "package_name": "com.example.maico_land"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824338445149-dcd9ns1jd7lvs48cmf4l7vmtqb80a4l1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL3IuLxJ_WCt_vUnF-jR2lOJHjfPKXQPI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824338445149-dcd9ns1jd7lvs48cmf4l7vmtqb80a4l1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

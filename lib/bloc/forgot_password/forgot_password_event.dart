@@ -46,16 +46,18 @@ class SubmitPhone extends ForgotPasswordEvent {
 
 class SubmitCode extends ForgotPasswordEvent {
   final String code;
-  SubmitCode(this.code);
+  BuildContext context;
+  SubmitCode(this.code, this.context);
   @override
-  List<Object> get props => [code];
+  List<Object> get props => [code, context];
 }
 
 class SubmitPassword extends ForgotPasswordEvent {
   final String password;
-  SubmitPassword(this.password);
+  BuildContext context;
+  SubmitPassword(this.password, this.context);
   @override
-  List<Object> get props => [password];
+  List<Object> get props => [password, context];
 }
 
 class ForgotPasswordInitial extends ForgotPasswordEvent {}

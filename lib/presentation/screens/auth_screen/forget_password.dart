@@ -46,12 +46,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               height: MediaQuery.of(context).size.height * 0.2),
                           const SizedBox(height: 10),
                           state.isLoading == Loading.notloading
-                              ? phoneContainer(context, state)
+                              ? forgetPassContainer(state)
                               : const CircularProgressIndicator(),
-                          codeContainer(context, state),
-                          const SizedBox(
-                            height: 20,
-                          ),
                         ],
                       ),
                     )),
@@ -61,6 +57,21 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         );
       },
     ));
+  }
+
+  Widget forgetPassContainer(ForgotPasswordState state) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          phoneContainer(context, state),
+          codeContainer(context, state),
+          changePasswordContainer(context, state),
+          const SizedBox(
+            height: 20,
+          )
+        ],
+      ),
+    );
   }
 
   Widget phoneContainer(BuildContext context, ForgotPasswordState state) {
@@ -234,9 +245,109 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           key: const Key('Gui_submitField'),
                           onPressed: () {
                             if (!state.code.value.trim().isEmpty) {
-                              context
-                                  .read<ForgotPasswordBloc>()
-                                  .add(SubmitCode(codeController.text));
+                              context.read<ForgotPasswordBloc>().add(
+                                  SubmitCode(codeController.text, context));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Vui lòng không để trống!"),
+                                  backgroundColor: AppColors.appErrorRed,
+                                  duration: Duration(milliseconds: 1000),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      GestureDetector(
+                          child: const Text("Hủy", style: textMinorGreen),
+                          onTap: () {
+                            context
+                                .read<ForgotPasswordBloc>()
+                                .add(ForgotPasswordInitial());
+                            phoneController.text = "";
+                            codeController.text = "";
+                          }),
+                    ]))
+          ],
+        ),
+      );
+    }
+    return Container();
+  }
+
+  Widget changePasswordContainer(
+      BuildContext context, ForgotPasswordState state) {
+    if (state.isCheckedCode == CheckVariable.success) {
+      return Container(
+        child: Column(
+          children: <Widget>[
+            const Align(
+                child: Text("Nhập mật khẩu mới của bạn", style: textMinorGreen),
+                alignment: Alignment.topLeft),
+            Container(
+                margin: const EdgeInsets.only(top: 20),
+                alignment: Alignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        key: const Key('Password_phoneInput_textField'),
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        onChanged: (value) => {
+                          context
+                              .read<ForgotPasswordBloc>()
+                              .add(ForgotPasswordPasswordChanged(value))
+                        },
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black26),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          alignLabelWithHint: true,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              borderSide:
+                                  BorderSide(color: AppColors.appGreen1)),
+                          labelText: "Mật khẩu",
+                          focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              borderSide: BorderSide(color: AppColors.red)),
+                          errorBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              borderSide: BorderSide(color: AppColors.red)),
+                          errorStyle: const TextStyle(
+                              fontSize: 10, color: AppColors.red),
+                          focusColor: AppColors.appGreen1,
+                          errorText: state.password.invalid
+                              ? 'Mật khẩu ít nhất 8 chữ số bao gồm số , chữ cái thường , chữ cái in hoa và kí tự đặc biệt'
+                              : null,
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          child: const Text("Đổi mật khẩu",
+                              style: TextStyle(color: Colors.white)),
+                          key: const Key('DoiMatKhau_submitField'),
+                          onPressed: () {
+                            if (state.password.value.trim().isNotEmpty) {
+                              context.read<ForgotPasswordBloc>().add(
+                                  SubmitPassword(
+                                      passwordController.text, context));
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
