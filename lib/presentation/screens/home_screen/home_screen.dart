@@ -19,10 +19,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    print("HomeNewsState before add"+BlocProvider.of<HomeNewsBloc>(context).state.toString());
+    print("HomeNewsState before add" +
+        BlocProvider.of<HomeNewsBloc>(context).state.toString());
     BlocProvider.of<HomeNewsBloc>(context).add(LoadHomeNews());
     BlocProvider.of<HomeLandPlanningBloc>(context).add(LoadHomeLandPlanning());
-    print("HomeNewsState after add"+BlocProvider.of<HomeNewsBloc>(context).state.toString());
+    print("HomeNewsState after add" +
+        BlocProvider.of<HomeNewsBloc>(context).state.toString());
 
     return SafeArea(
         child: Scaffold(
@@ -49,14 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildContent() {
-    print("HomeNewsState at content "+BlocProvider.of<HomeNewsBloc>(context).state.toString());
+    print("HomeNewsState at content " +
+        BlocProvider.of<HomeNewsBloc>(context).state.toString());
 
     return Expanded(
       child: RefreshIndicator(
         onRefresh: () async {
           BlocProvider.of<HomeNewsBloc>(context).add(RefreshHomeNews());
           BlocProvider.of<HomeNewsBloc>(context).add(LoadHomeNews());
-          print("HomeNewsState"+BlocProvider.of<HomeNewsBloc>(context).state.toString());
+          print("HomeNewsState" +
+              BlocProvider.of<HomeNewsBloc>(context).state.toString());
 
           BlocProvider.of<HomeLandPlanningBloc>(context)
               .add(RefreshHomeLandPlanning());
@@ -71,19 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-        Column(children: [
-          const SizedBox(height: 10),
-          Builder(
-            builder: (context) {
-              return WidgetHomeNews();
-            }
-          ),
-          Builder(
-            builder: (context) {
-              return WidgetHomeLandPlanning();
-            }
-          ),
-        ]),
+            Column(children: [
+              Builder(builder: (context) {
+                return WidgetHomeNews();
+              }),
+              Builder(builder: (context) {
+                return WidgetHomeLandPlanning();
+              }),
+            ]),
           ],
         ),
       ),

@@ -23,7 +23,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
         children: [
           const WidgetSkeleton(),
           Container(
-            width: 180,
+            width: MediaQuery.of(context).size.width * 0.50,
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -36,6 +36,8 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                   height: 100,
@@ -74,20 +76,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                                     fontSize: 16,
                                   ),
                         ),
-                        const SizedBox(height: 5),
-
-                        // Text(DateTime.now()  landPlanning.expirationDate ? "Tình trạng:  Còn hiệu lực": "Tình trạng: Mất hiệu lực", style : TextStyle(fontSize: 12,color : Theme.of(context).colorScheme.primary)),
-                        // Text(
-                        //   landPlanning.content,
-                        //   overflow: TextOverflow.ellipsis,
-                        //   maxLines: 2,
-                        //   style:
-                        //       Theme.of(context).textTheme.bodyText2?.copyWith(
-                        //             fontWeight: FontWeight.w500,
-                        //             fontFamily: "Montserrat",
-                        //             fontSize: 12,
-                        //           ),
-                        // ),
+                        const SizedBox(height: 3),
                         Text(
                           DvhcvnService.getAddressFromId(
                               landPlanning.address.idLevel1,
@@ -99,23 +88,20 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                               Theme.of(context).textTheme.bodyText2?.copyWith(
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "Montserrat",
-                                    fontSize: 12,
+                                    fontSize: 11,
                                   ),
                         ),
-                        const SizedBox(height: 5),
-
-
                       ],
                     ),
                   ),
                 ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: ValidChip(expirationDate: landPlanning.expirationDate),
+                // ),
               ],
             ),
           ),
-           Positioned(
-            bottom: 0,
-            left: 0,
-            child:  ValidChip(expirationDate: landPlanning.expirationDate),),
           Positioned(
             left: 0,
             top: 0,

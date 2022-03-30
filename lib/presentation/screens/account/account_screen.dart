@@ -61,7 +61,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Thông tin tài khoản",
-                          style: headingText.copyWith(fontSize: 27)),
+                          style: headingText.copyWith(fontSize: 25)),
                       const SizedBox(height: 30),
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,7 +72,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 CircleAvatar(
                                     backgroundColor: Colors.primaries[Random()
                                         .nextInt(Colors.primaries.length)],
-                                    radius: 40,
+                                    radius: 30,
                                     child: Text(user.userName[0].toUpperCase(),
                                         style: headingTextWhite)),
                                 SizedBox(

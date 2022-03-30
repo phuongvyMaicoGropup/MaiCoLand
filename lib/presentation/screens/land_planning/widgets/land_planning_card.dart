@@ -20,7 +20,7 @@ class LandPlanningCard extends StatelessWidget {
       child: Container(
         // clipBehavior: Clip.antiAlias,
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.15,
+        height: MediaQuery.of(context).size.height * 0.17,
         margin: const EdgeInsets.only(bottom: 10, right: 4, left: 4),
         decoration: BoxDecoration(
           color: Colors.white,
