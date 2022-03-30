@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_screen.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/router/app_router.dart';
@@ -71,46 +72,168 @@ class _MyAppState extends State<MyApp> {
     PageViewModel(
         decoration: const PageDecoration(
             // fullScreen: true,
-            ),
-        title: "MaicoGroup ",
-        bodyWidget: Row(
+            titlePadding: EdgeInsets.all(0),
+            imagePadding: EdgeInsets.only(bottom: 0),
+            contentMargin: EdgeInsets.only(bottom: 10),
+            imageFlex: 1),
+        titleWidget: const Text(
+          "Your property, our priority",
+          style: textLargeBlack,
+          textAlign: TextAlign.center,
+        ),
+        bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
+            Image(
+              width: 600,
+              height: 100,
+              image: NetworkImage(
+                  'https://maicogroup.com/wp-content/uploads/2022/01/5-1448x2048.png'),
+            ),
             Text(
-              "Mua bán bất động sản công nghệ mới ",
+              "Chúng tôi đã và đang thay đổi cách thức thực hiện dịch vụ và giao dịch Bất động sản tại Việt Nam ",
               maxLines: 3,
+              style: textNormalBlack,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Xây dựng Mô hình dịch vụ và Nền tảng công nghệ làm cho ",
+              style: textNormalBlack,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              "Bất động sản Dễ hơn bao giờ hết!",
+              style: textLargeBlack,
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
+        image: const Image(
+          width: 600,
+          height: 600,
+          image: AssetImage('assets/logo.png'),
+        )),
+    PageViewModel(
+        decoration: const PageDecoration(
+          // fullScreen: true,
+          titlePadding: EdgeInsets.all(5),
+        ),
+        titleWidget: const Text(
+          "Với mục tiêu",
+          style: textLargeBlack,
+          textAlign: TextAlign.center,
+        ),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Image(
+                      height: 140,
+                      image: NetworkImage(
+                          "https://maicogroup.com/wp-content/uploads/2022/01/5-1448x2048.png"),
+                    ),
+                    Text(
+                      "Giao dịch Minh bạch",
+                      style: textMediumGreen,
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Image(
+                      height: 140,
+                      image: NetworkImage(
+                          "https://maicogroup.com/wp-content/uploads/2022/01/6-1448x2048.png"),
+                    ),
+                    Text(
+                      "Thông tin chính xác",
+                      style: textMediumGreen,
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Image(
+                      height: 140,
+                      image: NetworkImage(
+                          "https://maicogroup.com/wp-content/uploads/2022/01/7-1-1448x2048.png"),
+                    ),
+                    Text(
+                      "Không ngừng phát triển",
+                      style: textMediumGreen,
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Image(
+                      height: 140,
+                      image: NetworkImage(
+                          "https://maicogroup.com/wp-content/uploads/2022/01/8-1448x2048.png"),
+                    ),
+                    Text(
+                      "Tử tế là cốt lõi",
+                      style: textMediumGreen,
+                    )
+                  ],
+                ),
+              ],
             ),
           ],
         ),
         image: const Image(
           width: 600,
-          height: 500,
-          image: AssetImage('assets/logo.png'),
+          height: 1000,
+          image: NetworkImage(
+              "https://firebasestorage.googleapis.com/v0/b/helloworld-926c4.appspot.com/o/1579238229095%20(1).png?alt=media&token=aa3aaa3a-5624-493c-abba-8eca3dee3567"),
         )),
     PageViewModel(
-      title: "Title of first page",
-      bodyWidget: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("Click on "),
-          Icon(Icons.edit),
-          Text(" to edit a post"),
-        ],
-      ),
-      image: const Center(child: Icon(Icons.android)),
-    ),
-    PageViewModel(
-      title: "Title of first page",
-      bodyWidget: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("Click on "),
-          Icon(Icons.edit),
-          Text(" to edit a post"),
-        ],
-      ),
-      image: const Center(child: Icon(Icons.android)),
-    )
+        titleWidget: const Text(
+          "Phát triển bền vững",
+          style: textLargeBlack,
+          textAlign: TextAlign.center,
+        ),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Image(
+              height: 140,
+              image: NetworkImage(
+                  "https://maicogroup.com/wp-content/uploads/2022/01/Design-Website-maicogroup.com_-1-300x85.png"),
+            ),
+            Text(
+              "Hãy đồng hành cùng MAICO vươn lên tầm cao mới!",
+              style: textMediumGreen,
+            )
+          ],
+        ),
+        image: const Image(
+          width: 600,
+          height: 1000,
+          image: NetworkImage(
+              "https://maicogroup.com/wp-content/uploads/2022/01/one-day-with-maico-768x512.jpg"),
+        ))
   ];
 
   void _onItemTapped(int index) {
@@ -168,14 +291,25 @@ class _MyAppState extends State<MyApp> {
                 },
                 showBackButton: false,
                 showSkipButton: true,
-                next: const Text("Tiếp"),
+                next: Container(
+                    decoration: boxBorderGreen,
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: const Text(
+                      "Tiếp",
+                      style: textMediumWhite,
+                    )),
                 skip: const Text("Bỏ qua"),
+                onSkip: () {
+                  Navigator.of(context).pushNamed('/loginorregister');
+                },
                 done: GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/register');
+                    Navigator.of(context).pushNamed('/loginorregister');
                   },
-                  child: const Text("Xong",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  child: Container(
+                      decoration: boxBorderGreen,
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: const Text("Xong", style: textMediumWhite)),
                 ),
               ),
             );

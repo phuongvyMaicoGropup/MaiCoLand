@@ -87,6 +87,8 @@ const textMediumGreen = TextStyle(
     fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.appGreen1);
 const textMediumBlack = TextStyle(
     fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.black);
+const textLargeBlack = TextStyle(
+    fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.appGreen2);
 const textMinorBlack = TextStyle(
     fontWeight: FontWeight.bold, fontSize: 11, color: AppColors.black);
 
@@ -95,7 +97,8 @@ const textMinorGreen = TextStyle(
 
 const textMinorRed =
     TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppColors.red);
-
+const textNormalBlack = TextStyle(
+    fontWeight: FontWeight.normal, fontSize: 16, color: AppColors.black);
 // Button Style
 
 // const defaultButton = ButtonStyle(
@@ -121,4 +124,12 @@ BoxDecoration boxBorderGray = BoxDecoration(
   boxShadow: const [
     BoxShadow(color: Colors.white, spreadRadius: 1),
   ],
+);
+BoxDecoration boxBorderWhite = BoxDecoration(
+  borderRadius: BorderRadius.circular(10),
+  color: Colors.white,
+);
+BoxDecoration boxBorderGreen = BoxDecoration(
+  borderRadius: BorderRadius.circular(10),
+  color: AppColors.appGreen1,
 );

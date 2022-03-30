@@ -25,6 +25,16 @@ mixin ValidatorsTransformer {
     return true;
   }
 
+  static bool isValidCode(String phone) {
+    String pattern = r'(^(([0-9]*)|(([0-9]*)\.([0-9]*)))$)';
+    RegExp regExp = RegExp(pattern);
+
+    if (!regExp.hasMatch(phone)) {
+      return false;
+    }
+    return true;
+  }
+
   final validateEmail =
       StreamTransformer<String, bool>.fromHandlers(handleData: (email, sink) {
     if (isValidEmail(email)) {

@@ -105,5 +105,17 @@ class UserRepository {
       return Future<User>.value(null);
     }
   }
+
+  Future<String> getNameByPhone(String phone) async {
+    try {
+      Response response = await dio_provider.dio.get(
+          dio_provider.checkPhoneAcount,
+          queryParameters: {"phone": phone});
+
+      return response.data;
+    } catch (e) {
+      return "";
+    }
+  }
   // Future<bool > updateAvatar()
 }

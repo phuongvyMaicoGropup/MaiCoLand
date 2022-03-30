@@ -9,7 +9,6 @@ class PathImage extends FormzInput<String, PathImageValidationError> {
   @override
   PathImageValidationError? validator(String value) {
     if (value.isNotEmpty != true) PathImageValidationError.empty;
-    if (value.length < 20) return PathImageValidationError.invalid;
     return null;
   }
 }

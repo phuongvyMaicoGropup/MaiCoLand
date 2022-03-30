@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:maico_land/bloc/address_bloc/address.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
+import 'package:maico_land/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:maico_land/bloc/news_bloc/news_bloc.dart';
 import 'package:maico_land/bloc/register_bloc/register_bloc.dart';
 import 'package:maico_land/model/local/pref.dart';
@@ -97,6 +97,11 @@ Future<void> main() async {
             BlocProvider(
               create: (context) {
                 return AddressBloc();
+              },
+            ),
+            BlocProvider(
+              create: (context) {
+                return ForgotPasswordBloc();
               },
             )
           ],
