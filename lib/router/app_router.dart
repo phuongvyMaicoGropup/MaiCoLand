@@ -20,6 +20,7 @@ import 'package:maico_land/presentation/screens/news/news_details/news_details_s
 import 'package:maico_land/presentation/screens/news/news_screen.dart';
 import 'package:maico_land/presentation/screens/save_screen/land_saved_screen.dart';
 import 'package:maico_land/presentation/screens/save_screen/news_save_screen.dart';
+import 'package:maico_land/presentation/screens/user_post/user_post_land.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AppRouter {
@@ -42,7 +43,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginOrRegister());
       case '/news':
         return MaterialPageRoute(builder: (_) => const NewsScreen());
-
+      case '/userpostland':
+        return MaterialPageRoute(builder: (_) => UserPostLand());
       case '/news/add':
         int type = routeSettings.arguments as int;
         return MaterialPageRoute(builder: (_) => NewsAddScreen(type: type));

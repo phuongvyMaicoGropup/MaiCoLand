@@ -5,9 +5,10 @@ import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.d
 import 'package:maico_land/presentation/screens/news/widgets/news_card.dart';
 
 class AccountNews extends StatefulWidget {
-  const AccountNews({
-    required this.authorId,Key? key}) : super(key: key);
+  AccountNews({required this.authorId, this.showTitle, Key? key})
+      : super(key: key);
   final String authorId;
+  bool? showTitle;
   @override
   _AccountNewsState createState() => _AccountNewsState();
 }
@@ -17,9 +18,12 @@ class _AccountNewsState extends State<AccountNews> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text("Tin tức của tôi")),
+        appBar: widget.showTitle == null
+            ? AppBar(title: const Text("Tin tức của tôi"))
+            : null,
         body: FutureBuilder<List<News>?>(
-            future: RepositoryProvider.of<NewsRepository>(context).getNewsByAuthorId(widget.authorId),
+            future: RepositoryProvider.of<NewsRepository>(context)
+                .getNewsByAuthorId(widget.authorId),
             builder: (context, snapshot) {
               List<News>? children = [];
               if (snapshot.hasData) {
@@ -30,13 +34,13 @@ class _AccountNewsState extends State<AccountNews> {
                   itemBuilder: (BuildContext context, int index) {
                     var item = children![index];
                     return GestureDetector(
-                      onTap: () async {
-
-                        Navigator.of(context)
-                            .pushNamed("/news/details", arguments: item);
-                      },
-                      child: NewsCard(news: item,)
-                    );
+                        onTap: () async {
+                          Navigator.of(context)
+                              .pushNamed("/news/details", arguments: item);
+                        },
+                        child: NewsCard(
+                          news: item,
+                        ));
                   },
                 );
               } else if (snapshot.hasError) {
