@@ -22,30 +22,11 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final _dioProvider = DioProvider();
-  Future updateAvatar(BuildContext context) async {
-    try {
-      PickFile fileService = PickFile();
-      String filePath = await fileService.pickImage(context);
 
-      String url =
-          await _dioProvider.uploadFile(filePath, "image/png", "avatar");
-      print(url);
-      // await _userRepo.changeAvatar(url);
-      // BlocProvider.of<AccountBloc>(context).add(AccountLoad());
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          content: const Text("Cập nhập ảnh đại diện thành công!")));
-      // BlocProvider.of<AccountBloc>(context).add(AccountRefresh());
-      // BlocProvider.of<AccountBloc>(context).add(AccountLoad());
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.error,
-          content: const Text("Cập nhập ảnh đại diện thất bại!")));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
         child: Scaffold(
             // appBar: AppBar(

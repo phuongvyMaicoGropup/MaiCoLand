@@ -9,8 +9,9 @@ class CreateOption {
   final String title;
   final String description;
   final IconData icon;
+  final Color? color;
 
-  CreateOption(this.title, this.description, this.icon);
+  CreateOption(this.title, this.description, this.icon, this.color);
 }
 
 class CreateOptionScreen extends StatefulWidget {
@@ -26,11 +27,13 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
       "Đăng tin tức",
       "Đăng tin tức bất động sản / quy hoạch đất / thị trường ",
       Icons.newspaper_outlined,
+      const Color(0xFFFE91B0)
     ),
     CreateOption(
       "Đăng bản đồ quy hoạch",
       "Đăng bản đồ quy hoạch sử dụng đất/ dự án ",
       Icons.map_outlined,
+       const Color(0xFF6DC882)
     )
   ];
   String newsType = 'Thị trường';
@@ -49,11 +52,7 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                   onPressed: () => selectNewsType(context),
                   // Navigator.of(context).pushNamed("/news/add"),
                   child: OptionCard(
-                    item: CreateOption(
-                      "Đăng tin tức",
-                      "Đăng tin tức bất động sản / quy hoạch đất / thị trường ",
-                      Icons.newspaper_outlined,
-                    ),
+                    item: createOptions[0]
                   ),
                 ),
                 TextButton(
@@ -64,11 +63,7 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                     //     .pushNamed("/landplanning/add", arguments: a);
                   },
                   child: OptionCard(
-                    item: CreateOption(
-                      "Đăng bản đồ quy hoạch",
-                      "Đăng bản đồ quy hoạch sử dụng đất/ dự án  ",
-                      Icons.map_outlined,
-                    ),
+                    item: createOptions[1]
                   ),
                 )
               ],
@@ -113,12 +108,9 @@ class OptionCard extends StatelessWidget {
         children: [
           Expanded(
               flex: 2,
-              child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                      color: AppColors.appGreen2, shape: BoxShape.circle),
-                  child: Icon(item.icon, size: 30, color: Colors.white))),
+              child: CircleAvatar(
+                  backgroundColor: item.color?? Color(0xFF6DC882),
+                  child: Icon(item.icon, size: 20, color: Colors.white))),
           const SizedBox(width: 10),
           Expanded(
               flex: 8,

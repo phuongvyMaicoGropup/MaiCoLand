@@ -51,19 +51,19 @@ Future<void> main() async {
                   ..add(AppStarted());
               },
             ),
-            BlocProvider(
-              create: (context) {
-                HomeRepository homeRepo = HomeRepository();
-                HomeNewsBloc homeNewsBloc = HomeNewsBloc();
-                HomeLandPlanningBloc landBloc = HomeLandPlanningBloc();
-
-                return HomeBloc(
-                    homeRepository: homeRepo,
-                    newsBloc: homeNewsBloc,
-                    landBloc: landBloc)
-                  ..add(LoadHome());
-              },
-            ),
+            // BlocProvider(
+            //   create: (context) {
+            //     HomeRepository homeRepo = HomeRepository();
+            //     HomeNewsBloc homeNewsBloc = HomeNewsBloc();
+            //     HomeLandPlanningBloc landBloc = HomeLandPlanningBloc();
+            //
+            //     return HomeBloc(
+            //         homeRepository: homeRepo,
+            //         newsBloc: homeNewsBloc,
+            //         landBloc: landBloc)
+            //       ..add(LoadHome());
+            //   },
+            // ),
             BlocProvider(
               create: (context) {
                 return RegisterBloc(userRepo: userRepo);

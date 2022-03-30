@@ -11,6 +11,8 @@ import 'package:maico_land/router/app_router.dart';
 
 import 'presentation/screens/account/account_screen.dart';
 import 'presentation/screens/create_option_screen/create_option_screen.dart';
+import 'presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
+import 'presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({required this.appRouter, required this.userRepo, Key? key})
@@ -25,6 +27,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   int _selectedIndex = 0;
+
 //   accessToken
 // "pk.eyJ1IjoiYW5kcmVhdHJhbjIwMDIiLCJhIjoiY2t4aXZndmk0NTFodTJwbXVlbXJpNnM0dyJ9.fOnQcO_C_2T8wlNCzIWzwQ"
 // content
@@ -115,8 +118,9 @@ class _MyAppState extends State<MyApp> {
             )
           ],
         ),
-        image: const Image(
-          width: 600,
+        image:  Image(
+          fit: BoxFit.scaleDown,
+          // width: MediaQuery.of(context).size.width,
           height: 600,
           image: AssetImage('assets/logo.png'),
         )),
@@ -245,6 +249,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
         title: 'MaicoLand',
         theme: appTheme,
