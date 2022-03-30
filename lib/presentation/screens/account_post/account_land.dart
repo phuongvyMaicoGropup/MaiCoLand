@@ -29,6 +29,14 @@ class _AccountLandState extends State<AccountLand> {
                 .getLandByAuthorId(widget.authorId),
             builder: (context, snapshot) {
               List<LandPlanning>? children = [];
+              if (snapshot.data == null) {
+                return const Center(
+                  child: Text(
+                    "Trống",
+                    style: textMediumBlack,
+                  ),
+                );
+              }
               if (snapshot.hasData) {
                 children = snapshot.data;
                 return ListView.builder(

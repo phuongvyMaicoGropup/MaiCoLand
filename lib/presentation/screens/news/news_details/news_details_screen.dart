@@ -147,7 +147,7 @@ class NewsDetailsScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          UserPostLand(authorId: author.id)));
+                                          UserPostLand(author: author)));
                             },
                           )),
                       //

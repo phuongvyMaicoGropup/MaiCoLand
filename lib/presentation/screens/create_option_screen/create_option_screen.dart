@@ -24,17 +24,15 @@ class CreateOptionScreen extends StatefulWidget {
 class _CreateOptionScreenState extends State<CreateOptionScreen> {
   List<CreateOption> createOptions = [
     CreateOption(
-      "Đăng tin tức",
-      "Đăng tin tức bất động sản / quy hoạch đất / thị trường ",
-      Icons.newspaper_outlined,
-      const Color(0xFFFE91B0)
-    ),
+        "Đăng tin tức",
+        "Đăng tin tức bất động sản / quy hoạch đất / thị trường ",
+        Icons.newspaper_outlined,
+        const Color(0xFFFE91B0)),
     CreateOption(
-      "Đăng bản đồ quy hoạch",
-      "Đăng bản đồ quy hoạch sử dụng đất/ dự án ",
-      Icons.map_outlined,
-       const Color(0xFF6DC882)
-    )
+        "Đăng bản đồ quy hoạch",
+        "Đăng bản đồ quy hoạch sử dụng đất/ dự án ",
+        Icons.map_outlined,
+        const Color(0xFF6DC882))
   ];
   String newsType = 'Thị trường';
 
@@ -51,9 +49,7 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                 TextButton(
                   onPressed: () => selectNewsType(context),
                   // Navigator.of(context).pushNamed("/news/add"),
-                  child: OptionCard(
-                    item: createOptions[0]
-                  ),
+                  child: OptionCard(item: createOptions[0]),
                 ),
                 TextButton(
                   onPressed: () {
@@ -62,9 +58,7 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                     // Navigator.of(context)
                     //     .pushNamed("/landplanning/add", arguments: a);
                   },
-                  child: OptionCard(
-                    item: createOptions[1]
-                  ),
+                  child: OptionCard(item: createOptions[1]),
                 )
               ],
             )));
@@ -109,7 +103,7 @@ class OptionCard extends StatelessWidget {
           Expanded(
               flex: 2,
               child: CircleAvatar(
-                  backgroundColor: item.color?? Color(0xFF6DC882),
+                  backgroundColor: item.color ?? Color(0xFF6DC882),
                   child: Icon(item.icon, size: 20, color: Colors.white))),
           const SizedBox(width: 10),
           Expanded(
@@ -142,7 +136,10 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
     return Padding(
       child: ListView(shrinkWrap: true, children: [
         const Center(
-          child: Text("Chọn đăng loại tin tức", style: minorText),
+          child: Text("Chọn loại tin tức", style: textMediumGreen),
+        ),
+        SizedBox(
+          height: 10,
         ),
         Container(
           width: MediaQuery.of(context).size.width,
@@ -160,9 +157,9 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
           ),
           child: DropdownButton<String>(
             value: newsType,
-            icon: const Icon(Icons.arrow_downward),
+            icon: const Icon(Icons.arrow_drop_down),
             elevation: 16,
-            style: const TextStyle(color: AppColors.appGreen2),
+            style: const TextStyle(color: AppColors.black),
             isExpanded: true,
             underline: Container(),
             onChanged: (String? value) {
@@ -186,7 +183,10 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("Huỷ")),
+                child: const Text(
+                  "Huỷ",
+                  style: textMiniBlack,
+                )),
             TextButton(
                 onPressed: () {
                   int type = 0;
@@ -195,7 +195,10 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
                   else if (newsType == "Quy hoạch") type = 2;
                   Navigator.of(context).pushNamed('/news/add', arguments: type);
                 },
-                child: const Text("Tiếp tục")),
+                child: const Text(
+                  "Tiếp tục",
+                  style: textMiniBlack,
+                )),
           ],
         )
       ]),
