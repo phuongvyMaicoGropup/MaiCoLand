@@ -40,7 +40,20 @@ class WidgetHomeNews extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 5),
-                SizedBox(height: 200.0, child: _buildListNews()),
+                SizedBox(
+                    height: 200.0,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: items.length < 6 ? items.length : 5,
+                      itemBuilder: (BuildContext context, int index) {
+                        var item = items[index];
+                        return WidgetHomeCardNews(
+                          news: item,
+                          key: Key(item.id),
+                        );
+                      },
+                    )),
               ],
             ),
           );
@@ -91,32 +104,6 @@ class WidgetHomeNews extends StatelessWidget {
         }
       },
     );
-  }
-
-  _buildListNews() {
-    return items.isEmpty
-        ? ListView.builder(
-            padding: const EdgeInsets.all(8),
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding:
-                      const EdgeInsets.only(right: 16.0, top: 8, bottom: 8),
-                  child: newSkeleton());
-            })
-        : ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: items.length < 6 ? items.length : 5,
-            itemBuilder: (BuildContext context, int index) {
-              var item = items[index];
-              return WidgetHomeCardNews(
-                news: item,
-              );
-            },
-          );
   }
 
   Widget newSkeleton() {

@@ -21,7 +21,6 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
       },
       child: Stack(
         children: [
-          const WidgetSkeleton(),
           Container(
             width: MediaQuery.of(context).size.width * 0.50,
             decoration: BoxDecoration(
@@ -40,7 +39,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  height: 100,
+                  height: MediaQuery.of(context).size.height * 0.13,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -140,6 +139,10 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          WidgetSkeleton(
+            width: MediaQuery.of(context).size.width * 0.50,
+            height: MediaQuery.of(context).size.height * 0.13,
           ),
         ],
       ),
