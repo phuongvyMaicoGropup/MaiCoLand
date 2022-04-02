@@ -3,6 +3,7 @@ import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/presentation/screens/account_post/account_land.dart';
 import 'package:maico_land/presentation/screens/account_post/account_news.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
+import 'package:maico_land/presentation/widgets/text_icon.dart';
 
 class UserPostLand extends StatefulWidget {
   UserPostLand({Key? key, this.author}) : super(key: key);
@@ -25,7 +26,7 @@ class _UserPostLandState extends State<UserPostLand>
     return Scaffold(
       backgroundColor: AppColors.appBackgroundColor,
       appBar: AppBar(
-        title: const Text('Tác giả'),
+        title: const Text('Tài khoản'),
         centerTitle: true,
       ),
       body: Container(
@@ -41,7 +42,7 @@ class _UserPostLandState extends State<UserPostLand>
                             children: <Widget>[
                               Container(
                                 margin:
-                                    const EdgeInsets.only(top: 50, bottom: 15),
+                                    const EdgeInsets.only(top: 20, bottom: 15),
                                 child: widget.author!.photoURL == ""
                                     ? CircleAvatar(
                                         backgroundColor: AppColors.appGreen1,
@@ -49,12 +50,12 @@ class _UserPostLandState extends State<UserPostLand>
                                           widget.author!.lastName[0],
                                           style: textMediumWhite,
                                         ),
-                                        radius: 50,
+                                        radius: 30,
                                       )
                                     : CircleAvatar(
                                         backgroundImage: NetworkImage(
                                             widget.author!.photoURL),
-                                        radius: 50,
+                                        radius: 30,
                                       ),
                               ),
                             ],
@@ -75,45 +76,45 @@ class _UserPostLandState extends State<UserPostLand>
                               const SizedBox(
                                 height: 10,
                               ),
-                              const Text(
-                                " Liên hệ ",
-                                style: textMiniBlack,
+                              // const Text(
+                              //   " Liên hệ ",
+                              //   style: textMiniBlack,
+                              // ),
+                              // const SizedBox(
+                              //   height: 10,
+                              // ),
+                              TextIcon(
+                                Icons.phone,
+                                widget.author!.phoneNumber,
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                " Số điện thoại: " + widget.author!.phoneNumber,
-                                style: textMiniBlack,
+                              TextIcon(
+                                Icons.email,
+                                widget.author!.email,
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                " Email: " + widget.author!.email,
-                                style: textMiniBlack,
-                              )
                             ],
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: const Text(
-                              " Bài viết liên quan ",
-                              style: textMediumBlack,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
+                      // Row(
+                      //   children: <Widget>[
+                      //     SizedBox(
+                      //       width: 10,
+                      //     ),
+                      //     Align(
+                      //       alignment: Alignment.topLeft,
+                      //       child: const Text(
+                      //         " Bài viết liên quan ",
+                      //         style: textMediumBlack,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       SizedBox(
                         height: 10,
                       ),

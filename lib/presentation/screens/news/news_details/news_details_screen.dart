@@ -153,7 +153,9 @@ class NewsDetailsScreen extends StatelessWidget {
                     thickness: 1,
                   ),
                   const SizedBox(height: 10),
-                  Container(child: Text(news.content)),
+                  Container(
+                      child: Text(news.content,
+                          style: const TextStyle(height: 1.3))),
                   // const Divider(
                   //   height: 25,
                   //   thickness: 1,
