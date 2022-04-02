@@ -1,3 +1,4 @@
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -142,11 +143,9 @@ class NewsDetailsScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-<<<<<<< HEAD
-                                          UserPostLand(author: author)));
-=======
+
                                           UserPostLand(authorId: author.id)));
->>>>>>> update tieppp
+
                             },
                           )),
                       //

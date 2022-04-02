@@ -103,7 +103,9 @@ class OptionCard extends StatelessWidget {
           Expanded(
               flex: 2,
               child: CircleAvatar(
-                  backgroundColor: item.color ?? Color(0xFF6DC882),
+
+                  backgroundColor: item.color ?? const Color(0xFF6DC882),
+
                   child: Icon(item.icon, size: 20, color: Colors.white))),
           const SizedBox(width: 10),
           Expanded(
@@ -160,7 +162,9 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
             value: newsType,
             icon: const Icon(Icons.arrow_drop_down),
             elevation: 16,
-            style: const TextStyle(color: AppColors.black),
+
+            style: const TextStyle(color: AppColors.white),
+
             isExpanded: true,
             iconEnabledColor: Colors.white,
             dropdownColor: const Color(0xFF6DC882),

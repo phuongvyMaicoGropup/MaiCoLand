@@ -4,6 +4,7 @@ import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.d
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
 
 class AccountLand extends StatefulWidget {
+
   const AccountLand({required this.authorId, this.showTitle, Key? key})
       : super(key: key);
   final String authorId;
