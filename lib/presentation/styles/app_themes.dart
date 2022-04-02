@@ -89,6 +89,8 @@ const textMediumBlack = TextStyle(
     fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.black);
 const textLargeBlack = TextStyle(
     fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.appGreen2);
+const textLargeGreen = TextStyle(
+    fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.black);
 const textMinorBlack = TextStyle(
     fontWeight: FontWeight.bold, fontSize: 11, color: AppColors.black);
 
@@ -99,6 +101,10 @@ const textMinorRed =
     TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppColors.red);
 const textNormalBlack = TextStyle(
     fontWeight: FontWeight.normal, fontSize: 16, color: AppColors.black);
+const textMiniBlack = TextStyle(
+    fontWeight: FontWeight.normal, fontSize: 14, color: AppColors.black);
+const textMiniBlackBold = TextStyle(
+    fontWeight: FontWeight.normal, fontSize: 14, color: AppColors.black);
 // Button Style
 
 // const defaultButton = ButtonStyle(
@@ -107,10 +113,7 @@ const textNormalBlack = TextStyle(
 // );
 
 const textMinorGrayTitle = TextStyle(
-  color : Color(0xFF9899A0),
-  fontSize: 14,
-  fontWeight: FontWeight.bold
-);
+    color: Color(0xFF9899A0), fontSize: 14, fontWeight: FontWeight.bold);
 
 const textMinorItalicGreen = TextStyle(
     fontWeight: FontWeight.normal,

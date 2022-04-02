@@ -103,7 +103,9 @@ class OptionCard extends StatelessWidget {
           Expanded(
               flex: 2,
               child: CircleAvatar(
+
                   backgroundColor: item.color ?? const Color(0xFF6DC882),
+
                   child: Icon(item.icon, size: 20, color: Colors.white))),
           const SizedBox(width: 10),
           Expanded(
@@ -158,9 +160,11 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
           ),
           child: DropdownButton<String>(
             value: newsType,
-            icon: const Icon(Icons.arrow_downward),
+            icon: const Icon(Icons.arrow_drop_down),
             elevation: 16,
+
             style: const TextStyle(color: AppColors.white),
+
             isExpanded: true,
             iconEnabledColor: Colors.white,
             dropdownColor: const Color(0xFF6DC882),
@@ -188,7 +192,10 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("Huỷ")),
+                child: const Text(
+                  "Huỷ",
+                  style: textMiniBlack,
+                )),
             TextButton(
                 onPressed: () {
                   int type = 0;
@@ -199,7 +206,10 @@ class _SelectNewsTypeState extends State<SelectNewsType> {
                   }
                   Navigator.of(context).pushNamed('/news/add', arguments: type);
                 },
-                child: const Text("Tiếp tục")),
+                child: const Text(
+                  "Tiếp tục",
+                  style: textMiniBlack,
+                )),
           ],
         )
       ]),

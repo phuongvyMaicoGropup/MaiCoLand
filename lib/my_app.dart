@@ -66,6 +66,13 @@ class _MyAppState extends State<MyApp> {
     // CreateItemScreen(),
     // AccountScreen()
   ];
+
+  late double widthBackground, heightBackground, withIconImage, heightIconImage;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final listPageIntro = [
     PageViewModel(
         decoration: const PageDecoration(
@@ -243,7 +250,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         title: 'MaicoLand',
         theme: appTheme,
@@ -285,7 +291,181 @@ class _MyAppState extends State<MyApp> {
           if (state is AuthenticationUnauthenticated) {
             return Scaffold(
               body: IntroductionScreen(
-                pages: listPageIntro,
+                pages: [
+                  PageViewModel(
+                      decoration: const PageDecoration(
+                          // fullScreen: true,
+                          titlePadding: EdgeInsets.all(0),
+                          imagePadding: EdgeInsets.only(bottom: 0),
+                          contentMargin: EdgeInsets.only(bottom: 10),
+                          imageFlex: 1),
+                      titleWidget: const Text(
+                        "Your property, our priority",
+                        style: textLargeBlack,
+                        textAlign: TextAlign.center,
+                      ),
+                      bodyWidget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height: MediaQuery.of(context).size.width * 0.3,
+                            image: const AssetImage('assets/images/hand.png'),
+                          ),
+                          const Text(
+                            "Chúng tôi đã và đang thay đổi cách thức thực hiện dịch vụ và giao dịch Bất động sản tại Việt Nam ",
+                            maxLines: 3,
+                            style: textNormalBlack,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Xây dựng Mô hình dịch vụ và Nền tảng công nghệ làm cho ",
+                            style: textNormalBlack,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          const Text(
+                            "Bất động sản Dễ hơn bao giờ hết!",
+                            style: textLargeBlack,
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                      image: Image(
+                        height: MediaQuery.of(context).size.height,
+                        image: const AssetImage('assets/logo.png'),
+                      )),
+                  PageViewModel(
+                      decoration: const PageDecoration(
+                        // fullScreen: true,
+                        titlePadding: EdgeInsets.all(5),
+                      ),
+                      titleWidget: const Text(
+                        "Với mục tiêu",
+                        style: textLargeBlack,
+                        textAlign: TextAlign.center,
+                      ),
+                      bodyWidget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    image: const AssetImage(
+                                        'assets/images/hand.png'),
+                                  ),
+                                  const Text(
+                                    "Giao dịch Minh bạch",
+                                    style: textMediumGreen,
+                                  )
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    image: const AssetImage(
+                                        'assets/images/tick.png'),
+                                  ),
+                                  const Text(
+                                    "Thông tin chính xác",
+                                    style: textMediumGreen,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    image: const AssetImage(
+                                        'assets/images/growup.png'),
+                                  ),
+                                  const Text(
+                                    "Không ngừng phát triển",
+                                    style: textMediumGreen,
+                                  )
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    image: const AssetImage(
+                                        'assets/images/heart.png'),
+                                  ),
+                                  const Text(
+                                    "Tử tế là cốt lõi",
+                                    style: textMediumGreen,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      image: Image(
+                        width: MediaQuery.of(context).size.width,
+                        image:
+                            const AssetImage('assets/images/background2.png'),
+                      )),
+                  PageViewModel(
+                      titleWidget: const Text(
+                        "Phát triển bền vững",
+                        style: textLargeBlack,
+                        textAlign: TextAlign.center,
+                      ),
+                      bodyWidget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            image: const AssetImage(
+                                'assets/images/maicosystem.png'),
+                          ),
+                          const Text(
+                            "Hãy đồng hành cùng MAICO vươn lên tầm cao mới!",
+                            style: textMediumGreen,
+                          )
+                        ],
+                      ),
+                      image: const Image(
+                        image: AssetImage('assets/images/image4.jpg'),
+                      ))
+                ],
                 onDone: () {
                   // When done button is press
                 },

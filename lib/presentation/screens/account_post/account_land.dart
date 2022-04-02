@@ -4,8 +4,11 @@ import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.d
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
 
 class AccountLand extends StatefulWidget {
-  const AccountLand({required this.authorId, Key? key}) : super(key: key);
+
+  const AccountLand({required this.authorId, this.showTitle, Key? key})
+      : super(key: key);
   final String authorId;
+  final bool? showTitle;
   @override
   _AccountLandState createState() => _AccountLandState();
 }
@@ -15,12 +18,22 @@ class _AccountLandState extends State<AccountLand> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text("Bản đồ quy hoạch của tôi")),
+        appBar: widget.showTitle == null
+            ? AppBar(title: const Text("Bản đồ quy hoạch của tôi"))
+            : null,
         body: FutureBuilder<List<LandPlanning>?>(
             future: RepositoryProvider.of<LandPlanningRepository>(context)
                 .getLandByAuthorId(widget.authorId),
             builder: (context, snapshot) {
               List<LandPlanning>? children = [];
+              if (snapshot.data == null) {
+                return const Center(
+                  child: Text(
+                    "Trống",
+                    style: textMediumBlack,
+                  ),
+                );
+              }
               if (snapshot.hasData) {
                 children = snapshot.data;
                 return ListView.builder(
