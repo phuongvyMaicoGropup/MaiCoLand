@@ -14,6 +14,13 @@ class WidgetHomeLandPlanning extends StatelessWidget {
       builder: (context, state) {
         if (state is HomeLandPlanningLoaded) {
           items = state.land;
+          List<Widget> list = [];
+          for (int i = 0; i < items.length; i++) {
+            list.add(WidgetHomeCardLandPlanning(
+              landPlanning: items[i],
+              key: Key(items[i].id),
+            ));
+          }
 
           return Padding(
             padding: const EdgeInsets.all(20.0),
@@ -40,7 +47,16 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 5),
-                SizedBox(height: 210.0, child: _buildListLandPlanning()),
+                SizedBox(
+                    height: 210.0,
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: list,
+                        ))),
               ],
             ),
           );
@@ -93,33 +109,16 @@ class WidgetHomeLandPlanning extends StatelessWidget {
     );
   }
 
-  _buildListLandPlanning() {
-    return items.isEmpty
-        ? ListView.builder(
-            padding: const EdgeInsets.all(8),
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding: const EdgeInsets.only(right: 16.0, bottom: 8),
-                  child: LandPlanningkeleton());
-            })
-        : ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: items.length < 6 ? items.length : 5,
-            itemBuilder: (BuildContext context, int index) {
-              var item = items[index];
-              return Padding(
-                padding: const EdgeInsets.only(right: 16.0, top: 8, bottom: 8),
-                child: WidgetHomeCardLandPlanning(
-                  landPlanning: item,
-                ),
-              );
-            },
-          );
-  }
+  // _buildListLandPlanning() {
+  //   return SingleChildScrollView(
+  //       scrollDirection: Axis.horizontal,
+  //       physics: BouncingScrollPhysics(),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.start,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: list,
+  //       ));
+  // }
 
   Widget LandPlanningkeleton() {
     return Container(

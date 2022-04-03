@@ -23,10 +23,6 @@ class LandPlanningCard extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.17,
         margin: const EdgeInsets.only(bottom: 10, right: 4, left: 4),
         decoration: BoxDecoration(
-<<<<<<< HEAD
-          color: Colors.white,
-=======
->>>>>>> hoa
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(

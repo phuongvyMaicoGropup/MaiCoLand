@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
@@ -21,10 +22,6 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
       },
       child: Stack(
         children: [
-<<<<<<< HEAD
-          const WidgetSkeleton(),
-=======
->>>>>>> hoa
           Container(
             width: MediaQuery.of(context).size.width * 0.50,
             decoration: BoxDecoration(
@@ -57,7 +54,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                     //   topRight: Radius.circular(5),
                     // ),
                     image: DecorationImage(
-                      image: NetworkImage(landPlanning.imageUrl),
+                      image: CachedNetworkImageProvider(landPlanning.imageUrl),
                       fit: BoxFit.cover,
                     ),
                   ),

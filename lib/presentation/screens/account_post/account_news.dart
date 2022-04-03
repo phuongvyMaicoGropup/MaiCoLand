@@ -12,7 +12,10 @@ class AccountNews extends StatefulWidget {
   _AccountNewsState createState() => _AccountNewsState();
 }
 
-class _AccountNewsState extends State<AccountNews> {
+class _AccountNewsState extends State<AccountNews>
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<AccountNews> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,4 +54,8 @@ class _AccountNewsState extends State<AccountNews> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

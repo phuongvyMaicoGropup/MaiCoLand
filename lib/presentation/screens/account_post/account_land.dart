@@ -4,25 +4,18 @@ import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.d
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
 
 class AccountLand extends StatefulWidget {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const AccountLand({required this.authorId, Key? key}) : super(key: key);
-=======
   const AccountLand({required this.authorId, this.showTitle, Key? key})
       : super(key: key);
->>>>>>> hoa
-=======
-
-  const AccountLand({required this.authorId, this.showTitle, Key? key})
-      : super(key: key);
->>>>>>> f061ebe89943e46eedca486ab6d11dec7a93d0a3
   final String authorId;
   final bool? showTitle;
   @override
   _AccountLandState createState() => _AccountLandState();
 }
 
-class _AccountLandState extends State<AccountLand> {
+class _AccountLandState extends State<AccountLand>
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<AccountLand> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,4 +66,8 @@ class _AccountLandState extends State<AccountLand> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
