@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/model/entities/news.dart';
@@ -45,7 +46,11 @@ class WidgetHomeCardNews extends StatelessWidget {
                         ),
                       ],
                       image: DecorationImage(
+<<<<<<< HEAD
                         image: NetworkImage(news.imageUrl),
+=======
+                        image: CachedNetworkImageProvider(news.imageUrl),
+>>>>>>> hoa
                         fit: BoxFit.fitWidth,
                       ),
                     ),

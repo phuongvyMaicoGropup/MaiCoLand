@@ -86,15 +86,9 @@ class LandPlanningRepository {
         _dioProvider.getLandPlanningPagination,
         queryParameters: {'pageNumber': 1, 'pageSize': 5});
 
-    var json = response.data;
-    List<LandPlanning> result = [];
-    String linkPdf, linkImage;
-    LandPlanning land;
-    for (int i = 0; i < json.length; i++) {
-      land = LandPlanning.fromMap(json[i]);
-      result.add(land);
-    }
-    return Future<List<LandPlanning>>.value(result);
+    return response.data
+        .map<LandPlanning>((json) => LandPlanning.fromMap(json))
+        .toList();
   }
 
   Future<bool> likeLand(String landId) async {
@@ -132,13 +126,9 @@ class LandPlanningRepository {
     }
     var json = response.data;
     // var a = parsed[0]['hashTags'].toList();
-    List<LandPlanning> result = [];
-    for (int i = 0; i < json.length; i++) {
-      LandPlanning land = LandPlanning.fromMap(json[i]);
-      result.add(land);
-    }
-
-    return Future<List<LandPlanning>>.value(result);
+    return response.data
+        .map<LandPlanning>((json) => LandPlanning.fromMap(json))
+        .toList();
   }
 
   Future saveLand(DataLocalInfo data) async {
@@ -148,18 +138,15 @@ class LandPlanningRepository {
   Future<List<DataLocalInfo>?> getSavedLand() async {
     return await _sessionRepo.getSavedLand();
   }
+
   Future<List<LandPlanning>> getLandByAuthorId(String id) async {
     try {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/landplanning/author/" + id,
       );
-      List<LandPlanning> result = [];
-      for (int i = 0; i < response.data.length; i++) {
-        var land = LandPlanning.fromMap(response.data[i]);
-        result.add(land);
-      }
-
-      return Future<List<LandPlanning>>.value(result);
+      return response.data
+          .map<LandPlanning>((json) => LandPlanning.fromMap(json))
+          .toList();
     } catch (e) {
       print(e);
       return Future<List<LandPlanning>>.value(null);

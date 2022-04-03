@@ -1,4 +1,5 @@
-
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/data_local_info.dart';
@@ -6,6 +7,7 @@ import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/entities/user.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
+import 'package:maico_land/presentation/screens/user_post/user_post_land.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:maico_land/presentation/widgets/avatar_widget.dart';
 import 'package:maico_land/presentation/widgets/widget_skeleton.dart';
@@ -109,32 +111,40 @@ class NewsDetailsScreen extends StatelessWidget {
                         width: 10,
                       ),
                       Flexible(
-                        flex: 7,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                author.email.toString(),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                author.phoneNumber.toString(),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ]),
-                      ),
+                          flex: 7,
+                          child: GestureDetector(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    author.email.toString(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    author.phoneNumber.toString(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ]),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          UserPostLand(author: author)));
+                            },
+                          )),
                       //
                     ],
                   ),
@@ -143,7 +153,9 @@ class NewsDetailsScreen extends StatelessWidget {
                     thickness: 1,
                   ),
                   const SizedBox(height: 10),
-                  Container(child: Text(news.content)),
+                  Container(
+                      child: Text(news.content,
+                          style: const TextStyle(height: 1.3))),
                   // const Divider(
                   //   height: 25,
                   //   thickness: 1,

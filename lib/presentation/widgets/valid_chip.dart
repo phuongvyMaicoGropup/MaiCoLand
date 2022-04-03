@@ -10,23 +10,9 @@ class ValidChip extends StatelessWidget {
     return valDate
         ? Container(
             padding: const EdgeInsets.all(3),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.appGreen1,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
             child: const Text("Còn hiệu lực", style: textMinorGreen))
         : Container(
             padding: const EdgeInsets.all(3),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.red,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
             child: const Text("Hết hiệu lực", style: textMinorRed));
   }
 }
