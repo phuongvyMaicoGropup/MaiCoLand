@@ -66,6 +66,16 @@ class _MyAppState extends State<MyApp> {
     // CreateItemScreen(),
     // AccountScreen()
   ];
+<<<<<<< HEAD
+=======
+
+  late double widthBackground, heightBackground, withIconImage, heightIconImage;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+>>>>>>> f061ebe89943e46eedca486ab6d11dec7a93d0a3
   final listPageIntro = [
     PageViewModel(
         decoration: const PageDecoration(
@@ -234,11 +244,14 @@ class _MyAppState extends State<MyApp> {
               "https://maicogroup.com/wp-content/uploads/2022/01/one-day-with-maico-768x512.jpg"),
         ))
   ];
+<<<<<<< HEAD
   late double widthBackground, heightBackground, withIconImage, heightIconImage;
   @override
   void initState() {
     super.initState();
   }
+=======
+>>>>>>> f061ebe89943e46eedca486ab6d11dec7a93d0a3
 
   void _onItemTapped(int index) {
     setState(() {

@@ -5,11 +5,17 @@ import 'package:maico_land/presentation/screens/land_planning/widgets/land_plann
 
 class AccountLand extends StatefulWidget {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const AccountLand({required this.authorId, Key? key}) : super(key: key);
 =======
   const AccountLand({required this.authorId, this.showTitle, Key? key})
       : super(key: key);
 >>>>>>> hoa
+=======
+
+  const AccountLand({required this.authorId, this.showTitle, Key? key})
+      : super(key: key);
+>>>>>>> f061ebe89943e46eedca486ab6d11dec7a93d0a3
   final String authorId;
   final bool? showTitle;
   @override
