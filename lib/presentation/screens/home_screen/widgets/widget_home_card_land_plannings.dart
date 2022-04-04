@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
@@ -54,7 +53,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                     //   topRight: Radius.circular(5),
                     // ),
                     image: DecorationImage(
-                      image: CachedNetworkImageProvider(landPlanning.imageUrl),
+                      image: NetworkImage(landPlanning.imageUrl),
                       fit: BoxFit.cover,
                     ),
                   ),

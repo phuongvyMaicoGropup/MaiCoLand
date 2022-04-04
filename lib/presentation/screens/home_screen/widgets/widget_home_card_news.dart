@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/model/entities/news.dart';
-import 'package:maico_land/presentation/widgets/cached_image.dart';
 
 class WidgetHomeCardNews extends StatelessWidget {
   WidgetHomeCardNews({Key? key, required this.news}) : super(key: key);
@@ -41,7 +39,7 @@ class WidgetHomeCardNews extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.black.withOpacity(0.04),
                           offset: const Offset(0, 2),
                           blurRadius: 2,
                         ),
