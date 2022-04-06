@@ -21,7 +21,7 @@ class WidgetHomeNews extends StatelessWidget {
           if (state is HomeNewsLoaded) {
             items = state.news;
             List<Widget> list = [];
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < items.length; i++) {
               list.add(WidgetHomeCardNews(
                 news: items[i],
                 key: Key(items[i].id),

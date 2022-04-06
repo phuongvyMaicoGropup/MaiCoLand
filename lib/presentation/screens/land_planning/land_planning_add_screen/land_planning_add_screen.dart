@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
-import 'package:maico_land/model/entities/GeoPoint.dart';
+import 'package:maico_land/model/entities/geo_point.dart';
 import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/styles/styles.dart';

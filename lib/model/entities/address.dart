@@ -1,6 +1,12 @@
 import 'dart:convert';
 
-class Address {
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'address.g.dart';
+
+@JsonSerializable()
+class Address extends Equatable {
   final String idLevel1;
   final String idLevel2;
   final String idLevel3;
@@ -23,39 +29,11 @@ class Address {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'idLevel1': idLevel1,
-      'idLevel2': idLevel2,
-      'idLevel3': idLevel3,
-    };
-  }
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 
-  factory Address.fromMap(Map<String, dynamic> map) {
-    return Address(
-      map['idLevel1'] ?? '',
-      map['idLevel2'] ?? '',
-      map['idLevel3'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Address.fromJson(String source) => Address.fromMap(json.decode(source));
+  Map<String, dynamic> toJson() => _$AddressToJson(this);
 
   @override
-  String toString() => 'Address(idLevel1: $idLevel1, idLevel2: $idLevel2, idLevel3: $idLevel3)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-  
-    return other is Address &&
-      other.idLevel1 == idLevel1 &&
-      other.idLevel2 == idLevel2 &&
-      other.idLevel3 == idLevel3;
-  }
-
-  @override
-  int get hashCode => idLevel1.hashCode ^ idLevel2.hashCode ^ idLevel3.hashCode;
+  List<Object?> get props => [idLevel1, idLevel2, idLevel3];
 }

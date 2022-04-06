@@ -2,122 +2,48 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'news.g.dart';
+
+@JsonSerializable()
 class News extends Equatable {
   const News(
-      {required this.id,
+      {required this.viewed,
+      required this.saved,
+      required this.isPrivated,
+      required this.id,
       required this.title,
       required this.content,
       required this.hashTags,
-      required this.imageUrl,
+      required this.images,
       required this.likes,
-      required this.createDate,
+      required this.createdDate,
       required this.createdBy,
-      required this.updateDate,
+      required this.updatedDate,
       required this.type});
   final String id;
   final String title;
   final String content;
   final List<String>? hashTags;
-  final String imageUrl;
+  final List<String>? images;
   final List<String>? likes;
-  final DateTime createDate;
+  final DateTime createdDate;
   final String createdBy;
   final int type;
-  final DateTime updateDate;
-  News copyWith(
-      {String? id,
-      String? title,
-      String? content,
-      List<String>? hashTags,
-      String? imageUrl,
-      List<String>? likes,
-      DateTime? createDate,
-      String? createdBy,
-      DateTime? updateDate,
-      int? type}) {
-    return News(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      content: content ?? this.content,
-      hashTags: hashTags ?? this.hashTags,
-      imageUrl: imageUrl ?? this.imageUrl,
-      likes: likes ?? this.likes,
-      createDate: createDate ?? this.createDate,
-      createdBy: createdBy ?? this.createdBy,
-      updateDate: updateDate ?? this.updateDate,
-      type: type ?? this.type,
-    );
-  }
+  final DateTime updatedDate;
+  final int viewed;
+  final int saved;
+  final bool isPrivated;
 
   @override
   String toString() {
-    return 'News(id: $id, title: $title, content: $content, hashTags: $hashTags, imageUrl: $imageUrl, likes: $likes, createDate: $createDate, createdBy: $createdBy, updateDate: $updateDate)';
+    return 'News(id: $id, title: $title, content: $content, hashTags: $hashTags, imageUrl: $images, likes: $likes, createdDate: $createdDate, createdBy: $createdBy, updatedDate: $updatedDate)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+  factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
 
-    return other is News &&
-        other.id == id &&
-        other.title == title &&
-        other.content == content &&
-        listEquals(other.hashTags, hashTags) &&
-        other.imageUrl == imageUrl &&
-        listEquals(other.likes, likes) &&
-        other.createDate == createDate &&
-        other.createdBy == createdBy &&
-        other.type == type &&
-        other.updateDate == updateDate;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        title.hashCode ^
-        content.hashCode ^
-        hashTags.hashCode ^
-        imageUrl.hashCode ^
-        likes.hashCode ^
-        createDate.hashCode ^
-        createdBy.hashCode ^
-        type.hashCode ^
-        updateDate.hashCode;
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'content': content,
-      'hashTags': hashTags.toString(),
-      'imageUrl': imageUrl,
-      'likes': likes.toString(),
-      'createDate': createDate.toString(),
-      'createdBy': createdBy,
-      'updateDate': updateDate.toString(),
-      'type': type.toString(),
-    };
-  }
-
-  factory News.fromMap(Map<String, dynamic> map) {
-    return News(
-        id: map['id'] ?? '',
-        title: map['title'] ?? '',
-        content: map['content'] ?? '',
-        hashTags: List<String>.from(['hashTags']),
-        imageUrl: map['imageUrl'] ?? '',
-        likes: List<String>.from(map['likes']),
-        createDate: DateTime.parse(map['createDate']),
-        createdBy: map['createdBy'] ?? '',
-        updateDate: DateTime.parse(map['updateDate']),
-        type: map['type']);
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory News.fromJson(String source) => News.fromMap(json.decode(source));
+  Map<String, dynamic> toJson() => _$NewsToJson(this);
 
   @override
   // TODO: implement props
@@ -125,11 +51,14 @@ class News extends Equatable {
         id,
         title,
         content,
-        imageUrl,
+        images,
         likes,
-        createDate,
+        createdDate,
         createdBy,
-        updateDate,
-        type
+        updatedDate,
+        type,
+        viewed,
+        saved,
+        isPrivated
       ];
 }

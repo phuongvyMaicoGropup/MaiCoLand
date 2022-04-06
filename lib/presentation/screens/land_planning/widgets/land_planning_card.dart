@@ -58,7 +58,7 @@ class LandPlanningCard extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           top: 5, left: 5, bottom: 5, right: 5),
                       color: Colors.red,
-                      child: Text(land.landArea.toString() + " km",
+                      child: Text(land.area.toString() + " km",
                           style: const TextStyle(
                               color: Colors.white, fontSize: 11))))
             ]),

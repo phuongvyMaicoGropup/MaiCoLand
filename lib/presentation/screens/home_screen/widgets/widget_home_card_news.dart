@@ -45,7 +45,7 @@ class WidgetHomeCardNews extends StatelessWidget {
                         ),
                       ],
                       image: DecorationImage(
-                        image: NetworkImage(news.imageUrl),
+                        image: NetworkImage(news.images![0]),
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -60,7 +60,7 @@ class WidgetHomeCardNews extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Ngày đăng : ${news.createDate.day}/${news.createDate.month}/${news.createDate.year}",
+                                  "Ngày đăng : ${news.createdDate.day}/${news.createdDate.month}/${news.createdDate.year}",
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: Theme.of(context)
@@ -116,9 +116,9 @@ class WidgetHomeCardNews extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    (daysBetween(news.createDate, DateTime.now()) == 0)
+                    (daysBetween(news.createdDate, DateTime.now()) == 0)
                         ? "Hôm nay"
-                        : daysBetween(news.createDate, DateTime.now())
+                        : daysBetween(news.createdDate, DateTime.now())
                                 .toString() +
                             " ngày trước",
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(

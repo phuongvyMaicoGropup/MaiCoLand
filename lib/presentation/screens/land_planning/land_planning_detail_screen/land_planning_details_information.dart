@@ -27,7 +27,7 @@ class _LandPlanningDetailInfoScreenState
   void initState() {
     super.initState();
 
-    PickFile.createFileOfPdfUrl(widget.landPlanning.filePdfUrl).then((f) {
+    PickFile.createFileOfPdfUrl(widget.landPlanning.detailInfo).then((f) {
       setState(() {
         path = f.path;
       });
@@ -105,7 +105,7 @@ class _LandPlanningDetailInfoScreenState
             ),
             const SizedBox(height: 10),
             Text(
-              "Ngày đăng : ${widget.landPlanning.createDate.day.toString()}/${widget.landPlanning.createDate.month.toString()}/${widget.landPlanning.createDate.year.toString()}",
+              "Ngày đăng : ${widget.landPlanning.createdDate.day.toString()}/${widget.landPlanning.createdDate.month.toString()}/${widget.landPlanning.createdDate.year.toString()}",
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
                     fontWeight: FontWeight.w500,
                     // fontStyle: FontStyle.italic,
@@ -143,7 +143,7 @@ class _LandPlanningDetailInfoScreenState
             Row(children: [
               const Icon(EvaIcons.map, color: AppColors.appGreen1, size: 20),
               Text("Diện tích: ", style: textMinorGreen.copyWith(fontSize: 14)),
-              Text("${widget.landPlanning.landArea} km²  ")
+              Text("${widget.landPlanning.area} km²  ")
             ]),
             const SizedBox(height: 10),
             Container(

@@ -1,5 +1,4 @@
-
-import 'package:maico_land/model/entities/GeoPoint.dart';
+import 'package:maico_land/model/entities/geo_point.dart';
 import 'package:maico_land/model/entities/address.dart';
 
 class LandPlanningRequest {

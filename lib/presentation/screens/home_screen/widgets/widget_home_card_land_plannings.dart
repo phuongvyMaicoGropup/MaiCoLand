@@ -128,7 +128,7 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    landPlanning.landArea.toString() + " km²",
+                    landPlanning.area.toString() + " km²",
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                           color: Colors.white,
                           fontFamily: "Montserrat",

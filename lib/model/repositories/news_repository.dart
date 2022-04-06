@@ -13,7 +13,7 @@ class NewsRepository {
   final UserRepository _userRepo = UserRepository();
   final SessionRepository _sessionRepo = SessionRepository(pref: LocalPref());
   List<News> parseNews(dynamic responseBody) {
-    return responseBody.map<News>((json) => News.fromMap(json)).toList();
+    return responseBody.map<News>((json) => News.fromJson(json)).toList();
   }
 
   Future<bool> create(NewsRequest news) async {
@@ -91,7 +91,7 @@ class NewsRepository {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/news/" + id,
       );
-      return Future<News>.value(News.fromMap(response.data));
+      return Future<News>.value(News.fromJson(response.data));
     } catch (e) {
       return Future<News>.value(null);
     }

@@ -47,7 +47,7 @@ class _UserPostLandState extends State<UserPostLand>
                                     ? CircleAvatar(
                                         backgroundColor: AppColors.appGreen1,
                                         child: Text(
-                                          widget.author!.lastName[0],
+                                          widget.author!.userName[0],
                                           style: textMediumWhite,
                                         ),
                                         radius: 30,
@@ -68,9 +68,7 @@ class _UserPostLandState extends State<UserPostLand>
                                 height: 20,
                               ),
                               Text(
-                                widget.author!.firstName +
-                                    " " +
-                                    widget.author!.lastName,
+                                widget.author!.fullName,
                                 style: textLargeGreen,
                               ),
                               const SizedBox(

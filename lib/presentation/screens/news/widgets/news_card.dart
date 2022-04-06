@@ -44,7 +44,7 @@ class NewsCard extends StatelessWidget {
                 ),
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl: news.imageUrl,
+                  imageUrl: news.images![0],
                   fadeInDuration: const Duration(microseconds: 0),
                   fadeOutDuration: const Duration(microseconds: 0),
                   placeholder: (_, __) =>
@@ -72,7 +72,7 @@ class NewsCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      "Ngày đăng : ${news.createDate.day}/${news.createDate.month}/${news.createDate.year}",
+                      "Ngày đăng : ${news.createdDate.day}/${news.createdDate.month}/${news.createdDate.year}",
                       textAlign: TextAlign.right,
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                           fontFamily: "Montserrat",

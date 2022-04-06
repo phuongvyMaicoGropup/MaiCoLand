@@ -96,14 +96,17 @@ class UserRepository {
   User getUserInfo(String token) {
     var user = jwt.parseJwt(token);
     print(user);
+
     User userReponse = User(
-      userName: user['username'],
+      userName: user['userName'],
       email: user['email'],
       id: user['id'],
-      firstName: user['firstName'],
-      lastName: user['lastName'],
+      fullName: user['fullName'],
       phoneNumber: user['phoneNumber'],
       photoURL: user['photoURL'],
+      address: user['address'],
+      bio: user['bio'],
+      birthDate: DateTime.tryParse(user['birthDate']) ?? DateTime.now(),
     );
     return userReponse;
   }
@@ -115,7 +118,7 @@ class UserRepository {
       );
       print(response.data);
 
-      return Future<User>.value(User.fromMap(response.data));
+      return Future<User>.value(User.fromJson(response.data));
     } catch (e) {
       print(e);
       return Future<User>.value(null);

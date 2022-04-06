@@ -60,7 +60,7 @@ class NewsDetailsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         image: DecorationImage(
-                          image: NetworkImage(news.imageUrl),
+                          image: NetworkImage(news.images![0]),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -85,7 +85,7 @@ class NewsDetailsScreen extends StatelessWidget {
                   Container(
                     alignment: Alignment.topRight,
                     child: Text(
-                      "Ngày đăng : ${news.createDate.day.toString()}/${news.createDate.month.toString()}/${news.createDate.year.toString()}",
+                      "Ngày đăng : ${news.createdDate.day.toString()}/${news.createdDate.month.toString()}/${news.createdDate.year.toString()}",
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontWeight: FontWeight.w500,
                             fontStyle: FontStyle.italic,

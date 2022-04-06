@@ -74,7 +74,7 @@ class LandPlanningRepository {
       );
       print(response.data);
 
-      return Future<LandPlanning>.value(LandPlanning.fromMap(response.data));
+      return Future<LandPlanning>.value(LandPlanning.fromJson(response.data));
     } catch (e) {
       print(e);
       return Future<LandPlanning>.value(null);
@@ -87,7 +87,7 @@ class LandPlanningRepository {
         queryParameters: {'pageNumber': 1, 'pageSize': 5});
 
     return response.data
-        .map<LandPlanning>((json) => LandPlanning.fromMap(json))
+        .map<LandPlanning>((json) => LandPlanning.fromJson(json))
         .toList();
   }
 
@@ -127,7 +127,7 @@ class LandPlanningRepository {
     var json = response.data;
     // var a = parsed[0]['hashTags'].toList();
     return response.data
-        .map<LandPlanning>((json) => LandPlanning.fromMap(json))
+        .map<LandPlanning>((json) => LandPlanning.fromJson(json))
         .toList();
   }
 
@@ -145,7 +145,7 @@ class LandPlanningRepository {
         _dioProvider.baseUrl + "api/landplanning/author/" + id,
       );
       return response.data
-          .map<LandPlanning>((json) => LandPlanning.fromMap(json))
+          .map<LandPlanning>((json) => LandPlanning.fromJson(json))
           .toList();
     } catch (e) {
       print(e);
