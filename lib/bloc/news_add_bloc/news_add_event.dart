@@ -28,10 +28,10 @@ class NewsAddHashTagChanged extends NewsAddEvent {
 }
 
 class NewsAddImageChanged extends NewsAddEvent {
-  final String image;
-  NewsAddImageChanged(this.image);
+  final List<String> images;
+  NewsAddImageChanged(this.images);
   @override
-  List<Object> get props => [image];
+  List<Object> get props => [images];
 }
 
 class NewsAddSubmitted extends NewsAddEvent {

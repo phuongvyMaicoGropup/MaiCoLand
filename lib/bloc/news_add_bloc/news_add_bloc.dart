@@ -31,7 +31,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     emit(state.copyWith(
       title: const Title.pure(),
       content: const Content.pure(),
-      image: const PathImage.pure(),
+      images: const PathImage.pure(),
       hashTag: "",
       status: FormzStatus.pure,
     ));
@@ -44,7 +44,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     final title = Title.dirty(event.title.toString());
     emit(state.copyWith(
       title: title,
-      status: Formz.validate([state.content, title, state.image]),
+      status: Formz.validate([state.content, title, state.images]),
     ));
     Future.delayed(const Duration(milliseconds: 500));
   }
@@ -56,10 +56,10 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     final content = Content.dirty(event.content.toString());
     emit(state.copyWith(
       content: content,
-      status: Formz.validate([content, state.title, state.image]),
+      status: Formz.validate([content, state.title, state.images]),
     ));
     print("_onContentChanged" +
-        Formz.validate([state.content, state.title, state.image]).toString());
+        Formz.validate([state.content, state.title, state.images]).toString());
   }
 
   void _onImageChanged(
@@ -67,14 +67,14 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     Emitter<NewsAddState> emit,
   ) {
     emit(state.copyWith(
-      image: PathImage.dirty(event.image),
-      status: Formz.validate([state.content, state.title, state.image]),
+      images: PathImage.dirty(event.images),
+      status: Formz.validate([state.content, state.title, state.images]),
     ));
 
-    ///Khá vô lí nhưng không lặp lại như này lại không update bên UI
+    ///Khá vô lí nhưng không lặp lại như này lại không update bên UI :V . Ui la
     emit(state.copyWith(
-      image: PathImage.dirty(event.image),
-      status: Formz.validate([state.content, state.title, state.image]),
+      images: PathImage.dirty(event.images),
+      status: Formz.validate([state.content, state.title, state.images]),
     ));
   }
 
@@ -86,7 +86,7 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     print(event.hashTag);
     emit(state.copyWith(
       hashTag: event.hashTag,
-      status: Formz.validate([state.content, state.title, state.image]),
+      status: Formz.validate([state.content, state.title, state.images]),
     ));
   }
 
@@ -95,13 +95,23 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
     Emitter<NewsAddState> emit,
   ) async {
     if (state.status.isValid) {
+      List<String> listImagePath = [];
       try {
-        var imagePath = await _dioProvider.uploadFile(
-            state.image.value, "image/png", "news");
-        print(event.type);
+        for (int i = 0; i < state.images.value!.length; i++) {
+          var a = await _dioProvider.uploadFile(
+              state.images.value![i], "image/png", "news");
+          listImagePath.add(a);
+        }
+        print(listImagePath);
+        var imagePath = print(event.type);
 
-        var newsRequest = NewsRequest(state.title.value, state.content.value,
-            state.hashTag.split('/').toList(), imagePath, event.type);
+        var newsRequest = NewsRequest(
+            state.title.value,
+            state.content.value,
+            state.hashTag.split('/').toList(),
+            listImagePath,
+            event.type,
+            false);
 
         var result = await _newsRepo.create(newsRequest);
         if (result == true) {
@@ -110,10 +120,10 @@ class NewsAddBloc extends Bloc<NewsAddEvent, NewsAddState> {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }
 
-        state.copyWith(image: const PathImage.pure());
+        state.copyWith(images: const PathImage.pure());
       } catch (e) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
-        state.copyWith(image: const PathImage.pure());
+        state.copyWith(images: const PathImage.pure());
       }
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
     }

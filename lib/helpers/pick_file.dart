@@ -4,13 +4,14 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PickFile {
-  Future<String> pickImage(BuildContext context) async {
+  Future<String> pickOneImage(BuildContext context) async {
     try {
       final result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
+        allowMultiple: true,
         type: FileType.custom,
         allowedExtensions: ['png', 'jpg'],
       );
@@ -43,6 +44,40 @@ class PickFile {
       return Future<String>.value();
     }
   }
+
+  // Future<List<String>> pickMultiImage(BuildContext context) async {
+  //   try {
+  //     final result = await ImagePicker().pickMultiImage(imageQuality: 5);
+
+  //     if (result == null) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text("Hình ảnh không hợp lệ vui lòng chọn ảnh khác!"),
+  //         ),
+  //       );
+  //       return Future<List<String>>.value();
+  //     }
+
+  //     final bytes = result.files.single.size;
+  //     final kb = bytes / 1024;
+  //     final mb = kb / 1024;
+  //     if (mb > 5.5) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text("Hình ảnh có kích thước quá lớn vui chọn ảnh khác!"),
+  //         ),
+  //       );
+  //       return Future<List<String>>.value();
+  //     }
+
+  //     final path = result.files.path!;
+
+  //     return Future<List<String>>.value(path);
+  //   } catch (e) {
+  //     print(e);
+  //     return Future<List<String>>.value();
+  //   }
+  // }
 
   Future<String> pickFilePdf(BuildContext context) async {
     try {

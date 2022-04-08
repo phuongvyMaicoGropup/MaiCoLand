@@ -185,7 +185,7 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                     style: TextStyle(fontSize: 10, color: AppColors.appGreen1)),
                 TextButton(
                   onPressed: () async {
-                    imagePath = await PickFile().pickImage(context);
+                    imagePath = await PickFile().pickOneImage(context);
                     setState(() {});
                   },
                   child: Row(

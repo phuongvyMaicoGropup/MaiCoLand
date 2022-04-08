@@ -1,9 +1,10 @@
 import 'dart:io';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:maico_land/bloc/news_add_bloc/news_add_bloc.dart';
-import 'package:maico_land/helpers/pick_file.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/styles/app_themes.dart';
 
@@ -210,71 +211,107 @@ class _HashTagInput extends StatelessWidget {
 }
 
 class _ImageInput extends StatelessWidget {
+  addImage(BuildContext context, List<String>? images) async {
+    var x = await ImagePicker().pickMultiImage(imageQuality: 5);
+
+    if (x != null) {
+      for (int i = 0; i < x.length; i++) {}
+
+      List<String> result = [];
+      for (int i = 0; i < x.length; i++) {
+        result.add(x[i].path.toString());
+      }
+      if (images != null) {
+        result.addAll(images);
+      }
+
+      context.read<NewsAddBloc>().add(NewsAddImageChanged(result));
+    }
+  }
+
+  List<XFile> file = [];
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.only(top: 10),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            state.image.value != ""
-                ? Stack(
-                    children: [
-                      Positioned(
-                          child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 30),
-                              width: MediaQuery.of(context).size.width,
-                              child: Image.file(File(state.image.value),
-                                  fit: BoxFit.cover))),
-                      Positioned(
-                          top: 25,
-                          right: 10,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.black.withOpacity(0.2),
-                            child: IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                context
-                                    .read<NewsAddBloc>()
-                                    .add(NewsAddImageChanged(""));
-                              },
+          child: Stack(children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: boxBorderGray,
+              child: (state.images.value != null && state.images.value != [])
+                  ? GridView.builder(
+                      itemCount: state.images.value!.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 20),
+                      itemBuilder: (_, index) {
+                        return Container(
+                            child: Stack(children: [
+                          Container(
+                            height: 120.0,
+                            width: 120.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    FileImage(File(state.images.value![index])),
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ))
-                    ],
-                  )
-                : GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      decoration: boxBorderGray,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                                onPressed: () async {
-                                  var file =
-                                      await PickFile().pickImage(context);
-
-                                  context
-                                      .read<NewsAddBloc>()
-                                      .add(NewsAddImageChanged(file));
-                                },
-                                icon: const Icon(
-                                  Icons.add_to_photos,
-                                  color: AppColors.appGreen1,
-                                  size: 35,
-                                )),
-                            const Text(
-                              "Ảnh minh họa",
-                              style: textMediumGreen,
-                            )
-                          ],
-                        ),
+                          ),
+                          Positioned(
+                              right: 0,
+                              top: 0,
+                              child: GestureDetector(
+                                  child: Icon(Icons.cancel),
+                                  onTap: () {
+                                    List<String> images = state.images.value!;
+                                    images.remove(images[index]);
+                                    List<String> result = [];
+                                    for (int i = 0; i < images.length; i++) {
+                                      result.add(images[i].toString());
+                                    }
+                                    context
+                                        .read<NewsAddBloc>()
+                                        .add(NewsAddImageChanged(result));
+                                  })),
+                        ]));
+                      },
+                    )
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () async {
+                                addImage(context, state.images.value);
+                              },
+                              icon: const Icon(
+                                Icons.add_to_photos,
+                                color: AppColors.appGreen1,
+                                size: 35,
+                              )),
+                          const Text(
+                            "Ảnh minh họa",
+                            style: textMediumGreen,
+                          )
+                        ],
                       ),
                     ),
-                  )
+            ),
+            Positioned(
+                right: 10,
+                bottom: 10,
+                child: GestureDetector(
+                  onTap: () {
+                    addImage(context, state.images.value);
+                  },
+                  child: Icon(EvaIcons.plusCircle,
+                      color: AppColors.appGreen1, size: 30),
+                ))
           ]),
         );
       },

@@ -2,8 +2,10 @@ class NewsRequest {
   final String title;
   final String content;
   final List<String> hashTags;
-  final String imageUrl;
-  final int type; 
+  final List<String> images;
+  final int type;
+  final bool isPrivated;
 
-  NewsRequest(this.title, this.content, this.hashTags, this.imageUrl, this.type);
+  NewsRequest(this.title, this.content, this.hashTags, this.images, this.type,
+      this.isPrivated);
 }

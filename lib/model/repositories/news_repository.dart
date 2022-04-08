@@ -25,9 +25,10 @@ class NewsRepository {
                 "title": news.title,
                 "content": news.content,
                 "hashTags": news.hashTags,
-                "imageUrl": news.imageUrl,
-                "createBy": userId,
-                "type": news.type
+                "images": news.images,
+                "createdBy": userId,
+                "type": news.type,
+                "isPrivated": news.isPrivated
               },
               options: Options(headers: {"Content-Type": "application/json"}));
       return Future<bool>.value(true);
