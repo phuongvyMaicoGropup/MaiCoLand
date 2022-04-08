@@ -224,8 +224,11 @@ class _ImageInput extends StatelessWidget {
       if (images != null) {
         result.addAll(images);
       }
+      dynamic l = result.toSet();
+      l = l.toList();
+      print({l});
 
-      context.read<NewsAddBloc>().add(NewsAddImageChanged(result));
+      context.read<NewsAddBloc>().add(NewsAddImageChanged(l));
     }
   }
 
