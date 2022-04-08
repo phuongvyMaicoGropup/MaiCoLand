@@ -36,41 +36,21 @@ class WidgetHomeCardNews extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  FutureBuilder(
-                    future: _dioProvider.getFileLink(news.images![0]),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Container(
-                          height: 100,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.04),
-                                offset: const Offset(0, 2),
-                                blurRadius: 2,
-                              ),
-                            ],
-                            image: DecorationImage(
-                              image: NetworkImage(snapshot.data.toString()),
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                        );
-                      }
-                      return Container(
-                        height: 100,
-                        child: const Center(child: CircularProgressIndicator()),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.04),
-                              offset: const Offset(0, 2),
-                              blurRadius: 2,
-                            ),
-                          ],
+                  Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          offset: const Offset(0, 2),
+                          blurRadius: 2,
                         ),
-                      );
-                    },
+                      ],
+                      image: DecorationImage(
+                        image: NetworkImage(news.images![0]),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
                   ),
                   Flexible(
                     child: Padding(

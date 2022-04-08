@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,20 +55,40 @@ class NewsDetailsScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                 children: [
-                  Stack(children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                          image: NetworkImage(news.images![0]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    WidgetSkeleton(
-                        height: MediaQuery.of(context).size.height * 0.4)
-                  ]),
+                  CarouselSlider(
+                      items: news.images
+                          ?.map((e) => Container(child: Image.network(e)))
+                          .toList(),
+                      options: CarouselOptions(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        // onPageChanged: callbackFunction,
+                        scrollDirection: Axis.horizontal,
+                      )),
+                  // Stack(children: [
+                  //   Container(
+                  //     height: MediaQuery.of(context).size.height * 0.4,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(5),
+                  //       image: DecorationImage(
+                  //         image: NetworkImage(news.images![0]),
+                  //         fit: BoxFit.cover,
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   WidgetSkeleton(
+                  //       height: MediaQuery.of(context).size.height * 0.4)
+                  // ]),
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.bottomLeft,

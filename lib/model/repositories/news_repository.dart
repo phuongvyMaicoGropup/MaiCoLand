@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:maico_land/model/api/request/news_request.dart';
+import 'package:maico_land/model/api/response/news_detail_data.dart';
 import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/local/pref.dart';
 import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
+import 'package:maico_land/presentation/screens/news/news_details/news_details_screen.dart';
 import '/model/api/dio_provider.dart';
 
 class NewsRepository {
