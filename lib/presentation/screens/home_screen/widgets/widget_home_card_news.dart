@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/news.dart';
 
 class WidgetHomeCardNews extends StatelessWidget {
@@ -10,6 +11,7 @@ class WidgetHomeCardNews extends StatelessWidget {
     Navigator.pushNamed(context, '/news/details', arguments: item);
   }
 
+  final DioProvider _dioProvider = DioProvider();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -34,21 +36,41 @@ class WidgetHomeCardNews extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
-                          offset: const Offset(0, 2),
-                          blurRadius: 2,
+                  FutureBuilder(
+                    future: _dioProvider.getFileLink(news.images![0]),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                offset: const Offset(0, 2),
+                                blurRadius: 2,
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: NetworkImage(snapshot.data.toString()),
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                        );
+                      }
+                      return Container(
+                        height: 100,
+                        child: const Center(child: CircularProgressIndicator()),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.04),
+                              offset: const Offset(0, 2),
+                              blurRadius: 2,
+                            ),
+                          ],
                         ),
-                      ],
-                      image: DecorationImage(
-                        image: NetworkImage(news.images![0]),
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   Flexible(
                     child: Padding(
