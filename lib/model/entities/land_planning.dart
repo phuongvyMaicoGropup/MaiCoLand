@@ -15,7 +15,7 @@ class LandPlanning extends Equatable {
       required this.content,
       required this.createdDate,
       required this.imageUrl,
-      required this.detailInfo,
+      this.detailInfo,
       required this.area,
       required this.expirationDate,
       required this.createdBy,
@@ -34,7 +34,7 @@ class LandPlanning extends Equatable {
   final DateTime createdDate;
   final DateTime updatedDate;
   final String imageUrl;
-  final String detailInfo;
+  final String? detailInfo;
   final double area;
   final DateTime expirationDate;
   final String createdBy;

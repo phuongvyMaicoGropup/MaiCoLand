@@ -27,7 +27,7 @@ class _LandPlanningDetailInfoScreenState
   void initState() {
     super.initState();
 
-    PickFile.createFileOfPdfUrl(widget.landPlanning.detailInfo).then((f) {
+    PickFile.createFileOfPdfUrl(widget.landPlanning.detailInfo!).then((f) {
       setState(() {
         path = f.path;
       });

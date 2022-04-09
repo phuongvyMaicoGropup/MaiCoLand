@@ -46,8 +46,8 @@ class AppRouter {
       case '/userpostland':
         return MaterialPageRoute(builder: (_) => UserPostLand());
       case '/news/add':
-        int type = routeSettings.arguments as int;
-        return MaterialPageRoute(builder: (_) => NewsAddScreen(type: type));
+        // int type = routeSettings.arguments as int;
+        return MaterialPageRoute(builder: (_) => NewsAddScreen());
       case '/account/news':
         var id = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => AccountNews(authorId: id));

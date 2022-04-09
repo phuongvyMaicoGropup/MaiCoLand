@@ -12,7 +12,7 @@ LandPlanning _$LandPlanningFromJson(Map<String, dynamic> json) => LandPlanning(
       content: json['content'] as String,
       createdDate: DateTime.parse(json['createdDate'] as String),
       imageUrl: json['imageUrl'] as String,
-      detailInfo: json['detailInfo'] as String,
+      detailInfo: json['detailInfo'] as String?,
       area: (json['area'] as num).toDouble(),
       expirationDate: DateTime.parse(json['expirationDate'] as String),
       createdBy: json['createdBy'] as String,

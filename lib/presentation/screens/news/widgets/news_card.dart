@@ -16,7 +16,7 @@ class NewsCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => openShowDetails(context, news),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.25,
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -34,7 +34,7 @@ class NewsCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.40,
+                width: MediaQuery.of(context).size.width * 0.38,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -52,33 +52,40 @@ class NewsCard extends StatelessWidget {
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery.of(context).size.width * 0.55,
                 padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      flex: 7,
-                      child: Text(
-                        news.title,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Montserrat",
-                              fontSize: 16,
-                            ),
-                      ),
+                    Text(
+                      news.title,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "Montserrat",
+                            fontSize: 16,
+                          ),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       "Ngày đăng : ${news.createdDate.day}/${news.createdDate.month}/${news.createdDate.year}",
                       textAlign: TextAlign.right,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          fontFamily: "Montserrat",
-                          fontSize: 10,
-                          fontStyle: FontStyle.italic),
+                      maxLines: 4,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(fontFamily: "Montserrat", fontSize: 11),
                     ),
+                    Text(
+                      news.content,
+                      maxLines: 4,
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            fontFamily: "Montserrat",
+                            fontSize: 10,
+                          ),
+                    ),
+
                     // md.MarkdownBody(data : content,
                     // shrinkWrap : true),
                   ],
