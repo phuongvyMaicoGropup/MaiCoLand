@@ -54,13 +54,11 @@ class UserRepository {
       print(email + firstName + lastName + username + password);
       Response response =
           await dio_provider.dio.post(dio_provider.registerApi, data: {
-        "firstName": firstName,
-        "lastName": lastName,
+        "fullName": firstName + " " + lastName,
         "userName": username,
         "phoneNumber": phoneNumber,
-        "email": email,
         "password": password,
-        "rememberMe": true
+        "email": email,
       });
       print("Đăng ký");
       print(response.data);
