@@ -1,7 +1,10 @@
+import 'dart:isolate';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:maico_land/model/api/request/news_request.dart';
 import 'package:maico_land/model/api/response/news_detail_data.dart';
+import 'package:maico_land/model/db/db_helpers.dart';
 import 'package:maico_land/model/entities/data_local_info.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/local/pref.dart';
@@ -10,13 +13,14 @@ import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/news/news_details/news_details_screen.dart';
 import '/model/api/dio_provider.dart';
 
+List<News> parseNews(dynamic responseBody) {
+  return responseBody.map<News>((json) => News.fromJson(json)).toList();
+}
+
 class NewsRepository {
   final DioProvider _dioProvider = DioProvider();
   final UserRepository _userRepo = UserRepository();
   final SessionRepository _sessionRepo = SessionRepository(pref: LocalPref());
-  List<News> parseNews(dynamic responseBody) {
-    return responseBody.map<News>((json) => News.fromJson(json)).toList();
-  }
 
   Future<bool> create(NewsRequest news) async {
     try {
@@ -44,9 +48,17 @@ class NewsRepository {
       Response response = await _dioProvider.dio.get(
           _dioProvider.getNewsPagination,
           queryParameters: {'pageNumber': 1, 'pageSize': 5});
-      return parseNews(response.data);
+      var result =
+          await compute<List<dynamic>, List<News>>(parseNews, response.data);
+      result.forEach((element) async {
+        await DataBaseHelper.instance.add(element);
+      });
+      print(DataBaseHelper.instance.getNews());
+
+      return result;
     } catch (e) {
-      return Future<List<News>>.value(null);
+      print(e);
+      return Future<List<News>>.value([]);
     }
   }
 
@@ -61,7 +73,7 @@ class NewsRepository {
         response = await _dioProvider.dio
             .get(_dioProvider.searchNews, queryParameters: {'searchKey': key});
       }
-      return parseNews(response.data);
+      return await compute<List<dynamic>, List<News>>(parseNews, response.data);
     } catch (e) {
       return Future<List<News>>.value(null);
     }
@@ -105,7 +117,7 @@ class NewsRepository {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/news/author/" + id,
       );
-      return parseNews(response.data);
+      return await compute<List<dynamic>, List<News>>(parseNews, response.data);
     } catch (e) {
       return Future<List<News>>.value(null);
     }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
 import 'package:maico_land/model/entities/data_local_info.dart';
@@ -7,6 +8,12 @@ import 'package:maico_land/model/local/pref.dart';
 import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:uuid/uuid.dart';
+
+List<LandPlanning> parseLand(dynamic responseBody) {
+  return responseBody
+      .map<LandPlanning>((json) => LandPlanning.fromJson(json))
+      .toList();
+}
 
 class LandPlanningRepository {
   final DioProvider _dioProvider = DioProvider();
@@ -32,8 +39,8 @@ class LandPlanningRepository {
                 "createdBy": userId,
                 "content": item.content,
                 "imageUrl": imagePathDb,
-                "landArea": item.landArea,
-                "filePdfUrl": filePdfPathDb,
+                "area": item.landArea,
+                "detailInfo": filePdfPathDb,
                 "expirationDate": date.toString(),
                 "leftTop": {
                   "latitude": item.leftTop.latitude,
@@ -55,7 +62,8 @@ class LandPlanningRepository {
                   "idLevel1": item.address.idLevel1.toString(),
                   "idLevel2": item.address.idLevel2.toString(),
                   "idLevel3": item.address.idLevel3.toString(),
-                }
+                },
+                "isPrivated": false
               },
               options: Options(headers: {"Content-Type": "application/json"}));
 
@@ -86,9 +94,8 @@ class LandPlanningRepository {
         _dioProvider.getLandPlanningPagination,
         queryParameters: {'pageNumber': 1, 'pageSize': 5});
 
-    return response.data
-        .map<LandPlanning>((json) => LandPlanning.fromJson(json))
-        .toList();
+    return await compute<List<dynamic>, List<LandPlanning>>(
+        parseLand, response.data);
   }
 
   Future<bool> likeLand(String landId) async {
@@ -126,9 +133,8 @@ class LandPlanningRepository {
     }
     var json = response.data;
     // var a = parsed[0]['hashTags'].toList();
-    return response.data
-        .map<LandPlanning>((json) => LandPlanning.fromJson(json))
-        .toList();
+    return await compute<List<dynamic>, List<LandPlanning>>(
+        parseLand, response.data);
   }
 
   Future saveLand(DataLocalInfo data) async {
@@ -144,9 +150,8 @@ class LandPlanningRepository {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/landplanning/author/" + id,
       );
-      return response.data
-          .map<LandPlanning>((json) => LandPlanning.fromJson(json))
-          .toList();
+      return await compute<List<dynamic>, List<LandPlanning>>(
+          parseLand, response.data);
     } catch (e) {
       print(e);
       return Future<List<LandPlanning>>.value(null);

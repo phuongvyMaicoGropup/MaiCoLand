@@ -55,12 +55,12 @@ Future<void> main() async {
             ),
             BlocProvider(
               create: (context) {
-                return HomeNewsBloc();
+                return HomeNewsBloc()..add(LoadHomeNews());
               },
             ),
             BlocProvider(
               create: (context) {
-                return HomeLandPlanningBloc();
+                return HomeLandPlanningBloc()..add(LoadHomeLandPlanning());
               },
             ),
             BlocProvider(

@@ -22,8 +22,6 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     print("HomeNewsState before add" +
         BlocProvider.of<HomeNewsBloc>(context).state.toString());
-    BlocProvider.of<HomeNewsBloc>(context).add(LoadHomeNews());
-    BlocProvider.of<HomeLandPlanningBloc>(context).add(LoadHomeLandPlanning());
     print("HomeNewsState after add" +
         BlocProvider.of<HomeNewsBloc>(context).state.toString());
 

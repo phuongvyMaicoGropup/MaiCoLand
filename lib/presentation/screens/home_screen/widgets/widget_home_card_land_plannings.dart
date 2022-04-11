@@ -94,10 +94,10 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: ValidChip(expirationDate: landPlanning.expirationDate),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ValidChip(expirationDate: landPlanning.expirationDate),
+                ),
               ],
             ),
           ),

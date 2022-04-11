@@ -27,55 +27,58 @@ class WidgetHomeNews extends StatelessWidget {
                 key: Key(items[i].id),
               ));
             }
-            return Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const HeadingTextWidget(text: "Tin tức"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/news");
-                        },
-                        child: Text(
-                          "Xem thêm",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              ?.copyWith(
-                                fontFamily: "Montserrat",
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+            if (items == []) {
+              return Center(child: Text("Không có dữ liệu"));
+            } else
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const HeadingTextWidget(text: "Tin tức"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/news");
+                          },
+                          child: Text(
+                            "Xem thêm",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                  fontFamily: "Montserrat",
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                    SizedBox(
+                        height: 200.0,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: list,
+                          ),
+                        )
+                        //  ListView(
+                        //     shrinkWrap: true,
+                        //     scrollDirection: Axis.horizontal,
+                        //     addAutomaticKeepAlives: false,
+                        //     addRepaintBoundaries: false,
+                        //     children: list)
                         ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                      height: 200.0,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: list,
-                        ),
-                      )
-                      //  ListView(
-                      //     shrinkWrap: true,
-                      //     scrollDirection: Axis.horizontal,
-                      //     addAutomaticKeepAlives: false,
-                      //     addRepaintBoundaries: false,
-                      //     children: list)
-                      ),
-                ],
-              ),
-            );
+                  ],
+                ),
+              );
           } else if (state is NewsNotLoaded) {
             return Container(child: const Text("Không load được"));
           } else {

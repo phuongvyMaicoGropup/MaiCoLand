@@ -93,7 +93,11 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(listType[type].values.first),
+                                GestureDetector(
+                                    onTap: () {
+                                      _showModalBottomSheet(context);
+                                    },
+                                    child: Text(listType[type].values.first)),
                                 GestureDetector(
                                   onTap: () {
                                     _showModalBottomSheet(context);
