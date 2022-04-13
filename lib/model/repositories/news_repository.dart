@@ -64,10 +64,11 @@ class NewsRepository {
   Future<bool> updateViewed(String id) async {
     try {
       Response response = await _dioProvider.dio
-          .get(_dioProvider.baseUrl + "api/news/viewed/$id");
+          .put(_dioProvider.baseUrl + "api/news/viewed/$id");
 
       return Future<bool>.value(true);
     } catch (e) {
+      print("Error in update viewed in news : " + e.toString());
       return Future<bool>.value(false);
     }
   }
@@ -75,7 +76,7 @@ class NewsRepository {
   Future<bool> updateSaved(String id) async {
     try {
       Response response = await _dioProvider.dio
-          .get(_dioProvider.baseUrl + "api/news/saved/$id");
+          .put(_dioProvider.baseUrl + "api/news/saved/$id");
 
       return Future<bool>.value(true);
     } catch (e) {
@@ -109,13 +110,20 @@ class NewsRepository {
 
       return Future<bool>.value(true);
     } catch (e) {
+      // print("Eror in li")
       return Future<bool>.value(false);
     }
   }
 
   Future saveNews(DataLocalInfo data) async {
-    var result = await updateSaved(data.id);
-    _sessionRepo.cacheNews(data);
+    try {
+      var result = await updateSaved(data.id);
+      print("Result in saveNews" + result.toString());
+      _sessionRepo.cacheNews(data);
+    } catch (e) {
+      print(e.toString);
+    }
+
     // _sessionRepo.getNews();
   }
 

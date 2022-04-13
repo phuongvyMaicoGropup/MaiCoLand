@@ -19,6 +19,7 @@ class NewsDetailsScreen extends StatelessWidget {
 
   final userRepo = UserRepository();
   late User author;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +33,6 @@ class NewsDetailsScreen extends StatelessWidget {
             content: Text('Đã lưu', style: whiteText),
           );
 
-// Find the ScaffoldMessenger in the widget tree
-// and use it to show a SnackBar.
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         child: ClipOval(

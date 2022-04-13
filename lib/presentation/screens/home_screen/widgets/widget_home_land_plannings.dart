@@ -139,15 +139,13 @@ class WidgetHomeLandPlanning extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              WidgetSkeleton(height: 105, width: 170),
-              SizedBox(height: 8),
-              WidgetSkeleton(width: 130, height: 20),
-              SizedBox(height: 8),
-              WidgetSkeleton(width: 40, height: 20),
-            ]));
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          WidgetSkeleton(height: 105, width: 170),
+          SizedBox(height: 8),
+          WidgetSkeleton(width: 130, height: 20),
+          SizedBox(height: 8),
+          WidgetSkeleton(width: 40, height: 20),
+        ]));
   }
 
   void openShowDetails(BuildContext context, LandPlanning item) {

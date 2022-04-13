@@ -78,7 +78,7 @@ class LandPlanningRepository {
   Future<bool> updateViewed(String id) async {
     try {
       Response response = await _dioProvider.dio
-          .get(_dioProvider.baseUrl + "api/landplanning/viewed/$id");
+          .put(_dioProvider.baseUrl + "api/landplanning/viewed/$id");
 
       return Future<bool>.value(true);
     } catch (e) {
@@ -89,7 +89,7 @@ class LandPlanningRepository {
   Future<bool> updateSaved(String id) async {
     try {
       Response response = await _dioProvider.dio
-          .get(_dioProvider.baseUrl + "api/landplanning/saved/$id");
+          .put(_dioProvider.baseUrl + "api/landplanning/saved/$id");
 
       return Future<bool>.value(true);
     } catch (e) {
@@ -154,6 +154,7 @@ class LandPlanningRepository {
   }
 
   Future saveLand(DataLocalInfo data) async {
+    updateSaved(data.id);
     _sessionRepo.cacheLand(data);
   }
 

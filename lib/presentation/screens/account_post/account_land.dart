@@ -61,17 +61,12 @@ class _AccountLandState extends State<AccountLand>
                           padding: const EdgeInsets.only(top: 8.0),
                           child: FutureBuilder(
                             future: _LandPlanningRepo.getLandById(item),
-                            initialData: [],
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
-                                return LandPlanningCard(
-                                    land: LandPlanning.fromJson(snapshot.data));
+                                return LandPlanningCard(land: snapshot.data);
                               }
-                              return WidgetSkeleton(
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3);
+                              return Container();
                             },
                           ),
                         ));

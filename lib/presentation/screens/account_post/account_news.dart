@@ -50,15 +50,12 @@ class _AccountNewsState extends State<AccountNews>
                       },
                       child: FutureBuilder(
                         future: _newsRepo.getNewsById(item),
-                        initialData: [],
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
-                            return NewsCard(news: News.fromJson(snapshot.data));
+                            return NewsCard(news: snapshot.data);
                           }
-                          return WidgetSkeleton(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.3);
+                          return Container();
                         },
                       ),
                     );

@@ -13,7 +13,7 @@ Widget LandPlanningkeleton() {
           ),
         ],
       ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         WidgetSkeleton(height: 105, width: 170),
         SizedBox(height: 8),
         WidgetSkeleton(width: 130, height: 20),

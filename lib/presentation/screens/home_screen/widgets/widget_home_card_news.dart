@@ -1,13 +1,19 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/news.dart';
+import 'package:maico_land/model/repositories/news_repository.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
+import 'package:maico_land/presentation/widgets/text_icon.dart';
 
 class WidgetHomeCardNews extends StatelessWidget {
   WidgetHomeCardNews({Key? key, required this.news}) : super(key: key);
 
   News news;
-  void openNewsDetails(BuildContext context, News item) {
+  void openNewsDetails(BuildContext context, News item) async {
+    bool result = await NewsRepository().updateViewed(item.id);
+    print("Update viewed in news result : " + result.toString());
     Navigator.pushNamed(context, '/news/details', arguments: item);
   }
 
@@ -21,7 +27,7 @@ class WidgetHomeCardNews extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 4, right: 20),
             child: Container(
-              width: 180,
+              width: MediaQuery.of(context).size.width * 0.70,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -84,12 +90,18 @@ class WidgetHomeCardNews extends StatelessWidget {
                                   .textTheme
                                   .bodyText2
                                   ?.copyWith(
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: "Montserrat",
-                                    fontSize: 16,
+                                    fontSize: 15,
                                   ),
                             ),
                           ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextIcon(EvaIcons.eye, news.viewed.toString()),
+                                TextIcon(EvaIcons.save, news.saved.toString()),
+                              ]),
                         ],
                       ),
                     ),

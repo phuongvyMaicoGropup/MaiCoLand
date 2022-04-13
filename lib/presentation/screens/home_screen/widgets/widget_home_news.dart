@@ -8,6 +8,7 @@ import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeNews extends StatelessWidget {
   List<String> items = [];
+  final _newsRepo = NewsRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class WidgetHomeNews extends StatelessWidget {
                                     } else {
                                       return Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: newSkeleton(),
+                                        child: newSkeleton(context),
                                       );
                                     }
                                   }))
@@ -122,7 +123,7 @@ class WidgetHomeNews extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                                 padding: const EdgeInsets.all(8),
-                                child: newSkeleton());
+                                child: newSkeleton(context));
                           })),
                 ],
               ),
@@ -133,8 +134,9 @@ class WidgetHomeNews extends StatelessWidget {
     );
   }
 
-  Widget newSkeleton() {
+  Widget newSkeleton(BuildContext context) {
     return Container(
+        width: MediaQuery.of(context).size.width * 0.7,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -145,18 +147,24 @@ class WidgetHomeNews extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              WidgetSkeleton(height: 105, width: 170),
-              SizedBox(height: 8),
-              WidgetSkeleton(width: 130, height: 20),
-              SizedBox(height: 8),
-              WidgetSkeleton(width: 40, height: 20),
-            ]));
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          WidgetSkeleton(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.7),
+          SizedBox(height: 8),
+          WidgetSkeleton(
+              height: MediaQuery.of(context).size.height * 0.03,
+              width: MediaQuery.of(context).size.width * 0.3),
+          SizedBox(height: 8),
+          WidgetSkeleton(
+              height: MediaQuery.of(context).size.height * 0.03,
+              width: MediaQuery.of(context).size.width * 0.5),
+        ]));
   }
 
-  void openShowDetails(BuildContext context, News item) {
+  Future openShowDetails(BuildContext context, News item) async {
+    bool result = await _newsRepo.likeNews(item.id);
+    print("Update viewed in news result : " + result.toString());
     Navigator.pushNamed(context, '/news/details', arguments: item);
   }
 }
