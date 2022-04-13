@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'package:maico_land/presentation/screens/home_screen/widgets/widgets.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeLandPlanning extends StatelessWidget {
-  List<LandPlanning> items = [];
+  List<String> items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +15,6 @@ class WidgetHomeLandPlanning extends StatelessWidget {
       builder: (context, state) {
         if (state is HomeLandPlanningLoaded) {
           items = state.land;
-          List<Widget> list = [];
-          for (int i = 0; i < items.length; i++) {
-            list.add(WidgetHomeCardLandPlanning(
-              landPlanning: items[i],
-              key: Key(items[i].id),
-            ));
-          }
 
           return Padding(
             padding: const EdgeInsets.all(20.0),
@@ -55,7 +49,20 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: list,
+                          children: items
+                              .map((a) => FutureBuilder<LandPlanning>(
+                                  future: RepositoryProvider.of<
+                                          LandPlanningRepository>(context)
+                                      .getLandById(a),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return WidgetHomeCardLandPlanning(
+                                        landPlanning: snapshot.data!,
+                                      );
+                                    }
+                                    return Container();
+                                  }))
+                              .toList(),
                         ))),
               ],
             ),

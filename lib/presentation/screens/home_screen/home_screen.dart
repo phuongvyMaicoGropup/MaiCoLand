@@ -50,10 +50,6 @@ class _HomeScreenState extends State<HomeScreen>
                             .add(RefreshHomeNews());
                         BlocProvider.of<HomeNewsBloc>(context)
                             .add(LoadHomeNews());
-                        print("HomeNewsState" +
-                            BlocProvider.of<HomeNewsBloc>(context)
-                                .state
-                                .toString());
 
                         BlocProvider.of<HomeLandPlanningBloc>(context)
                             .add(RefreshHomeLandPlanning());

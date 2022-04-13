@@ -22,7 +22,10 @@ class DataBaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
-    //await db.execute(sql)
+    await db.execute('''
+    drop table news
+
+''');
     await db.execute('''
       CREATE TABLE news(
         id TEXT PRIMARY KEY , 
@@ -52,6 +55,27 @@ class DataBaseHelper {
 
   Future<int> add(News news) async {
     Database db = await instance.database;
+    await db.execute('''
+    drop table news
+
+''');
+    await db.execute('''
+      CREATE TABLE news(
+        id TEXT PRIMARY KEY , 
+        title TEXT,
+        content TEXT,
+        createdDate TEXT,
+        updatedDate TEXT,
+        type INTEGER,
+        viewed INTEGER,
+        saved INTEGER,
+        isPrivated INTERGER,
+        createdBy TEXT,
+        images TEXT,
+        hashTags TEXT,
+        likes TEXT,
+      )
+''');
 
     return await db.insert('news', news.toJson());
   }

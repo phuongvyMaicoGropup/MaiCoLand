@@ -4,8 +4,7 @@ import 'package:maico_land/model/entities/news.dart';
 
 class NewsState extends Equatable {
   NewsState(this.news);
-  List<News> news;
+  List<String> news;
   @override
   List<Object> get props => [news];
 }
-  

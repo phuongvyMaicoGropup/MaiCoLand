@@ -5,6 +5,7 @@ import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/screens/land_planning/widgets/land_planning_card.dart';
 import 'package:dvhcvn/dvhcvn.dart' as dvhcvn;
 import 'package:maico_land/presentation/styles/styles.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class LandPlanningScreen extends StatefulWidget {
   const LandPlanningScreen({Key? key}) : super(key: key);
@@ -19,14 +20,14 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
   dvhcvn.Level2 idAddress2 =
       const dvhcvn.Level2(0, "", "", dvhcvn.Type.huyen, []);
   final LandPlanningRepository _LandPlanningRepo = LandPlanningRepository();
-  List<LandPlanning> listSearch = [];
+  List<String> listSearch = [];
 
   final searchController = TextEditingController();
   static const _pageSize = 10;
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = const Text('Bản đồ quy hoạch đất');
 
-  final PagingController<int, LandPlanning> _pagingController =
+  final PagingController<int, String> _pagingController =
       PagingController(firstPageKey: 1);
 
   @override
@@ -196,14 +197,26 @@ class _LandPlanningScreenState extends State<LandPlanningScreen> {
   Widget _buildListLandPlanning() {
     return RefreshIndicator(
       onRefresh: () => Future.sync(() => _pagingController.refresh()),
-      child: PagedListView<int, LandPlanning>(
+      child: PagedListView<int, String>(
         shrinkWrap: true,
         pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<LandPlanning>(
+        builderDelegate: PagedChildBuilderDelegate<String>(
           animateTransitions: true,
           // [transitionDuration] has a default value of 250 milliseconds.
           transitionDuration: const Duration(milliseconds: 500),
-          itemBuilder: (context, item, index) => LandPlanningCard(land: item),
+          itemBuilder: (context, item, index) => FutureBuilder(
+            future: _LandPlanningRepo.getLandById(item),
+            initialData: [],
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return LandPlanningCard(
+                    land: LandPlanning.fromJson(snapshot.data));
+              }
+              return WidgetSkeleton(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.3);
+            },
+          ),
         ),
       ),
     );

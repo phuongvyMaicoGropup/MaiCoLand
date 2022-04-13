@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:maico_land/model/entities/address.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/entities/news.dart';
+import 'package:maico_land/model/repositories/land_repository.dart';
+import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:maico_land/presentation/screens/account_post/account_land.dart';
 import 'package:maico_land/presentation/screens/account_post/account_news.dart';
@@ -26,6 +28,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 class AppRouter {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     final userRepo = UserRepository();
+    final newsRepo = NewsRepository();
+    final landRepo = LandPlanningRepository();
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
@@ -75,6 +79,7 @@ class AppRouter {
                 controller: controller, landPlanning: land));
       case '/news/details':
         var news = routeSettings.arguments as News;
+
         return MaterialPageRoute(builder: (_) => NewsDetailsScreen(news: news));
 //         case '/account_settings':
 //       return MaterialPageRoute(builder: (_)=> const AccountSettings());

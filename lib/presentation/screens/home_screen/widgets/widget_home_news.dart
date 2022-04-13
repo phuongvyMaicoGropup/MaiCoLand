@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/news.dart';
+import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 import 'package:maico_land/presentation/screens/home_screen/widgets/widget_home_card_news.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeNews extends StatelessWidget {
-  List<News> items = [];
+  List<String> items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -16,69 +17,71 @@ class WidgetHomeNews extends StatelessWidget {
         print("bloc home new was build");
       },
       child: BlocBuilder<HomeNewsBloc, HomeNewsState>(
-        buildWhen: (previous, current) => previous != current,
+        // buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           if (state is HomeNewsLoaded) {
-            items = state.news;
-            List<Widget> list = [];
-            for (int i = 0; i < items.length; i++) {
-              list.add(WidgetHomeCardNews(
-                news: items[i],
-                key: Key(items[i].id),
-              ));
-            }
             if (items == []) {
               return Center(child: Text("Không có dữ liệu"));
-            } else
-              return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const HeadingTextWidget(text: "Tin tức"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/news");
-                          },
-                          child: Text(
-                            "Xem thêm",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.copyWith(
-                                  fontFamily: "Montserrat",
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    SizedBox(
-                        height: 200.0,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: list,
-                          ),
-                        )
-                        //  ListView(
-                        //     shrinkWrap: true,
-                        //     scrollDirection: Axis.horizontal,
-                        //     addAutomaticKeepAlives: false,
-                        //     addRepaintBoundaries: false,
-                        //     children: list)
+            }
+            items = state.news;
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const HeadingTextWidget(text: "Tin tức"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/news");
+                        },
+                        child: Text(
+                          "Xem thêm",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                fontFamily: "Montserrat",
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         ),
-                  ],
-                ),
-              );
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  SizedBox(
+                      height: 200.0,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: items
+                              .map((a) => FutureBuilder<News>(
+                                  future: RepositoryProvider.of<NewsRepository>(
+                                          context)
+                                      .getNewsById(a),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return WidgetHomeCardNews(
+                                          news: snapshot.data!);
+                                    } else {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: newSkeleton(),
+                                      );
+                                    }
+                                  }))
+                              .toList(),
+                        ),
+                      )),
+                ],
+              ),
+            );
           } else if (state is NewsNotLoaded) {
             return Container(child: const Text("Không load được"));
           } else {
@@ -113,14 +116,12 @@ class WidgetHomeNews extends StatelessWidget {
                   SizedBox(
                       height: 200.0,
                       child: ListView.builder(
-                          padding: const EdgeInsets.all(8),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: 5,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 16.0, top: 8, bottom: 8),
+                                padding: const EdgeInsets.all(8),
                                 child: newSkeleton());
                           })),
                 ],

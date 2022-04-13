@@ -17,7 +17,7 @@ class HomeLandPlanningBloc
   }
 
   void _mapLoadHomeLandPlanningToState(LoadHomeLandPlanning event, emit) async {
-    List<LandPlanning> lands = await landRepo.getHomeLandPlanning();
+    List<String> lands = await landRepo.getHomeLandPlanning();
     emit(HomeLandPlanningLoaded(lands));
   }
 }

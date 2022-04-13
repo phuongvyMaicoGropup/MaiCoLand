@@ -43,26 +43,47 @@ class NewsRepository {
     }
   }
 
-  Future<List<News>> getHomeNews() async {
+  Future<List<String>> getHomeNews() async {
     try {
       Response response = await _dioProvider.dio.get(
           _dioProvider.getNewsPagination,
           queryParameters: {'pageNumber': 1, 'pageSize': 5});
-      var result =
-          await compute<List<dynamic>, List<News>>(parseNews, response.data);
-      result.forEach((element) async {
-        await DataBaseHelper.instance.add(element);
-      });
-      print(DataBaseHelper.instance.getNews());
+      var result = List<String>.from(response.data);
+      // result.forEach((element) async {
+      //   await DataBaseHelper.instance.add(element);
+      // });
+      // print(DataBaseHelper.instance.getNews());
 
       return result;
     } catch (e) {
       print(e);
-      return Future<List<News>>.value([]);
+      return Future<List<String>>.value([]);
     }
   }
 
-  Future<List<News>> getNewsPagination(
+  Future<bool> updateViewed(String id) async {
+    try {
+      Response response = await _dioProvider.dio
+          .get(_dioProvider.baseUrl + "api/news/viewed/$id");
+
+      return Future<bool>.value(true);
+    } catch (e) {
+      return Future<bool>.value(false);
+    }
+  }
+
+  Future<bool> updateSaved(String id) async {
+    try {
+      Response response = await _dioProvider.dio
+          .get(_dioProvider.baseUrl + "api/news/saved/$id");
+
+      return Future<bool>.value(true);
+    } catch (e) {
+      return Future<bool>.value(false);
+    }
+  }
+
+  Future<List<String>> getNewsPagination(
       int pageNumber, int pageSize, String key) async {
     try {
       Response response;
@@ -73,9 +94,9 @@ class NewsRepository {
         response = await _dioProvider.dio
             .get(_dioProvider.searchNews, queryParameters: {'searchKey': key});
       }
-      return await compute<List<dynamic>, List<News>>(parseNews, response.data);
+      return List<String>.from(response.data);
     } catch (e) {
-      return Future<List<News>>.value(null);
+      return Future<List<String>>.value(null);
     }
   }
 
@@ -93,6 +114,7 @@ class NewsRepository {
   }
 
   Future saveNews(DataLocalInfo data) async {
+    var result = await updateSaved(data.id);
     _sessionRepo.cacheNews(data);
     // _sessionRepo.getNews();
   }
@@ -112,14 +134,14 @@ class NewsRepository {
     }
   }
 
-  Future<List<News>> getNewsByAuthorId(String id) async {
+  Future<List<String>> getNewsByAuthorId(String id) async {
     try {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/news/author/" + id,
       );
-      return await compute<List<dynamic>, List<News>>(parseNews, response.data);
+      return List<String>.from(response.data);
     } catch (e) {
-      return Future<List<News>>.value(null);
+      return Future<List<String>>.value(null);
     }
   }
 }
