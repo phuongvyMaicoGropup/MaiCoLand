@@ -8,20 +8,21 @@ part 'news.g.dart';
 
 @JsonSerializable()
 class News extends Equatable {
-  const News(
-      {required this.viewed,
-      required this.saved,
-      required this.isPrivated,
-      required this.id,
-      required this.title,
-      required this.content,
-      required this.hashTags,
-      required this.images,
-      required this.likes,
-      required this.createdDate,
-      required this.createdBy,
-      required this.updatedDate,
-      required this.type});
+  const News({
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.hashTags,
+    required this.images,
+    required this.likes,
+    required this.createdDate,
+    required this.createdBy,
+    required this.type,
+    required this.updatedDate,
+    required this.viewed,
+    required this.saved,
+    required this.isPrivated,
+  });
   final String id;
   final String title;
   final String content;
@@ -38,7 +39,7 @@ class News extends Equatable {
 
   @override
   String toString() {
-    return 'News(id: $id, title: $title, content: $content, hashTags: $hashTags, imageUrl: $images, likes: $likes, createdDate: $createdDate, createdBy: $createdBy, updatedDate: $updatedDate)';
+    return 'News(id: $id, title: $title, content: $content, hashTags: $hashTags, images: $images, likes: $likes, createdDate: $createdDate, createdBy: $createdBy, type: $type, updatedDate: $updatedDate, viewed: $viewed, saved: $saved, isPrivated: $isPrivated)';
   }
 
   factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
@@ -46,19 +47,53 @@ class News extends Equatable {
   Map<String, dynamic> toJson() => _$NewsToJson(this);
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [
-        id,
-        title,
-        content,
-        images,
-        likes,
-        createdDate,
-        createdBy,
-        updatedDate,
-        type,
-        viewed,
-        saved,
-        isPrivated
-      ];
+  List<Object> get props {
+    return [
+      id,
+      title,
+      content,
+      hashTags!,
+      images!,
+      likes!,
+      createdDate,
+      createdBy,
+      type,
+      updatedDate,
+      viewed,
+      saved,
+      isPrivated,
+    ];
+  }
+
+  News copyWith({
+    String? id,
+    String? title,
+    String? content,
+    List<String>? hashTags,
+    List<String>? images,
+    List<String>? likes,
+    DateTime? createdDate,
+    String? createdBy,
+    int? type,
+    DateTime? updatedDate,
+    int? viewed,
+    int? saved,
+    bool? isPrivated,
+  }) {
+    return News(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      hashTags: hashTags ?? this.hashTags,
+      images: images ?? this.images,
+      likes: likes ?? this.likes,
+      createdDate: createdDate ?? this.createdDate,
+      createdBy: createdBy ?? this.createdBy,
+      type: type ?? this.type,
+      updatedDate: updatedDate ?? this.updatedDate,
+      viewed: viewed ?? this.viewed,
+      saved: saved ?? this.saved,
+      isPrivated: isPrivated ?? this.isPrivated,
+    );
+  }
 }

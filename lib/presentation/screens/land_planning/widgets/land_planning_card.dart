@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/presentation/widgets/valid_chip.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class LandPlanningCard extends StatelessWidget {
   LandPlanningCard({
@@ -37,21 +38,17 @@ class LandPlanningCard extends StatelessWidget {
           children: [
             Stack(children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.35,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 2,
-                    ),
-                  ],
-                  image: const DecorationImage(
-                    image: AssetImage('assets/logo.png'),
-                    fit: BoxFit.cover,
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.05),
+                        offset: const Offset(0, 2),
+                        blurRadius: 2,
+                      ),
+                    ],
                   ),
-                ),
-              ),
+                  child: AppCachedImage(land.imageUrl)),
               Positioned(
                   top: 0,
                   child: Container(

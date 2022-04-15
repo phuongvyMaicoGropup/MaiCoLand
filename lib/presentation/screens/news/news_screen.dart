@@ -105,6 +105,12 @@ class _NewsScreenState extends State<NewsScreen> {
       child: PagedListView<int, String>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<String>(
+          firstPageProgressIndicatorBuilder: (_) => WidgetSkeleton(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.3),
+          // newPageProgressIndicatorBuilder: (_) => NewPageProgressIndicator(),
+          noItemsFoundIndicatorBuilder: (_) => Center(child: Text("Đã hết")),
+          // noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
           itemBuilder: (context, item, index) => FutureBuilder(
             future: _newsRepo.getNewsById(item),
             // initialData: Wi,

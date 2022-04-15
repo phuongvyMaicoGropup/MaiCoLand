@@ -6,6 +6,7 @@ import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/widgets/text_icon.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeCardNews extends StatelessWidget {
   WidgetHomeCardNews({Key? key, required this.news}) : super(key: key);
@@ -43,21 +44,18 @@ class WidgetHomeCardNews extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
-                          offset: const Offset(0, 2),
-                          blurRadius: 2,
-                        ),
-                      ],
-                      image: DecorationImage(
-                        image: NetworkImage(news.images![0]),
-                        fit: BoxFit.fitWidth,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            offset: const Offset(0, 2),
+                            blurRadius: 2,
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
+                      child: AppCachedImage(news.images![0])),
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

@@ -60,7 +60,7 @@ class WidgetHomeLandPlanning extends StatelessWidget {
                                         landPlanning: snapshot.data!,
                                       );
                                     }
-                                    return Container();
+                                    return LandPlanningkeleton();
                                   }))
                               .toList(),
                         ))),
@@ -141,9 +141,9 @@ class WidgetHomeLandPlanning extends StatelessWidget {
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           WidgetSkeleton(height: 105, width: 170),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           WidgetSkeleton(width: 130, height: 20),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           WidgetSkeleton(width: 40, height: 20),
         ]));
   }

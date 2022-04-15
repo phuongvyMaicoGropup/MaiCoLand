@@ -18,6 +18,7 @@ import 'package:maico_land/router/app_router.dart';
 import 'bloc/news_add_bloc/news_add_bloc.dart';
 import 'presentation/screens/home_screen/home_land_planning/bloc/land_planning_bloc.dart';
 import 'presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
+import 'presentation/screens/home_screen/home_news_top_viewed/bloc/top_news_bloc.dart';
 
 Future<void> main() async {
   final UserRepository userRepo = UserRepository();
@@ -66,6 +67,13 @@ Future<void> main() async {
             BlocProvider(
               create: (context) {
                 return NewsBloc(newsRepo: NewsRepository());
+              },
+            ),
+            BlocProvider(
+              create: (context) {
+                return TopNewsBloc(
+                    newsRepo: RepositoryProvider.of<NewsRepository>(context))
+                  ..add(LoadTopNews());
               },
             ),
             BlocProvider(

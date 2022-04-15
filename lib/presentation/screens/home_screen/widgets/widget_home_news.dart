@@ -161,10 +161,4 @@ class WidgetHomeNews extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.5),
         ]));
   }
-
-  Future openShowDetails(BuildContext context, News item) async {
-    bool result = await _newsRepo.likeNews(item.id);
-    print("Update viewed in news result : " + result.toString());
-    Navigator.pushNamed(context, '/news/details', arguments: item);
-  }
 }

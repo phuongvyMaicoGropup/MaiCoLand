@@ -152,4 +152,16 @@ class NewsRepository {
       return Future<List<String>>.value(null);
     }
   }
+
+  Future<List<String>> getTopViewed() async {
+    try {
+      Response response = await _dioProvider.dio.get(
+        _dioProvider.baseUrl + "api/news/topviewed",
+      );
+      print(response.data);
+      return List<String>.from(response.data);
+    } catch (e) {
+      return Future<List<String>>.value([]);
+    }
+  }
 }
