@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
+import 'package:maico_land/model/repositories/land_repository.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/widgets/valid_chip.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
@@ -110,7 +112,9 @@ class LandPlanningCard extends StatelessWidget {
     return (to.difference(from).inHours / 24).round();
   }
 
-  void openShowDetails(BuildContext context, LandPlanning item) {
+  void openShowDetails(BuildContext context, LandPlanning item) async {
+    bool result = await RepositoryProvider.of<LandPlanningRepository>(context)
+        .updateViewed(item.id);
     Navigator.pushNamed(context, '/landplanning/details', arguments: item);
   }
 }

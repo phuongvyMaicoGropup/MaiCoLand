@@ -107,7 +107,7 @@ class LandPlanningRepository {
       return Future<LandPlanning>.value(LandPlanning.fromJson(response.data));
     } catch (e) {
       print(e);
-      return Future<LandPlanning>.value(null);
+      return Future<LandPlanning>.value();
     }
   }
 

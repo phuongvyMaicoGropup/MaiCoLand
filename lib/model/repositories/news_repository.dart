@@ -136,9 +136,11 @@ class NewsRepository {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/news/" + id,
       );
+      // if (response.)
       return Future<News>.value(News.fromJson(response.data));
     } catch (e) {
-      return Future<News>.value(null);
+      print(e);
+      return Future<News>.value();
     }
   }
 

@@ -1,6 +1,9 @@
+import 'dart:isolate';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:maico_land/helpers/function_helper.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
@@ -13,8 +16,7 @@ class WidgetHomeCardNews extends StatelessWidget {
 
   News news;
   void openNewsDetails(BuildContext context, News item) async {
-    bool result = await NewsRepository().updateViewed(item.id);
-    print("Update viewed in news result : " + result.toString());
+    Isolate.spawn(updateNewsViewd, item.id);
     Navigator.pushNamed(context, '/news/details', arguments: item);
   }
 

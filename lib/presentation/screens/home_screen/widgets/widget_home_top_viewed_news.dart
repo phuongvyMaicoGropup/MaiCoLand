@@ -1,6 +1,9 @@
+import 'dart:isolate';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maico_land/helpers/function_helper.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
@@ -170,8 +173,7 @@ class SmallNewsCard extends StatelessWidget {
 
   final News news;
   void openDetails(BuildContext context, News item) async {
-    bool result = await NewsRepository().updateViewed(item.id);
-    // item.copyWith(saved: item.saved + 1);
+    Isolate.spawn(updateNewsViewd, item.id);
 
     Navigator.pushNamed(context, '/news/details', arguments: item);
   }
