@@ -28,7 +28,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         level1: event.item,
         level2: const Level2(0, "", "", Type.phuong, []),
         level3: const Level3(0, 0, "", "", Type.phuong)));
-    print(state);
   }
 
   Future<void> _mapAddressInitialToState(
@@ -45,7 +44,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           "",
           Type.huyen,
         )));
-    print(state);
   }
 
   Future<void> _mapAddressIdLevel2SelectedToState(

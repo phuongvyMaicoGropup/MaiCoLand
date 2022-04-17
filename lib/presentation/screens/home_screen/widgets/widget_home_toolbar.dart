@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/model/entities/user.dart';
@@ -107,4 +108,67 @@ class _WidgetHomeToolbarState extends State<WidgetHomeToolbar> {
   _clickAccount() {
     Navigator.of(context).pushNamed("/account");
   }
+}
+
+class NetworkingPageHeader implements SliverPersistentHeaderDelegate {
+  NetworkingPageHeader({required this.minExtent, required this.maxExtent});
+
+  final double minExtent;
+  final double maxExtent;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // WidgetHomeToolbar(user: )
+        // Image.network(
+        //   "https://www.w3schools.com/w3css/img_lights.jpg",
+        //   fit: BoxFit.cover,
+        // ),
+        // Container(
+        //   decoration: const BoxDecoration(
+        //       gradient: LinearGradient(
+        //     colors: [Colors.transparent, Colors.black54],
+        //     stops: [0.5, 1.0],
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     tileMode: TileMode.repeated,
+        //   )),
+        // ),
+        // Positioned(
+        //     bottom: 10,
+        //     right: 10,
+        //     child: Text('Lorem ipsum',
+        //         style: TextStyle(
+        //             fontSize: 32,
+        //             color:
+        //                 Colors.white.withOpacity(titleOpacity(shrinkOffset)))))
+      ],
+    );
+  }
+
+  double titleOpacity(double shrinkOffset) {
+    return 1.0 - max(0.0, shrinkOffset) / maxExtent;
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+  @override
+  // TODO: implement showOnScreenConfiguration
+  PersistentHeaderShowOnScreenConfiguration? get showOnScreenConfiguration =>
+      null;
+
+  @override
+  // TODO: implement snapConfiguration
+  FloatingHeaderSnapConfiguration? get snapConfiguration => null;
+
+  @override
+  OverScrollHeaderStretchConfiguration? get stretchConfiguration => null;
+  @override
+  TickerProvider? get vsync => null;
 }

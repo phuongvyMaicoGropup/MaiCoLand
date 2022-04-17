@@ -33,11 +33,13 @@ class _NewsSaveScreenState extends State<NewsSaveScreen> {
                     return GestureDetector(
                       onTap: () async {
                         print("Saved News wathc");
-                        News n =
+                        News? n =
                             await RepositoryProvider.of<NewsRepository>(context)
                                 .getNewsById(item.id);
-                        Navigator.of(context)
-                            .pushNamed("/news/details", arguments: n);
+                        if (n != null) {
+                          Navigator.of(context)
+                              .pushNamed("/news/details", arguments: n);
+                        }
                       },
                       child: Stack(children: [
                         SavedDataCard(

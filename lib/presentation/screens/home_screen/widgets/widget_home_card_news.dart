@@ -1,13 +1,22 @@
+import 'dart:isolate';
+
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:maico_land/helpers/function_helper.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/entities/news.dart';
+import 'package:maico_land/model/repositories/news_repository.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
+import 'package:maico_land/presentation/widgets/text_icon.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeCardNews extends StatelessWidget {
   WidgetHomeCardNews({Key? key, required this.news}) : super(key: key);
 
   News news;
-  void openNewsDetails(BuildContext context, News item) {
+  void openNewsDetails(BuildContext context, News item) async {
+    Isolate.spawn(updateNewsViewd, item.id);
     Navigator.pushNamed(context, '/news/details', arguments: item);
   }
 
@@ -21,7 +30,7 @@ class WidgetHomeCardNews extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 4, right: 20),
             child: Container(
-              width: 180,
+              width: MediaQuery.of(context).size.width * 0.70,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -37,21 +46,18 @@ class WidgetHomeCardNews extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
-                          offset: const Offset(0, 2),
-                          blurRadius: 2,
-                        ),
-                      ],
-                      image: DecorationImage(
-                        image: NetworkImage(news.images![0]),
-                        fit: BoxFit.fitWidth,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            offset: const Offset(0, 2),
+                            blurRadius: 2,
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
+                      child: AppCachedImage(news.images![0])),
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -84,12 +90,18 @@ class WidgetHomeCardNews extends StatelessWidget {
                                   .textTheme
                                   .bodyText2
                                   ?.copyWith(
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: "Montserrat",
-                                    fontSize: 16,
+                                    fontSize: 15,
                                   ),
                             ),
                           ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextIcon(EvaIcons.eye, news.viewed.toString()),
+                                TextIcon(EvaIcons.save, news.saved.toString()),
+                              ]),
                         ],
                       ),
                     ),

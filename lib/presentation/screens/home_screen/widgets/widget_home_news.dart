@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/model/entities/news.dart';
+import 'package:maico_land/model/repositories/news_repository.dart';
 import 'package:maico_land/presentation/screens/home_screen/home_news_screen/bloc/news_bloc.dart';
 import 'package:maico_land/presentation/screens/home_screen/widgets/widget_home_card_news.dart';
 import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeNews extends StatelessWidget {
-  List<News> items = [];
+  List<String> items = [];
+  final _newsRepo = NewsRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +18,13 @@ class WidgetHomeNews extends StatelessWidget {
         print("bloc home new was build");
       },
       child: BlocBuilder<HomeNewsBloc, HomeNewsState>(
-        buildWhen: (previous, current) => previous != current,
+        // buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           if (state is HomeNewsLoaded) {
-            items = state.news;
-            List<Widget> list = [];
-            for (int i = 0; i < items.length; i++) {
-              list.add(WidgetHomeCardNews(
-                news: items[i],
-                key: Key(items[i].id),
-              ));
+            if (items == []) {
+              return Center(child: Text("Không có dữ liệu"));
             }
+            items = state.news;
             return Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -63,16 +61,25 @@ class WidgetHomeNews extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: list,
+                          children: items
+                              .map((a) => FutureBuilder<News?>(
+                                  future: RepositoryProvider.of<NewsRepository>(
+                                          context)
+                                      .getNewsById(a),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return WidgetHomeCardNews(
+                                          news: snapshot.data!);
+                                    } else {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: newSkeleton(context),
+                                      );
+                                    }
+                                  }))
+                              .toList(),
                         ),
-                      )
-                      //  ListView(
-                      //     shrinkWrap: true,
-                      //     scrollDirection: Axis.horizontal,
-                      //     addAutomaticKeepAlives: false,
-                      //     addRepaintBoundaries: false,
-                      //     children: list)
-                      ),
+                      )),
                 ],
               ),
             );
@@ -110,15 +117,13 @@ class WidgetHomeNews extends StatelessWidget {
                   SizedBox(
                       height: 200.0,
                       child: ListView.builder(
-                          padding: const EdgeInsets.all(8),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: 5,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 16.0, top: 8, bottom: 8),
-                                child: newSkeleton());
+                                padding: const EdgeInsets.all(8),
+                                child: newSkeleton(context));
                           })),
                 ],
               ),
@@ -129,8 +134,9 @@ class WidgetHomeNews extends StatelessWidget {
     );
   }
 
-  Widget newSkeleton() {
+  Widget newSkeleton(BuildContext context) {
     return Container(
+        width: MediaQuery.of(context).size.width * 0.7,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -141,18 +147,18 @@ class WidgetHomeNews extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              WidgetSkeleton(height: 105, width: 170),
-              SizedBox(height: 8),
-              WidgetSkeleton(width: 130, height: 20),
-              SizedBox(height: 8),
-              WidgetSkeleton(width: 40, height: 20),
-            ]));
-  }
-
-  void openShowDetails(BuildContext context, News item) {
-    Navigator.pushNamed(context, '/news/details', arguments: item);
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          WidgetSkeleton(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.7),
+          SizedBox(height: 8),
+          WidgetSkeleton(
+              height: MediaQuery.of(context).size.height * 0.03,
+              width: MediaQuery.of(context).size.width * 0.3),
+          SizedBox(height: 8),
+          WidgetSkeleton(
+              height: MediaQuery.of(context).size.height * 0.03,
+              width: MediaQuery.of(context).size.width * 0.5),
+        ]));
   }
 }

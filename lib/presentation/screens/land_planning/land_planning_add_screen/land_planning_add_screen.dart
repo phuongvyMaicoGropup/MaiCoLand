@@ -176,9 +176,11 @@ class _LandPlanningAddScreenState extends State<LandPlanningAddScreen> {
                       children: <Widget>[
                         const Icon(Icons.picture_as_pdf),
                         const SizedBox(width: 10),
-                        Text((filePdfPath != ""
-                            ? filePdfPath.split('/').last
-                            : "Đính kèm file PDF"))
+                        Text(
+                          (filePdfPath != ""
+                              ? filePdfPath.split('/').last
+                              : "Đính kèm file PDF"),
+                        )
                       ],
                     )),
                 const Text("Thông tin chi tiết ",

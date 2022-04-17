@@ -5,6 +5,7 @@ import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/widgets/valid_chip.dart';
 import 'package:maico_land/presentation/widgets/widget_skeleton.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 class WidgetHomeCardLandPlanning extends StatelessWidget {
   const WidgetHomeCardLandPlanning({Key? key, required this.landPlanning})
@@ -39,25 +40,18 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.13,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
-                        offset: const Offset(0, 2),
-                        blurRadius: 2,
-                      ),
-                    ],
-                    // borderRadius: const BorderRadius.only(
-                    //   topLeft: Radius.circular(5),
-                    //   topRight: Radius.circular(5),
-                    // ),
-                    image: DecorationImage(
-                      image: NetworkImage(landPlanning.imageUrl),
-                      fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          offset: const Offset(0, 2),
+                          blurRadius: 2,
+                        ),
+                      ],
                     ),
-                  ),
-                ),
+                    child: AppCachedImage(landPlanning.imageUrl)),
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -94,10 +88,10 @@ class WidgetHomeCardLandPlanning extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: ValidChip(expirationDate: landPlanning.expirationDate),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ValidChip(expirationDate: landPlanning.expirationDate),
+                ),
               ],
             ),
           ),

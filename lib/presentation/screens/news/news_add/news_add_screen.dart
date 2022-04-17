@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maico_land/bloc/news_add_bloc/news_add_bloc.dart';
+import 'package:maico_land/presentation/screens/news/news_add/widgets/widgets.dart';
 import 'package:maico_land/presentation/styles/app_colors.dart';
 import 'package:maico_land/presentation/styles/app_themes.dart';
 
 class NewsAddScreen extends StatefulWidget {
-  const NewsAddScreen({required this.type, Key? key}) : super(key: key);
-  final int type;
+  const NewsAddScreen({Key? key}) : super(key: key);
+  // final int type;
   @override
   _NewsAddScreenState createState() => _NewsAddScreenState();
 }
@@ -24,7 +25,14 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
   final contentController = TextEditingController();
   final hashTagController = TextEditingController();
   // final imagePath = TextEditingController();
+  int type = 0;
+  final listType = [
+    {0: "Thị trường"},
+    {1: "Chính sách"},
+    {2: "Quy hoạch"},
+  ];
   final _hashTag = TextEditingController();
+  bool isSubmission = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,30 +47,158 @@ class _NewsAddScreenState extends State<NewsAddScreen> {
                 fontSize: 18),
           ),
         ),
-        body: _buildContent());
+        body: BlocListener<NewsAddBloc, NewsAddState>(
+            listener: ((context, state) {
+              if (state.status == FormzStatus.submissionInProgress) {
+                setState(() {
+                  isSubmission = true;
+                });
+              }
+              if (state.status == FormzStatus.submissionFailure ||
+                  state.status == FormzStatus.submissionSuccess) {
+                setState(() {
+                  isSubmission = false;
+                });
+              }
+            }),
+            child: _buildContent()));
+  }
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (context) {
+        return selectType();
+      },
+    );
   }
 
   Widget _buildContent() {
-    return SingleChildScrollView(
-      child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _TitleInput(titleController),
-                const SizedBox(height: 15),
-                _ContentInput(contentController),
-                const SizedBox(height: 15),
-                _HashTagInput(context),
-                _ImageInput(),
-                _NewsAddButton(widget.type),
-              ],
+    return isSubmission
+        ? const Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // selectType(conte),
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(10),
+                          decoration: boxBorderDefault,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      _showModalBottomSheet(context);
+                                    },
+                                    child: Text(listType[type].values.first)),
+                                GestureDetector(
+                                  onTap: () {
+                                    _showModalBottomSheet(context);
+                                  },
+                                  child: Icon(Icons.arrow_downward,
+                                      color: Colors.black26),
+                                )
+                              ])),
+                      const SizedBox(height: 15),
+
+                      _TitleInput(titleController),
+                      const SizedBox(height: 15),
+                      _ContentInput(contentController),
+                      const SizedBox(height: 15),
+                      _HashTagInput(context),
+                      _ImageInput(),
+                      _NewsAddButton(type),
+                    ],
+                  ),
+                )),
+          );
+  }
+
+  Widget selectType() {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      height: 200,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: listType.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          type = listType[index].keys.first;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(listType[index].values.first)),
+                );
+              },
             ),
-          )),
+          ),
+        ],
+      ),
     );
   }
+
+  // Widget selectType() {
+  //   return Padding(
+  //     child: ListView(shrinkWrap: true, children: [
+  //       Container(
+  //         width: MediaQuery.of(context).size.width,
+  //         margin: const EdgeInsets.only(bottom: 13),
+  //         padding: const EdgeInsets.only(left: 8, right: 8),
+  //         decoration: BoxDecoration(
+  //           color: const Color(0xFF6DC882),
+  //           border: Border.all(
+  //               color: const Color(0xFF6DC882),
+  //               width: 1.0,
+  //               style: BorderStyle.solid), //Border.all
+  //           /*** The BorderRadius widget  is here ***/
+  //           borderRadius: const BorderRadius.all(
+  //             Radius.circular(20),
+  //           ), //BorderRadius.
+  //         ),
+  //         child: DropdownButton<int>(
+  //           value: type,
+  //           icon: const Icon(Icons.arrow_drop_down),
+  //           elevation: 16,
+  //           style: const TextStyle(color: AppColors.black),
+  //           isExpanded: true,
+  //           iconEnabledColor: Colors.white,
+  //           dropdownColor: const Color(0xFF6DC882),
+  //           underline: Container(),
+  //           focusColor: const Color.fromARGB(255, 70, 126, 83),
+  //           onChanged: (int? value) {
+  //             setState(() {
+  //               type = value??0;
+  //             });
+  //           },
+  //           borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+  //           items:
+  //               listType.map<DropdownMenuItem<int>>((Map<int, String> value) {
+  //             return DropdownMenuItem<int>(
+  //               value: value.keys.first,
+  //               child: Text(value.values.first),
+  //             );
+  //           }).toList(),
+  //         ),
+  //       ),
+  //     ]),
+  //     padding: const EdgeInsets.all(16.0),
+  //   );
+  // }
 
   Widget _HashTagInput(context) {
     return BlocBuilder<NewsAddBloc, NewsAddState>(

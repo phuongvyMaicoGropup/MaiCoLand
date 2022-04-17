@@ -2,8 +2,8 @@ import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/entities/news.dart';
 
 class HomeResponse {
-  List<News> news;
-  List<LandPlanning> landPlannings;
+  List<String> news;
+  List<String> landPlannings;
   HomeResponse({required this.news, required this.landPlannings});
   // List<Banner> banners;
 

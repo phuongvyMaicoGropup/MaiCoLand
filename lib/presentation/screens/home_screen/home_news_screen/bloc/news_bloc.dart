@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
 part 'news_event.dart';
@@ -16,7 +19,22 @@ class HomeNewsBloc extends Bloc<HomeNewsEvent, HomeNewsState> {
   }
 
   void _mapLoadHomeNewsToState(LoadHomeNews event, emit) async {
-    List<News> newsList = await newsRepo.getHomeNews();
+    List<String> newsList = await newsRepo.getHomeNews();
     emit(HomeNewsLoaded(newsList));
   }
+
+  // @override
+  // HomeNewsState? fromJson(Map<String, dynamic> json) {
+  //   if (state is HomeNewsLoaded) {
+  //     return state.toJson();
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  // @override
+  // Map<String, dynamic>? toJson(HomeNewsState state) {
+  //   // TODO: implement toJson
+  //   throw UnimplementedError();
+  // }
 }

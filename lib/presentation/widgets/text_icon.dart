@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 
 class TextIcon extends StatelessWidget {
   const TextIcon(this.icon, this.text, {Key? key}) : super(key: key);
@@ -11,7 +12,11 @@ class TextIcon extends StatelessWidget {
     return Row(children: [
       Icon(icon, size: 16),
       const SizedBox(width: 4),
-      Text(text.toString()),
+      Text(text.toString(),
+          style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w300,
+              color: AppColors.appBlackMain)),
     ]);
   }
 }

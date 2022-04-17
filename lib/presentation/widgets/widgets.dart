@@ -8,3 +8,4 @@ export 'saved_data_card.dart';
 export 'widget_skeleton.dart';
 export 'input_point.dart';
 export 'cached_image.dart';
+export 'app_cached_image.dart';

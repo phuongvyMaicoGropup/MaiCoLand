@@ -11,7 +11,7 @@ class NewsEvent extends Equatable {
 class InitialNews extends NewsEvent {}
 
 class LoadMoreNews extends NewsEvent {
-  final List<News> news; 
+  final List<String> news;
 
   const LoadMoreNews(this.news);
 }

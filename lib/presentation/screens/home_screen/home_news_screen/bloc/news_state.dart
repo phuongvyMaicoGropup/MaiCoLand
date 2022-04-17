@@ -5,12 +5,14 @@ abstract class HomeNewsState extends Equatable {
 
   @override
   List<Object> get props => [];
+
+  HomeNewsState? toJson() {}
 }
 
 class HomeNewsLoading extends HomeNewsState {}
 
 class HomeNewsLoaded extends HomeNewsState {
-  final List<News> news;
+  final List<String> news;
 
   const HomeNewsLoaded(
     this.news,
@@ -23,7 +25,7 @@ class HomeNewsLoaded extends HomeNewsState {
   String toString() => 'HomeNewsLoaded(news: $news)';
 
   HomeNewsLoaded copyWith({
-    List<News>? news,
+    List<String>? news,
   }) {
     return HomeNewsLoaded(
       news ?? this.news,

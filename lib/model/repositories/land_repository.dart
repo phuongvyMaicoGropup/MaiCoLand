@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:maico_land/model/api/dio_provider.dart';
 import 'package:maico_land/model/api/request/land_planning_request.dart';
 import 'package:maico_land/model/entities/data_local_info.dart';
@@ -7,6 +8,12 @@ import 'package:maico_land/model/local/pref.dart';
 import 'package:maico_land/model/repositories/session_repository.dart';
 import 'package:maico_land/model/repositories/user_repository.dart';
 import 'package:uuid/uuid.dart';
+
+List<LandPlanning> parseLand(dynamic responseBody) {
+  return responseBody
+      .map<LandPlanning>((json) => LandPlanning.fromJson(json))
+      .toList();
+}
 
 class LandPlanningRepository {
   final DioProvider _dioProvider = DioProvider();
@@ -32,8 +39,8 @@ class LandPlanningRepository {
                 "createdBy": userId,
                 "content": item.content,
                 "imageUrl": imagePathDb,
-                "landArea": item.landArea,
-                "filePdfUrl": filePdfPathDb,
+                "area": item.landArea,
+                "detailInfo": filePdfPathDb,
                 "expirationDate": date.toString(),
                 "leftTop": {
                   "latitude": item.leftTop.latitude,
@@ -55,7 +62,8 @@ class LandPlanningRepository {
                   "idLevel1": item.address.idLevel1.toString(),
                   "idLevel2": item.address.idLevel2.toString(),
                   "idLevel3": item.address.idLevel3.toString(),
-                }
+                },
+                "isPrivated": false
               },
               options: Options(headers: {"Content-Type": "application/json"}));
 
@@ -63,6 +71,28 @@ class LandPlanningRepository {
     } catch (e) {
       print(e);
 
+      return Future<bool>.value(false);
+    }
+  }
+
+  Future<bool> updateViewed(String id) async {
+    try {
+      Response response = await _dioProvider.dio
+          .put(_dioProvider.baseUrl + "api/landplanning/viewed/$id");
+
+      return Future<bool>.value(true);
+    } catch (e) {
+      return Future<bool>.value(false);
+    }
+  }
+
+  Future<bool> updateSaved(String id) async {
+    try {
+      Response response = await _dioProvider.dio
+          .put(_dioProvider.baseUrl + "api/landplanning/saved/$id");
+
+      return Future<bool>.value(true);
+    } catch (e) {
       return Future<bool>.value(false);
     }
   }
@@ -77,18 +107,16 @@ class LandPlanningRepository {
       return Future<LandPlanning>.value(LandPlanning.fromJson(response.data));
     } catch (e) {
       print(e);
-      return Future<LandPlanning>.value(null);
+      return Future<LandPlanning>.value();
     }
   }
 
-  Future<List<LandPlanning>> getHomeLandPlanning() async {
+  Future<List<String>> getHomeLandPlanning() async {
     Response response = await _dioProvider.dio.get(
         _dioProvider.getLandPlanningPagination,
         queryParameters: {'pageNumber': 1, 'pageSize': 5});
 
-    return response.data
-        .map<LandPlanning>((json) => LandPlanning.fromJson(json))
-        .toList();
+    return List<String>.from(response.data);
   }
 
   Future<bool> likeLand(String landId) async {
@@ -105,12 +133,8 @@ class LandPlanningRepository {
     }
   }
 
-  Future<List<LandPlanning>> getLandPlanningPagination(
-      int pageNumber,
-      int pageSize,
-      String searchKey,
-      String idAddress1,
-      String idAddress2) async {
+  Future<List<String>> getLandPlanningPagination(int pageNumber, int pageSize,
+      String searchKey, String idAddress1, String idAddress2) async {
     Response response;
     if (searchKey == "" && idAddress1 == "" && idAddress2 == "") {
       response = await _dioProvider.dio.get(
@@ -124,14 +148,13 @@ class LandPlanningRepository {
             'idAddress2': idAddress2
           });
     }
-    var json = response.data;
+    // var json = response.data;
     // var a = parsed[0]['hashTags'].toList();
-    return response.data
-        .map<LandPlanning>((json) => LandPlanning.fromJson(json))
-        .toList();
+    return List<String>.from(response.data);
   }
 
   Future saveLand(DataLocalInfo data) async {
+    updateSaved(data.id);
     _sessionRepo.cacheLand(data);
   }
 
@@ -139,17 +162,15 @@ class LandPlanningRepository {
     return await _sessionRepo.getSavedLand();
   }
 
-  Future<List<LandPlanning>> getLandByAuthorId(String id) async {
+  Future<List<String>> getLandByAuthorId(String id) async {
     try {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/landplanning/author/" + id,
       );
-      return response.data
-          .map<LandPlanning>((json) => LandPlanning.fromJson(json))
-          .toList();
+      return List<String>.from(response.data);
     } catch (e) {
       print(e);
-      return Future<List<LandPlanning>>.value(null);
+      return Future<List<String>>.value(null);
     }
   }
 }

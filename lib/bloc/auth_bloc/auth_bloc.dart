@@ -33,7 +33,6 @@ class AuthenticationBloc
   ) async {
     emit(AuthenticationLoading());
     User userResponse = userRepo.getUserInfo(event.token);
-    print("login success");
 
     await userRepo.persisteToken(event.token);
     emit(AuthenticationAuthenticated(userResponse));

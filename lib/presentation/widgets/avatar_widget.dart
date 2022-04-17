@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:maico_land/presentation/styles/app_themes.dart';
+import 'dart:math' as math;
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget({required this.name, Key? key}) : super(key: key);
@@ -9,9 +12,9 @@ class AvatarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Color.fromRGBO(16, 138, 45, 1),
+        color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
       ),
       child: Text(name[0].toLowerCase(), style: headingTextWhite),
     );

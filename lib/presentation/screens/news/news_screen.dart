@@ -5,6 +5,7 @@ import 'package:maico_land/bloc/news_bloc/news_bloc.dart';
 import 'package:maico_land/bloc/news_bloc/news_state.dart';
 import 'package:maico_land/model/entities/news.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
+import 'package:maico_land/presentation/widgets/widgets.dart';
 
 import 'widgets/news_card.dart';
 
@@ -18,14 +19,14 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   final NewsRepository _newsRepo = NewsRepository();
   final searchController = TextEditingController();
-  List<News> listSearch = [];
+  List<String> listSearch = [];
   static const _pageSize = 10;
 
   void _updateSearchTerm(String searchTerm) {
     _pagingController.refresh();
   }
 
-  final PagingController<int, News> _pagingController =
+  final PagingController<int, String> _pagingController =
       PagingController(firstPageKey: 1);
 
   @override
@@ -101,10 +102,28 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget _buildListNews() {
     return RefreshIndicator(
       onRefresh: () => Future.sync(() => _pagingController.refresh()),
-      child: PagedListView<int, News>(
+      child: PagedListView<int, String>(
         pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<News>(
-          itemBuilder: (context, item, index) => NewsCard(news: item),
+        builderDelegate: PagedChildBuilderDelegate<String>(
+          firstPageProgressIndicatorBuilder: (_) => WidgetSkeleton(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.3),
+          // newPageProgressIndicatorBuilder: (_) => NewPageProgressIndicator(),
+          noItemsFoundIndicatorBuilder: (_) => Center(child: Text("Đã hết")),
+          // noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
+          itemBuilder: (context, item, index) => FutureBuilder(
+            future: _newsRepo.getNewsById(item),
+            // initialData: Wi,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return NewsCard(key: UniqueKey(), news: snapshot.data);
+              }
+              return Container();
+              // return WidgetSkeleton(
+              //     width: MediaQuery.of(context).size.width,
+              //     height: MediaQuery.of(context).size.height * 0.3);
+            },
+          ),
           //         firstPageErrorIndicatorBuilder: (context) => ErrorIndicator(
           //   error: _pagingController.error,
           //   onTryAgain: () => _pagingController.refresh(),

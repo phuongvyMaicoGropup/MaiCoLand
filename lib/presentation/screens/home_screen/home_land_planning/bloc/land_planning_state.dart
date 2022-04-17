@@ -10,7 +10,7 @@ abstract class HomeLandPlanningState extends Equatable {
 class HomeLandPlanningLoading extends HomeLandPlanningState {}
 
 class HomeLandPlanningLoaded extends HomeLandPlanningState {
-  final List<LandPlanning> land;
+  final List<String> land;
 
   const HomeLandPlanningLoaded(
     this.land,
@@ -23,7 +23,7 @@ class HomeLandPlanningLoaded extends HomeLandPlanningState {
   String toString() => 'LandPlanningLoaded(LandPlanning: $LandPlanning)';
 
   HomeLandPlanningLoaded copyWith({
-    List<LandPlanning>? land,
+    List<String>? land,
   }) {
     return HomeLandPlanningLoaded(
       land ?? this.land,
