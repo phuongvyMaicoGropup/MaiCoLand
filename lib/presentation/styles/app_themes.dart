@@ -136,6 +136,15 @@ BoxDecoration boxBorderGreen = BoxDecoration(
   borderRadius: BorderRadius.circular(10),
   color: AppColors.appGreen1,
 );
+
 BoxDecoration boxBorderDefault = BoxDecoration(
     borderRadius: BorderRadius.circular(4),
     border: Border.all(width: 1.0, color: Colors.black26));
+
+BoxDecoration boxBorderWhiteWithGreenLine = BoxDecoration(
+  borderRadius: BorderRadius.circular(10),
+  border: Border.all(
+      color: Colors.green, // set border color
+      width: 1.0),
+);
+

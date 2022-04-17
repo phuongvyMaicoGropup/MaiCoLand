@@ -20,6 +20,7 @@ import 'package:maico_land/presentation/screens/land_planning/land_planning_scre
 import 'package:maico_land/presentation/screens/news/news_add/news_add_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_details/news_details_screen.dart';
 import 'package:maico_land/presentation/screens/news/news_screen.dart';
+import 'package:maico_land/presentation/screens/sale_post/sale_post.dart';
 import 'package:maico_land/presentation/screens/save_screen/land_saved_screen.dart';
 import 'package:maico_land/presentation/screens/save_screen/news_save_screen.dart';
 import 'package:maico_land/presentation/screens/user_post/user_post_land.dart';
@@ -41,6 +42,8 @@ class AppRouter {
       case '/register':
         return MaterialPageRoute(
             builder: (_) => RegisterScreen(userRepo: userRepo));
+      case '/salepost':
+        return MaterialPageRoute(builder: (_) => SalePostScreen(userRepo));
       case '/forgetpassword':
         return MaterialPageRoute(builder: (_) => const ForgetPassword());
       case '/loginorregister':

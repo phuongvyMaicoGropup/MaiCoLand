@@ -8,6 +8,8 @@ import 'package:maico_land/bloc/auth_bloc/auth.dart';
 import 'package:maico_land/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:maico_land/bloc/news_bloc/news_bloc.dart';
 import 'package:maico_land/bloc/register_bloc/register_bloc.dart';
+import 'package:maico_land/bloc/sale_post_bloc/sale_post_bloc.dart';
+import 'package:maico_land/bloc/sale_post_bloc/sale_post_event.dart';
 import 'package:maico_land/model/local/pref.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/model/repositories/news_repository.dart';
@@ -31,6 +33,7 @@ Future<void> main() async {
   ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   final storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -108,6 +111,7 @@ Future<void> main() async {
               appRouter: router,
             )),
       ),
+
     ),
     storage: storage,
   );

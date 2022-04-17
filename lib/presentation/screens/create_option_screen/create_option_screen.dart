@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maico_land/bloc/address_bloc/address.dart';
 import 'package:maico_land/model/entities/address.dart';
+import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 import 'package:maico_land/presentation/styles/styles.dart';
 import 'package:dvhcvn/dvhcvn.dart' as dvhcvn;
 
@@ -32,7 +33,9 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
         "Đăng bản đồ quy hoạch",
         "Đăng bản đồ quy hoạch sử dụng đất/ dự án ",
         Icons.map_outlined,
-        const Color(0xFF6DC882))
+        const Color(0xFF6DC882)),
+    CreateOption("Đăng tin mua bán", "Đăng tin bất động sản cần bán,cho thuê ",
+        Icons.home, Colors.yellow),
   ];
   String newsType = 'Thị trường';
 
@@ -60,6 +63,12 @@ class _CreateOptionScreenState extends State<CreateOptionScreen> {
                     //     .pushNamed("/landplanning/add", arguments: a);
                   },
                   child: OptionCard(item: createOptions[1]),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/salepost");
+                  },
+                  child: OptionCard(item: createOptions[2]),
                 )
               ],
             )));

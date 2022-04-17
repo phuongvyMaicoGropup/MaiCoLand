@@ -3,7 +3,6 @@ import 'package:maico_land/bloc/forgot_password/forgot_password_event.dart';
 import 'package:maico_land/bloc/forgot_password/forgot_password_state.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
 
-
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({Key? key}) : super(key: key);
 
