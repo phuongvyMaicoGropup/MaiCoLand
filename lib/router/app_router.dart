@@ -39,7 +39,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => RegisterScreen(userRepo: userRepo));
       case '/salepost':
-        return MaterialPageRoute(builder: (_) => SalePostScreen());
+        return MaterialPageRoute(builder: (_) => SalePostScreen(userRepo));
       case '/forgetpassword':
         return MaterialPageRoute(builder: (_) => const ForgetPassword());
       case '/loginorregister':
