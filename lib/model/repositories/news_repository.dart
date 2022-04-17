@@ -131,7 +131,7 @@ class NewsRepository {
     return await _sessionRepo.getNews();
   }
 
-  Future<News> getNewsById(String id) async {
+  Future<News?> getNewsById(String id) async {
     try {
       Response response = await _dioProvider.dio.get(
         _dioProvider.baseUrl + "api/news/" + id,

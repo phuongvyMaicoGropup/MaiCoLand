@@ -62,7 +62,7 @@ class WidgetHomeNews extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: items
-                              .map((a) => FutureBuilder<News>(
+                              .map((a) => FutureBuilder<News?>(
                                   future: RepositoryProvider.of<NewsRepository>(
                                           context)
                                       .getNewsById(a),

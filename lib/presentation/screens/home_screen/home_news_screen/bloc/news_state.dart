@@ -5,6 +5,8 @@ abstract class HomeNewsState extends Equatable {
 
   @override
   List<Object> get props => [];
+
+  HomeNewsState? toJson() {}
 }
 
 class HomeNewsLoading extends HomeNewsState {}

@@ -1,5 +1,8 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:maico_land/helpers/dvhcvn_service.dart';
+import 'package:maico_land/helpers/function_helper.dart';
 import 'package:maico_land/model/entities/land_planning.dart';
 import 'package:maico_land/model/repositories/land_repository.dart';
 import 'package:maico_land/presentation/screens/auth_screen/widgets/lib_import.dart';
@@ -21,26 +24,25 @@ class LandPlanningCard extends StatelessWidget {
       key: UniqueKey(),
       onTap: () => openShowDetails(context, land),
       child: Container(
-        // clipBehavior: Clip.antiAlias,
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.17,
-        margin: const EdgeInsets.only(bottom: 10, right: 4, left: 4),
+        width: MediaQuery.of(context).size.width * 0.95,
+        height: MediaQuery.of(context).size.height * 0.2,
+        margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: 1.1,
-            ),
-          ],
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(2, 2),
+                blurRadius: 5,
+                spreadRadius: 1.1,
+              )
+            ]),
         child: Row(
           children: [
             Stack(children: [
               Container(
-                  width: MediaQuery.of(context).size.width * 0.35,
+                  width: MediaQuery.of(context).size.width * 0.3,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -113,8 +115,7 @@ class LandPlanningCard extends StatelessWidget {
   }
 
   void openShowDetails(BuildContext context, LandPlanning item) async {
-    bool result = await RepositoryProvider.of<LandPlanningRepository>(context)
-        .updateViewed(item.id);
+    Isolate.spawn(updateLandViewed, item.id);
     Navigator.pushNamed(context, '/landplanning/details', arguments: item);
   }
 }

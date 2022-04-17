@@ -6,13 +6,13 @@ class AppCachedImage extends StatelessWidget {
   final String url;
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
+    return Image.network(
+      url,
       fit: BoxFit.cover,
-      imageUrl: url,
-      fadeInDuration: const Duration(microseconds: 0),
-      fadeOutDuration: const Duration(microseconds: 0),
-      placeholder: (_, __) =>
-          const Center(child: Icon(Icons.image, color: Colors.black38)),
+      // loadingBuilder:
+      //   (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+      // return  const Center(child: Icon(Icons.image, color: Colors.black38));
+      // }
     );
   }
 }

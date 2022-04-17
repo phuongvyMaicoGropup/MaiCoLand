@@ -62,7 +62,7 @@ class WidgetHomeTopViewedNews extends StatelessWidget {
                   ListView.builder(
                       shrinkWrap: true,
                       itemCount: items.length < 3 ? items.length : 3,
-                      itemBuilder: (context, index) => FutureBuilder<News>(
+                      itemBuilder: (context, index) => FutureBuilder<News?>(
                           future: RepositoryProvider.of<NewsRepository>(context)
                               .getNewsById(items[index]),
                           builder: (context, snapshot) {
